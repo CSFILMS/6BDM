@@ -1,0 +1,1314 @@
+/* 
+ * MOBILE STABILITY NOTICE:
+ * This video system has been optimized for mobile stability.
+ * Code marked with "MOBILE STABILITY ZONE - DO NOT MODIFY" 
+ * should NEVER be changed as it ensures consistent mobile behavior.
+ * Desktop improvements should be made outside these zones.
+ */
+
+/* Video container - fullscreen edge to edge */
+.video-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  display: none;
+  overflow: visible !important;
+}
+
+/* Desktop - align video left edge with "A FILM BY" text */
+@media (min-width: 769px) {
+  .video-container {
+    left: calc(42% - 35vh) !important;
+    width: calc(100vw - (42% - 35vh)) !important;
+  }
+}
+
+/* Background video - inside container with contain */
+.bg-video {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center 30% !important;
+  pointer-events: none !important;
+  display: block !important;
+  animation: none;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile - balanced fullscreen, left-aligned */
+@media (max-width: 768px) {
+  .video-container {
+    width: 100vw !important;
+    height: 100vh !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  
+  .bg-video {
+    object-fit: contain !important;
+    object-position: 0% center !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+    margin-left: -15% !important;
+    padding: 0 !important;
+    transform: none !important;
+    position: absolute !important;
+  }
+}
+
+/* Video text overlay */
+#video-text-overlay {
+  position: fixed;
+  top: calc(40% - 30vh); /* Position at top-left of smaller video area - higher */
+  left: calc(42% - 35vh); /* Position at top-left of smaller video area */
+  z-index: 2147483648 !important;
+  color: var(--fg);
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  text-align: left;
+  padding: 0.7rem 1.05rem;
+  pointer-events: none;
+  white-space: pre-wrap;
+  text-shadow: 0 0 3px var(--fg), 0 0 10px var(--fg), 0 0 20px var(--fg);
+  background-color: transparent; /* Remove black background */
+}
+
+/* Mobile video text overlay - positioned for contained video */
+@media (max-width: 768px) {
+  #video-text-overlay {
+    top: 20% !important;
+    left: 10% !important;
+    right: 10% !important;
+    transform: none !important;
+    text-align: left !important;
+    font-size: 1.1rem !important;
+    max-width: 80% !important;
+  }
+}
+
+/* Scanline patch over video text */
+#video-text-scanlines {
+  position: fixed;
+  top: calc(40% - 30vh + 0.7rem); /* Match text position with padding offset */
+  left: calc(42% - 35vh + 0.7rem); /* Match text position with padding offset */
+  width: 25rem;
+  height: 3rem;
+  z-index: 2147483649 !important;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0px,
+    rgba(0, 0, 0, 0.3) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  display: none;
+  /* Create clipping mask using mix-blend-mode */
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+}
+
+/* Mobile scanlines - positioned for contained video */
+@media (max-width: 768px) {
+  #video-text-scanlines {
+    top: calc(20% + 0.7rem) !important;
+    left: 10% !important;
+    right: 10% !important;
+    transform: none !important;
+    width: 80% !important;
+    height: 2.5rem !important;
+  }
+}
+
+/* Scanline patch over navbar */
+#nav-scanlines {
+  position: fixed;
+  bottom: 15vh;
+    left: 50%;
+  transform: translateX(-50%);
+  width: 30rem;
+  height: 7vh;
+  z-index: 2147483650;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0px,
+    rgba(0, 0, 0, 0.3) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+}
+
+/* Video text scanlines removed */
+
+@media (max-width: 768px) {
+  #video-text-overlay {
+    font-size: 0.84rem;
+    top: 1.5rem !important;
+    left: 1.5rem !important;
+    transform: none !important;
+    padding: 0.52rem 0.7rem;
+  }
+  
+  #video-text-scanlines {
+    top: 1.5rem !important;
+    left: 2rem !important;
+    transform: none !important;
+  }
+  
+  #video-end-subtitle {
+    top: auto !important;
+    left: 2rem !important;
+    bottom: 25vh !important;
+    transform: none !important;
+  }
+  
+  /* Mobile image positioning and sizing */
+  #cannes-photo-container,
+  #arrest-photo-container,
+  #correa-photo-container {
+    max-width: 60vw !important;
+    max-height: 28vh !important;
+    width: 60vw !important;
+    bottom: 25vh !important; /* Move up from 20vh */
+  }
+  
+  #collateral-photo-container {
+    max-width: 75vw !important;
+    max-height: 35vh !important;
+    width: 75vw !important;
+    bottom: 22vh !important; /* Move up from 18vh */
+  }
+  
+  /* Mobile video slide UI adjustments */
+  #nav {
+    bottom: 12vh; /* Move up slightly on mobile */
+    z-index: 2147483648 !important;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  #slide-counter {
+    bottom: 6vh; /* Move up slightly on mobile */
+    z-index: 2147483649 !important;
+    font-size: 0.6rem;
+  }
+  
+  #nav-scanlines {
+    bottom: 12vh; /* Match navbar position */
+    z-index: 2147483650 !important;
+    width: 25rem; /* Slightly smaller on mobile */
+  }
+}
+
+/* Desktop body reset to ensure no padding/margin interference */
+@media (min-width: 769px) {
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+  }
+}
+
+/* Hologram overlay removed */
+
+/* Video effects removed - clean video display */
+
+/* Slide transition animations */
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+#page.slide-out-left {
+  animation: slideOutLeft 0.25s cubic-bezier(0.4, 0.0, 1, 1) forwards;
+}
+
+#page.slide-in-right {
+  animation: slideInRight 0.25s cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+}
+
+#page.slide-out-right {
+  animation: slideOutRight 0.25s cubic-bezier(0.4, 0.0, 1, 1) forwards;
+}
+
+#page.slide-in-left {
+  animation: slideInLeft 0.25s cubic-bezier(0.0, 0.0, 0.2, 1) forwards;
+}
+
+
+/* Video overlay (disabled for small centered video) */
+.bg-overlay {
+  display: none;
+}
+
+#bg-overlay {
+  display: none;
+}
+/* Your actual content goes above (z-index > 0) */
+.content {
+  position: relative;
+  z-index: 1;
+  color: #e8e8e8;
+  font: 16px/1.5 system-ui, sans-serif;
+  padding: 6vmin;
+}
+html,body { height:100%; margin:0; background:#000; }
+
+/* Font Definition - Crisp Only */
+@font-face {
+  font-family: 'Crisp';
+  src: url('../fonts/fonts/Crisp.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root { 
+  --fg:#00DD00; 
+  --bg:#000; 
+  --accent:#00DD00; 
+  --soft:#66FF66;
+  --font-family: 'Crisp', 'Courier New', monospace;
+}
+html, body { height:100%; }
+
+/* FORCE NO SCROLLING */
+html {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background:var(--bg); 
+  color:var(--fg); 
+  font-family:var(--font-family);
+  padding: 0;
+  perspective: 1000px; 
+  margin: 0;
+  line-height:1.6; 
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Scanline overlay */
+#scanline-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0px,
+    rgba(0, 0, 0, 0.2) 3px,
+    transparent 3px,
+    transparent 6px
+  ) !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Hide scanlines on video slide */
+body.video-slide-active #scanline-overlay {
+  display: none !important;
+}
+
+/* Video play button */
+#video-play-button {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2147483649;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+  pointer-events: auto;
+  padding: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+#video-play-button:hover {
+  background-color: rgba(0, 221, 0, 0.1);
+}
+
+#video-play-triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid var(--fg);
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 5px var(--fg)) drop-shadow(0 0 15px var(--fg)) blur(0.8px);
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.85rem;
+    padding-left: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    overflow: hidden !important;
+    -webkit-text-size-adjust: 100%; /* Prevent iOS text scaling */
+    text-size-adjust: 100%; /* Standard property for Chrome/Edge */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlights */
+  }
+  #page {
+    padding: 1vh 3vw; /* Slightly more padding for better readability */
+    height: 75vh; /* Better height for mobile */
+    min-height: 30em;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    position: relative !important; /* Override desktop positioning */
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+  #text-wrap {
+    width: 100% !important; /* Force full width on mobile */
+    max-width: 100% !important;
+    margin-top: 0; /* Remove negative margin that was causing issues */
+    height: calc(100% - 2rem); /* Better height calculation */
+    padding: 1.5rem 2vw !important; /* Better padding for mobile */
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    position: relative !important; /* Override desktop fixed positioning */
+    top: auto !important; /* Override desktop centering */
+    left: auto !important; /* Override desktop centering */
+    transform: none !important; /* Override desktop centering */
+    z-index: 9999999 !important;
+  }
+  
+  #unscramble {
+    font-size: 1.0rem; /* Larger text on mobile */
+    line-height: 1.4; /* Better line spacing */
+    width: 100% !important; /* Force full width */
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    overflow-x: hidden !important;
+    word-break: break-word !important; /* Force word breaking on mobile */
+    -ms-hyphens: auto; /* IE hyphenation */
+    -webkit-hyphens: auto; /* Safari hyphenation */
+    hyphens: auto !important; /* Enable hyphenation on mobile */
+  }
+  #nav {
+    font-size: 1rem; /* Larger for better touch targets */
+    margin: 0.5vh 0;
+    padding: 0.5rem 0; /* Better touch area */
+  }
+  #nav span {
+    padding: 0.5rem 1rem; /* Larger touch targets */
+    min-height: 44px; /* iOS recommended touch target size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #nav-msg {
+    font-size: 0.7rem; /* Slightly larger */
+    line-height: 1.2;
+    padding: 0.5rem;
+  }
+  /* Slide counter mobile styles handled in main styles */
+  #prompt {
+    font-size: 0.75rem; /* Slightly larger */
+    line-height: 1.3;
+  }
+  
+  /* Mobile video sizing removed - handled in main mobile styles */
+  
+  /* Force full width on mobile regardless of image mode */
+  #text-wrap.side-mode,
+  #text-wrap.small-side-mode {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    z-index: 2 !important;
+    padding: 1rem 0.5vw !important; /* Minimal padding for wider text */
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+  
+  #text-wrap.side-mode #unscramble,
+  #text-wrap.small-side-mode #unscramble {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    overflow-x: hidden !important;
+    word-break: break-word !important; /* Force word breaking on mobile */
+    hyphens: auto !important; /* Enable hyphenation on mobile */
+  }
+  
+  /* Additional mobile constraints to prevent overflow */
+  *:not(.bg-video):not(#bg-video3):not(.video-container):not(#video-container) {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Allow video and container to scale beyond viewport */
+  .bg-video, #bg-video3, .video-container, #video-container {
+    max-width: none !important;
+  }
+  
+  /* Ensure no element can cause horizontal overflow */
+  html {
+    overflow: hidden !important;
+  }
+  
+  #page, #text-wrap, #unscramble {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+  
+  /* First slide mobile - bigger text */
+  #page[data-page="1"] #unscramble {
+    font-size: 1.1em !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Slides 4, 5, 6, 7 mobile - slightly bigger text */
+  #page[data-page="4"] #unscramble,
+  #page[data-page="5"] #unscramble,
+  #page[data-page="6"] #unscramble,
+  #page[data-page="7"] #unscramble {
+    font-size: 1.0em !important;
+    line-height: 1.3 !important;
+    overflow: hidden !important;
+    height: 100% !important;
+  }
+  
+  /* Slides 4, 5, 6, 7 mobile - reduce top padding and prevent scrolling */
+  #page[data-page="4"] #text-wrap,
+  #page[data-page="5"] #text-wrap,
+  #page[data-page="6"] #text-wrap,
+  #page[data-page="7"] #text-wrap {
+    padding-top: 0.5vw !important;
+    padding-bottom: 10vh !important;
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+  
+  /* Slides 4, 5, 6, 7 mobile - ensure page container has no scroll */
+  #page[data-page="4"],
+  #page[data-page="5"],
+  #page[data-page="6"],
+  #page[data-page="7"] {
+    overflow: hidden !important;
+  }
+  
+  
+  /* Better mobile navigation */
+  #nav {
+    position: fixed;
+    bottom: 15vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    z-index: 99997;
+    padding: 1rem 1.5rem;
+    min-height: 60px;
+  }
+  
+  /* Mobile slide counter positioning */
+  #slide-counter {
+    position: fixed;
+    bottom: 7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    z-index: 100000;
+  }
+  
+  /* Mobile nav message improvements */
+  #nav-msg {
+    padding: 0.75rem;
+    margin: 0 1rem;
+    text-align: center;
+  }
+}
+
+@media screen and (min-resolution: 1dppx) {
+        body {
+    font-size: 1.0rem;
+  }
+}
+#page {
+  position: relative;
+  width: 70vh; /* Smaller video box */
+  height: 60vh; /* Smaller video box */
+  min-height: 20em; 
+  margin: 0 auto; /* Center horizontally */
+  padding: 2rem;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* Simple image display */
+ #page img {
+   display: none;
+   filter: grayscale(1) brightness(0.8) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
+   /* Grayscale + green tint: black stays black, white becomes green */
+   /* Ensure all image formats including GIFs display properly */
+   image-rendering: auto;
+ }
+ 
+/* Special rule: dim only photo7 - REMOVED (was too dark) */
+  
+  /* Special rule: dim only photo23 */
+  #page img[id="img-23"] {
+filter: grayscale(1) brightness(0.5) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
+  }
+  
+  /* Special rule: make page 10 images darker */
+  #page img[id^="img-10"] {
+filter: grayscale(1) brightness(0.5) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
+  }
+
+#page img.show-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  display: block;
+}
+
+#page img.show-below {
+   display: block;
+   margin-top: 1rem;
+   max-height: 40%;
+   max-width: 100%;
+   object-fit: contain;
+   position: relative;
+   top: -12rem;
+   z-index: -1;
+ }
+
+ #page img.show-side {
+display: block;
+position: absolute;
+right: 0;
+top: 0;
+width: 50%;
+height: 100%;
+object-fit: cover;
+z-index: 1;
+  }
+  
+ #page img.show-small-side {
+display: block;
+position: absolute;
+right: 0;
+top: 0;
+width: 25%;
+height: 60%;
+object-fit: cover;
+z-index: 1;
+   }
+
+/* Text container width is now controlled by JavaScript */
+
+/* Hide the default cursor */
+body {
+  cursor: none;
+}
+
+/* Custom cursor element */
+#custom-cursor {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  display: none;
+}
+
+/* Hide cursor on mobile */
+@media (max-width: 768px) {
+  #custom-cursor {
+    display: none !important;
+  }
+}
+
+/* Year styling - match regular text */
+.year-text {
+  /* Years inherit parent styling - no special formatting */
+}
+
+/* Ensure text content appears above video and photos */
+@media (min-width: 769px) {
+  #text-wrap, #unscramble, #page {
+    position: relative;
+    z-index: 9999999 !important;
+  }
+}
+
+/* First slide text - bigger */
+#page[data-page="1"] #unscramble {
+  font-size: 1.2em !important;
+  line-height: 1.4 !important;
+}
+
+/* Slide 2 text 10% bigger */
+#page[data-page="2"] #unscramble {
+  font-size: 1.1em !important;
+}
+
+/* Slide 3 text slightly smaller and centered */
+#page[data-page="3"] #unscramble {
+  font-size: 0.95em !important;
+  text-align: center !important;
+}
+
+/* Slides 4, 5, 6, 7 - slightly bigger text */
+#page[data-page="4"] #unscramble,
+#page[data-page="5"] #unscramble,
+#page[data-page="6"] #unscramble,
+#page[data-page="7"] #unscramble {
+  font-size: 1.05em !important;
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+/* Slides 4, 5, 6, 7 - fix text positioning for image slides */
+#page[data-page="4"] #text-wrap,
+#page[data-page="5"] #text-wrap,
+#page[data-page="6"] #text-wrap,
+#page[data-page="7"] #text-wrap {
+  padding-top: 0.5rem !important; /* Less padding to move text down */
+  padding-bottom: 4rem !important;
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
+/* All pages - ensure no scroll */
+#page {
+  overflow: hidden !important;
+  position: relative;
+}
+
+/* Slides 4, 5, 6, 7 - ensure page container has no scroll */
+#page[data-page="4"],
+#page[data-page="5"],
+#page[data-page="6"],
+#page[data-page="7"] {
+  overflow: hidden !important;
+}
+
+
+
+/* Video loading status */
+#video-loading {
+  position: fixed;
+  top: calc(100vh - 8rem);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  text-align: center;
+  pointer-events: none;
+}
+
+.loading-text {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  color: var(--soft);
+  text-shadow: 0 0 2px var(--soft), 0 0 12px var(--soft);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.loading-bar {
+  width: 300px;
+  height: 4px;
+  background: rgba(102, 255, 102, 0.2);
+  border: 1px solid var(--soft);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-progress {
+  height: 100%;
+  background: var(--soft);
+  box-shadow: 0 0 4px var(--soft);
+  width: 0%;
+  transition: width 0.3s ease;
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { 
+    opacity: 0.6;
+    box-shadow: 0 0 4px var(--soft);
+  }
+  50% { 
+    opacity: 1;
+    box-shadow: 0 0 8px var(--soft), 0 0 16px var(--soft);
+  }
+}
+
+/* Desktop-specific styling to match old version exactly */
+@media (min-width: 769px) {
+  body {
+    padding: 5vw;
+    padding-left: 20vw;
+    max-width: 80vw;
+    margin: 2vh auto;
+    min-height: 100vh;
+  }
+  
+  #page {
+    position: relative;
+    height: 60vh;
+    min-height: 20em;
+    padding: 2rem;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: visible;
+  }
+  
+  #text-wrap {
+    min-width: 0;
+    margin-top: -1.4rem;
+    width: 100%;
+    height: calc(100% - 2rem);
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    padding: 0;
+    z-index: auto;
+  }
+  
+  #unscramble {
+    white-space: pre-wrap;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    text-indent: 0;
+    word-break: normal;
+    hyphens: none;
+  }
+  
+  #nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-size: 1.8rem;
+    min-height: 5vh;
+    position: fixed;
+    bottom: 15vh;
+    left: calc(20vw + 40vw / 2);
+    transform: translateX(-50%);
+    width: auto;
+    z-index: 2147483648;
+    padding: 0.75rem 1rem;
+    gap: 4vw;
+    text-align: center;
+  }
+  
+  #nav-msg {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 1.5rem;
+    visibility: hidden;
+  }
+  
+  /* Desktop image display classes - matching old version */
+  #page img {
+    display: none;
+    filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
+    image-rendering: auto;
+  }
+  
+  #page img.show-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    display: block;
+  }
+  
+  #page img.show-below {
+    display: block;
+    margin-top: 1rem;
+    max-height: 40%;
+    max-width: 100%;
+    object-fit: contain;
+    position: relative;
+    top: -12rem;
+    z-index: -1;
+  }
+  
+  #page img.show-side {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  #page img.show-small-side {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25%;
+    height: 60%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  /* Side mode: text on left, image on right */
+  #text-wrap.side-mode {
+    width: 50% !important;
+    max-width: 50% !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  /* Small side mode: text on left, smaller image on right */
+  #text-wrap.small-side-mode {
+    width: 75% !important;
+    max-width: 75% !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  #text-wrap.side-mode #unscramble {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: pre-wrap !important;
+    word-wrap: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+    text-indent: 0 !important;
+  }
+  
+  #text-wrap.small-side-mode #unscramble {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    white-space: pre-wrap !important;
+    word-wrap: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+    text-indent: 0 !important;
+    font-size: 1.0rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
+/* Mobile loading status */
+@media (max-width: 768px) {
+  .loading-text {
+    font-size: 1rem;
+  }
+  .loading-bar {
+    width: 250px;
+    height: 3px;
+  }
+}
+
+#text-wrap { 
+   position: fixed;
+   top: 40%; /* Higher up */
+   left: 42%; /* Further left - moved from 50% to 42% */
+   transform: translate(-50%, -50%);
+   width: 70vh; /* Match smaller page width */
+   height: 60vh; /* Match smaller page height */
+   box-sizing: border-box;
+   overflow: hidden !important;
+   padding: 2rem 2rem 2rem 1rem; /* Less left padding to show more text */
+   z-index: 2;
+   -webkit-backface-visibility: hidden;
+   backface-visibility: hidden;
+   transform: translate(-50%, -50%) translateZ(0);
+   -webkit-transform: translate(-50%, -50%) translateZ(0);
+ }
+ 
+/* Mobile-specific text-wrap overrides */
+@media (max-width: 768px) {
+  #text-wrap {
+    margin-top: 0; /* Remove negative margin on mobile */
+    height: calc(100% - 2rem); /* Better height calculation for mobile */
+    padding: 1.5rem 0.5vw !important; /* Minimal side padding for wider text */
+    height: 70vh; /* Increased height for mobile */
+    min-height: 25em;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+}
+                #unscramble { 
+  white-space: pre-wrap; 
+  font-size: 1.15rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  height: 100%;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  /* Preserve original formatting - no text wrapping modifications */
+  text-indent: 0;
+  word-break: normal;
+  hyphens: none;
+}
+
+ 
+ /* Handle indented line wrapping - preserve indentation for continuation lines */
+ #unscramble .indented-line {
+   display: block;
+   text-indent: 2em; /* Standard indentation */
+ }
+ 
+ #unscramble .continuation {
+   display: block;
+   text-indent: 2em; /* Same indentation as parent */
+ }
+#prompt { 
+  margin-top:1rem; 
+  visibility:hidden; 
+  white-space:pre-wrap; 
+  line-height:1.3; 
+  font-size: 0.9rem;
+}
+
+#nav { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0; 
+  font-size: 0.9rem;
+  min-height: 7vh;
+  position: fixed;
+  bottom: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  z-index: 2147483648;
+  padding: 0.75rem 0;
+  gap: 1.5rem;
+}
+
+/* Desktop - reduced padding for closer arrows - removed redundant rule */
+@media (min-width: 769px) {
+  #nav {
+    /* Padding removed to fix centering */
+  }
+}
+#nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 0.5em; }
+      #nav-msg { 
+  flex-grow:0; 
+  text-align: center; 
+  font-size:0.7rem;
+  min-height: 2.5rem;
+  visibility: hidden;
+  max-width: 140px;
+  line-height: 1.3;
+  white-space: normal;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#slide-counter {
+  position: fixed;
+  bottom: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  opacity: 1;
+  color: var(--accent);
+  text-shadow: 0 0 2px var(--accent), 0 0 5px var(--accent);
+  font-family: var(--font-family);
+  pointer-events: none;
+  z-index: 2147483649;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  visibility: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 7vh;
+}
+
+/* Push slide counter down on pages 1 and 2 */
+#page[data-page="1"] ~ #slide-counter,
+#page[data-page="2"] ~ #slide-counter {
+  bottom: 12vh;
+}
+
+/* Side mode: text on left, image on right */
+  #text-wrap.side-mode {
+width: 50% !important;
+max-width: 50% !important;
+position: relative !important;
+z-index: 2 !important;
+  }
+  
+ /* Small side mode: text on left, smaller image on right */
+   #text-wrap.small-side-mode {
+width: 75% !important;
+max-width: 75% !important;
+position: relative !important;
+z-index: 2 !important;
+   }
+
+#text-wrap.side-mode #unscramble {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  white-space: pre-wrap !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  text-indent: 0 !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+#text-wrap.small-side-mode #unscramble {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  white-space: pre-wrap !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  text-indent: 0 !important;
+  font-size: 1.0rem !important;
+  line-height: 1.3 !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+
+/* Collateral Murder animation removed - no more scrolling */
+
+/* Ensure all unscramble elements have consistent padding */
+#unscramble {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  padding-top: 0 !important; /* No top padding - container handles it */
+}
+
+/* Add top padding for slides 2 and 3 */
+#page[data-page="2"] #unscramble,
+#page[data-page="3"] #unscramble {
+  padding-top: 1rem !important;
+}
+
+/* Slides 4, 5, 6, 7 - NO extra top padding on unscramble (container handles it) */
+#page[data-page="4"] #unscramble,
+#page[data-page="5"] #unscramble,
+#page[data-page="6"] #unscramble,
+#page[data-page="7"] #unscramble {
+  padding-top: 0 !important;
+}
+
+/* Scanline movement animation */
+@keyframes scanlineMove {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Mobile styles for last slide image */
+@media (max-width: 768px) {
+  #last-slide-image-container {
+    max-width: 85vw !important;
+    max-height: 75vh !important;
+    width: 85vw !important;
+    height: 75vh !important;
+    min-width: 80vw !important;
+    min-height: 70vh !important;
+    transform: translate(-50%, -60%) !important;
+  }
+  #last-slide-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Common utility classes for better CSS organization */
+.full-screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.centered-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.accent-text {
+  color: var(--accent);
+  font-family: var(--font-family);
+  text-shadow: 0 0 10px var(--accent);
+}
+
+/* Persistent text that stays on screen */
+#persistent-text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+#persistent-text .text-content {
+  color: var(--accent);
+  font-family: var(--font-family);
+  text-shadow: 0 0 10px var(--accent);
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
