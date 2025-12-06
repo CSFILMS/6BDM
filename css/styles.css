@@ -512,14 +512,6 @@ body {
   }
 }
 
-/* Year styling - match regular text */
-.year-text {
-  /* Years inherit parent styling - no special formatting */
-}
-
-/* Slide-specific text styles handled by components now */
-
-
 
 /* Video loading status */
 #video-loading {
