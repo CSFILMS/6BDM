@@ -123,13 +123,10 @@ export const videoSources = {
 export const audioSources = {
   text: "TEXTAUDIO.mp4",
   unscramble: "VIDEOS/speduptyping.wav",
-  videoAudio: "VIDEOS/AUDIOJOSE1_audio.m4a",
 };
 
 export const imageSources = {
-  cannes: "PHOTOS/photo_cannes.png.jpeg",
   arrest: "PHOTOS/photo_arrest.webp",
-  collateral: "PHOTOS/photo_collateral_crop.jpg",
   correa: "PHOTOS/photo_correa.jpg",
 };
 

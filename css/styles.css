@@ -180,20 +180,12 @@
   }
   
   /* Mobile image positioning and sizing */
-  #cannes-photo-container,
   #arrest-photo-container,
   #correa-photo-container {
     max-width: 60vw !important;
     max-height: 28vh !important;
     width: 60vw !important;
     bottom: 25vh !important; /* Move up from 20vh */
-  }
-  
-  #collateral-photo-container {
-    max-width: 75vw !important;
-    max-height: 35vh !important;
-    width: 75vw !important;
-    bottom: 22vh !important; /* Move up from 18vh */
   }
   
   /* Mobile video slide UI adjustments */
