@@ -1,34 +1,52 @@
 /**
  * Main Application Entry Point
- * Coordinates all managers and initializes the application
+ * Simplified carousel-based architecture
  */
 
-import { AudioManager } from "./audio-manager.js";
-import { VideoManager } from "./video-manager.js";
-import { AnimationManager } from "./animation-manager.js";
-import { ImageManager } from "./image-manager.js";
-import { NavigationManager } from "./navigation-manager.js";
-import { UIManager } from "./ui-manager.js";
+import { CarouselManager } from "./carousel-manager.js";
+import { AudioHelper } from "./helpers/audio-helper.js";
+import { AnimationHelper } from "./helpers/animation-helper.js";
+import {
+  Slide1,
+  Slide2,
+  Slide3,
+  Slide4,
+  Slide5,
+  Slide6,
+  Slide7,
+} from "./slides/index.js";
 
 /**
  * Application class - main coordinator
  */
 class Application {
   constructor() {
-    // Initialize all managers
-    this.audioManager = new AudioManager();
-    this.videoManager = new VideoManager(this.audioManager);
-    this.animationManager = new AnimationManager(this.audioManager);
-    this.imageManager = new ImageManager();
-    this.navigationManager = new NavigationManager(
-      this.videoManager,
-      this.animationManager,
-      this.imageManager,
-      this.audioManager
-    );
-    this.uiManager = new UIManager();
+    // Initialize helpers
+    this.audioHelper = new AudioHelper();
+    this.animationHelper = new AnimationHelper();
 
-    console.log("🚀 Application initialized");
+    // Initialize slides with helpers
+    this.slides = [
+      new Slide1(this.audioHelper, this.animationHelper),
+      new Slide2(this.audioHelper, this.animationHelper),
+      new Slide3(this.audioHelper, this.animationHelper),
+      new Slide4(this.audioHelper, this.animationHelper),
+      new Slide5(this.audioHelper, this.animationHelper),
+      new Slide6(this.audioHelper, this.animationHelper),
+      new Slide7(this.audioHelper, this.animationHelper),
+    ];
+
+    console.log("🔍 DEBUG: Number of slides created:", this.slides.length);
+    console.log("🔍 DEBUG: Slides array:", this.slides);
+
+    // Initialize carousel
+    this.carousel = new CarouselManager("#carousel-container", this.slides);
+
+    console.log(
+      "🚀 Application initialized with",
+      this.slides.length,
+      "slides"
+    );
   }
 
   /**
@@ -37,17 +55,11 @@ class Application {
   async init() {
     console.log("🔧 Starting application initialization...");
 
-    // Initialize video source based on device
-    this.videoManager.initVideoSource();
+    // Mute all audio by default
+    this.audioHelper.muteAll();
 
-    // Initialize UI components
-    this.uiManager.initialize();
-
-    // Setup video play button
-    this.setupVideoPlayButton();
-
-    // Setup navigation event listeners
-    this.navigationManager.setupEventListeners();
+    // Initialize carousel
+    this.carousel.init();
 
     // Initialize audio context for mobile devices
     if (
@@ -56,31 +68,16 @@ class Application {
       )
     ) {
       console.log("📱 Mobile device detected - preparing audio context");
-      this.audioManager.initAudioContext();
+      document.addEventListener(
+        "click",
+        () => {
+          this.audioHelper.unlockAudioContext();
+        },
+        { once: true }
+      );
     }
-
-    // Mute all audio by default
-    this.audioManager.muteAll();
-
-    // Start on first page
-    this.navigationManager.startPage(0);
 
     console.log("✅ Application initialization complete");
-  }
-
-  /**
-   * Setup video play button event listener
-   */
-  setupVideoPlayButton() {
-    const playButton = document.getElementById("video-play-button");
-    if (playButton) {
-      playButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.videoManager.playVideoAndAudio();
-      });
-      console.log("✅ Play button click listener added");
-    }
   }
 }
 
