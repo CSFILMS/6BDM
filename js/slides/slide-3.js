@@ -26,8 +26,9 @@ export class Slide3 {
           font-size: 1.1rem;
           line-height: 1.5;
           white-space: pre-wrap;
-          text-align: left;
+          text-align: center; 
           max-width: 90%;
+          word-spacing: 0.3em;
         "></div>
       </div>
     `;
@@ -45,12 +46,21 @@ export class Slide3 {
         // Play typing audio
         this.audioHelper.playTypingAudio();
 
-        // Start scramble animation
-        this.animationHelper.scrambleText(textElement, SLIDE_3_TEXT, () => {
-          // Stop audio when animation completes
-          this.audioHelper.stopTypingAudio();
-          console.log("✅ Slide 3 scramble complete");
-        });
+        // Start scramble animation with slower, smoother effect
+        this.animationHelper.scrambleText(
+          textElement,
+          SLIDE_3_TEXT,
+          () => {
+            // Stop audio when animation completes
+            this.audioHelper.stopTypingAudio();
+            console.log("✅ Slide 3 scramble complete");
+          },
+          false,
+          {
+            chunkSize: 3, // Reveal fewer characters per step
+            intervalMs: 80, // Smooth interval
+          }
+        );
       }, 750);
     }
   }

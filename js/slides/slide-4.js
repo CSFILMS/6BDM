@@ -412,8 +412,10 @@ export class Slide4 {
         this.audioHelper.stopTypingAudio();
         console.log("✅ Top text animation complete");
 
-        // Start bottom text animation when top text is done
-        this.animateBottomText();
+        // Start bottom text animation after a delay
+        setTimeout(() => {
+          this.animateBottomText();
+        }, 1000);
       },
       false,
       {
