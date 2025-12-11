@@ -112,6 +112,10 @@ export class Slide4 {
           z-index: 10;
           pointer-events: none;
           text-shadow: 0 0 2px var(--accent), 0 0 5px var(--accent);
+          white-space: pre-line;
+          width: 90%;
+          height: 3.6em;
+          line-height: 1.8;
           display: none;
         "></div>
       </div>
@@ -120,9 +124,6 @@ export class Slide4 {
 
   onEnter() {
     console.log("🎬 Entering Slide 4 (Video)");
-
-    // Unlock audio context first
-    // this.audioHelper.unlockAudioContext();
 
     // Initialize video source
     const video = document.getElementById("slide-4-video");
@@ -145,10 +146,17 @@ export class Slide4 {
       this.audioHelper.playVideoAudio();
     }
 
-    // Show text overlay
+    // Keep text overlays hidden initially
     const textOverlay = document.getElementById("slide-4-text-overlay");
     if (textOverlay) {
-      textOverlay.style.display = "block";
+      textOverlay.style.display = "none";
+      textOverlay.textContent = ""; // Clear content
+    }
+
+    const endSubtitle = document.getElementById("slide-4-end-subtitle");
+    if (endSubtitle) {
+      endSubtitle.style.display = "none";
+      endSubtitle.innerHTML = ""; // Clear content
     }
 
     // Setup play button (hidden initially)
@@ -174,6 +182,11 @@ export class Slide4 {
     setTimeout(() => {
       this.playVideoWithSound();
     }, 300);
+
+    // Start text animations after 1200ms (more time to see the video)
+    setTimeout(() => {
+      this.animateTopText();
+    }, 1200);
   }
 
   setupUnmuteListener() {
@@ -238,14 +251,13 @@ export class Slide4 {
       video.currentTime = 0;
     }
 
-    // Handle video end
+    // Handle video end (just keep video on last frame)
     video.addEventListener(
       "ended",
       () => {
-        console.log("🎬 Video ended - showing subtitle");
+        console.log("🎬 Video ended");
         video.currentTime = video.duration - 0.01;
         video.pause();
-        this.showEndSubtitle();
       },
       { once: true }
     );
@@ -376,37 +388,70 @@ export class Slide4 {
     }
   }
 
-  showEndSubtitle() {
+  animateTopText() {
+    console.log("✨ Animating top text");
+
+    const textOverlay = document.getElementById("slide-4-text-overlay");
+    if (!textOverlay) return;
+
+    const message = "A FILM BY EUGENE JARECKI";
+
+    // Show element
+    textOverlay.style.display = "block";
+    textOverlay.textContent = "";
+
+    // Play typing audio
+    this.audioHelper.playTypingAudio();
+
+    // Use scramble effect (decodification) with slower, smoother animation
+    this.animationHelper.scrambleText(
+      textOverlay,
+      message,
+      () => {
+        // Stop audio when animation completes
+        this.audioHelper.stopTypingAudio();
+        console.log("✅ Top text animation complete");
+
+        // Start bottom text animation when top text is done
+        this.animateBottomText();
+      },
+      false,
+      {
+        chunkSize: 3, // Reveal fewer characters per step (more gradual)
+        intervalMs: 80, // Slightly faster interval for smoothness
+      }
+    );
+  }
+
+  animateBottomText() {
+    console.log("✨ Animating bottom text");
+
     const subtitleEl = document.getElementById("slide-4-end-subtitle");
     if (!subtitleEl) return;
 
     subtitleEl.style.display = "block";
+    subtitleEl.innerHTML = "";
+
     const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
 
     // Play typing audio
     this.audioHelper.playTypingAudio();
 
-    let charIndex = 0;
-    const typingInterval = setInterval(() => {
-      if (charIndex < message.length) {
-        const currentText = message.substring(0, charIndex + 1);
-        const lines = currentText.split("\n");
-
-        if (lines.length > 1) {
-          subtitleEl.innerHTML =
-            lines[0] +
-            '<br><span style="font-size: 0.75em;">' +
-            lines[1] +
-            "</span>";
-        } else {
-          subtitleEl.textContent = currentText;
-        }
-        charIndex++;
-      } else {
-        clearInterval(typingInterval);
+    // Use scramble effect (decodification) with slower, smoother animation
+    this.animationHelper.scrambleText(
+      subtitleEl,
+      message,
+      () => {
+        // Stop audio when animation completes
         this.audioHelper.stopTypingAudio();
+        console.log("✅ Bottom text animation complete");
+      },
+      false,
+      {
+        chunkSize: 3, // Reveal fewer characters per step (more gradual)
+        intervalMs: 80, // Slightly faster interval for smoothness
       }
-    }, 50);
+    );
   }
 
   canNavigateNext() {
@@ -451,13 +496,21 @@ export class Slide4 {
       audio.currentTime = 0;
     }
 
-    // Stop typing audio
+    // Stop typing audio and clear animations
     this.audioHelper.stopTypingAudio();
+    this.animationHelper.clearAnimations();
 
-    // Hide text overlay
+    // Hide and clear text overlays
     const textOverlay = document.getElementById("slide-4-text-overlay");
     if (textOverlay) {
       textOverlay.style.display = "none";
+      textOverlay.textContent = "";
+    }
+
+    const endSubtitle = document.getElementById("slide-4-end-subtitle");
+    if (endSubtitle) {
+      endSubtitle.style.display = "none";
+      endSubtitle.innerHTML = "";
     }
 
     // Reset flags
@@ -478,7 +531,9 @@ export class Slide4 {
       video.pause();
       video.src = "";
     }
+
     this.audioHelper.stopTypingAudio();
+    this.animationHelper.clearAnimations();
 
     this.needsUnmute = false;
     this.videoElement = null;

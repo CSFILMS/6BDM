@@ -1,4 +1,4 @@
-export const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,'\"?!-—:;\n";
+export const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,'\"?!-:;";
 
 export const audioConfig = {
   enabled: true,

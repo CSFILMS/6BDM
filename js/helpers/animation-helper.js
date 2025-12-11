@@ -115,8 +115,15 @@ export class AnimationHelper {
 
   /**
    * Scramble text animation
+   * @param {HTMLElement} element - Element to animate
+   * @param {string} text - Text to reveal
+   * @param {function} onComplete - Callback when animation completes
+   * @param {boolean} playAudio - Whether to play audio (not used, kept for compatibility)
+   * @param {object} options - Optional animation parameters
+   * @param {number} options.chunkSize - Characters to reveal per step (default: 15)
+   * @param {number} options.intervalMs - Milliseconds between steps (default: 100)
    */
-  scrambleText(element, text, onComplete, playAudio = false) {
+  scrambleText(element, text, onComplete, playAudio = false, options = {}) {
     if (this.currentAnimationFrame) {
       cancelAnimationFrame(this.currentAnimationFrame);
       this.currentAnimationFrame = null;
@@ -126,7 +133,8 @@ export class AnimationHelper {
     text = this.wrapTextForMobile(text);
 
     let index = 0;
-    const chunkSize = animationConfig.scrambleChunkSize;
+    const chunkSize = options.chunkSize || animationConfig.scrambleChunkSize;
+    const intervalMs = options.intervalMs || animationConfig.scrambleIntervalMs;
     const scrambled = text.split("");
     const len = text.length;
 
@@ -171,7 +179,7 @@ export class AnimationHelper {
         return false; // Stop animation
       }
       return true; // Continue animation
-    }, animationConfig.scrambleIntervalMs);
+    }, intervalMs);
   }
 
   /**
