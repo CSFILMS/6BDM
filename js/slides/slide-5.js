@@ -19,14 +19,6 @@ const SLIDE_5_LINES = [
 const TYPEWRITER_CHAR_DELAY = 15; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 
-// Calcular duración total de la animación para el fade de la imagen
-const getTotalAnimationDuration = () => {
-  const totalChars = SLIDE_5_LINES.reduce((sum, line) => sum + line.length, 0);
-  const typingTime = totalChars * TYPEWRITER_CHAR_DELAY;
-  const delayTime = (SLIDE_5_LINES.length - 1) * LINE_DELAY;
-  return typingTime + delayTime;
-};
-
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
     this.audioHelper = audioHelper;
@@ -37,10 +29,6 @@ export class Slide5 {
   }
 
   render() {
-    // Altura fija para cada línea (considerando wrap en móvil)
-    const lineHeight = isMobile() ? "3.5em" : "2em";
-    const lineHeightLong = isMobile() ? "5em" : "3em"; // Para líneas más largas
-
     return `
       <div class="slide-content" style="
         display: flex;
@@ -48,36 +36,43 @@ export class Slide5 {
         align-items: center;
         justify-content: center;
         height: 100%;
-        padding: 3% 8%;
-        gap: 1rem;
+        padding: ${isMobile() ? "5% 6%" : "2% 8%"};
+        gap: 0.5rem;
         overflow: hidden;
       ">
         <!-- Texto superior (3 líneas) -->
         <div id="slide-5-text-top" style="
           font-family: var(--font-family);
           color: var(--fg);
-          font-size: ${isMobile() ? "0.85rem" : "1rem"};
-          line-height: 1.5;
+          font-size: ${isMobile() ? "0.8rem" : "0.95rem"};
+          line-height: 1.4;
           text-align: left;
           width: 90%;
           max-width: 90%;
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.3rem;
         ">
-          <div id="line-1" class="terminal-line" style="height: ${lineHeight}; overflow: hidden;"></div>
-          <div id="line-2" class="terminal-line" style="height: ${lineHeight}; overflow: hidden;"></div>
-          <div id="line-3" class="terminal-line" style="height: ${lineHeightLong}; overflow: hidden;"></div>
+          <div id="line-1" class="terminal-line" style="min-height: ${
+            isMobile() ? "3em" : "1.8em"
+          };"></div>
+          <div id="line-2" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
+          <div id="line-3" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
         </div>
         
         <!-- Imagen -->
         <div id="slide-5-image-container" style="
-          max-width: ${isMobile() ? "50vw" : "30vw"};
-          max-height: ${isMobile() ? "18vh" : "15vh"};
-          width: ${isMobile() ? "50vw" : "30vw"};
+          max-width: ${isMobile() ? "60vw" : "40vw"};
+          max-height: ${isMobile() ? "22vh" : "22vh"};
+          width: ${isMobile() ? "60vw" : "40vw"};
           height: auto;
           flex: 0 0 auto;
           opacity: 0;
+          margin: 0.5rem 0;
         ">
           <img id="slide-5-image" src="${imageSources.correa}" style="
             width: 100%;
@@ -85,7 +80,7 @@ export class Slide5 {
             object-fit: contain;
             filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0);
             display: block;
-            opacity: 0.6;
+            opacity: 0.7;
           " />
         </div>
         
@@ -93,19 +88,21 @@ export class Slide5 {
         <div id="slide-5-text-bottom" style="
           font-family: var(--font-family);
           color: var(--fg);
-          font-size: ${isMobile() ? "0.85rem" : "1rem"};
-          line-height: 1.5;
+          font-size: ${isMobile() ? "0.8rem" : "0.95rem"};
+          line-height: 1.4;
           text-align: left;
           width: 90%;
           max-width: 90%;
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.3rem;
         ">
-          <div id="line-4" class="terminal-line" style="height: ${lineHeightLong}; overflow: hidden;"></div>
-          <div id="line-5" class="terminal-line" style="height: ${
+          <div id="line-4" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
+          <div id="line-5" class="terminal-line" style="min-height: ${
             isMobile() ? "6em" : "3.5em"
-          }; overflow: hidden;"></div>
+          };"></div>
         </div>
       </div>
     `;
@@ -192,9 +189,10 @@ export class Slide5 {
     const imageContainer = document.getElementById("slide-5-image-container");
     if (!imageContainer) return;
 
-    const totalDuration = getTotalAnimationDuration();
-    const fadeSteps = 60; // 60 pasos de fade
-    const stepDuration = totalDuration / fadeSteps;
+    // Fade más rápido: 3 segundos en lugar de toda la animación
+    const fadeDuration = 3000;
+    const fadeSteps = 40;
+    const stepDuration = fadeDuration / fadeSteps;
     let currentStep = 0;
 
     this.imageFadeInterval = setInterval(() => {
