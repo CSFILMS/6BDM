@@ -4,7 +4,17 @@
  * Texto arriba y abajo de la imagen
  */
 
-import { pages, imageSources, isMobile } from "../constants.js";
+const SLIDE_5_TEXT_TOP = `2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.
+
+2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.
+
+2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.`;
+
+const SLIDE_5_TEXT_BOTTOM = `2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.
+
+2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.`;
+
+import { imageSources, isMobile } from "../constants.js";
 
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
@@ -88,36 +98,8 @@ export class Slide5 {
     `;
   }
 
-  /**
-   * Divide el texto en dos partes (arriba y abajo de la imagen)
-   */
-  splitText(text) {
-    if (!text) return { top: "", bottom: "" };
-
-    // Buscar el punto de división (después de "BUT NO LEGACY MEDIA WILL TOUCH IT.")
-    const splitPoint = text.indexOf("SO, LIKE WIKILEAKS");
-
-    if (splitPoint > 0) {
-      return {
-        top: text.substring(0, splitPoint).trim(),
-        bottom: text.substring(splitPoint).trim(),
-      };
-    }
-
-    // Si no encuentra el punto de división, dividir por la mitad
-    const lines = text.split("\n");
-    const midPoint = Math.floor(lines.length / 2);
-    return {
-      top: lines.slice(0, midPoint).join("\n").trim(),
-      bottom: lines.slice(midPoint).join("\n").trim(),
-    };
-  }
-
   onEnter() {
     console.log("🎬 Entering Slide 5 (Correa Photo)");
-
-    // Dividir el texto en dos partes
-    const textParts = this.splitText(pages[4]);
 
     // Mostrar imagen con fade-in
     const imageContainer = document.getElementById("slide-5-image-container");
@@ -129,20 +111,20 @@ export class Slide5 {
 
     // Animar texto superior
     const textTopElement = document.getElementById("slide-5-text-top");
-    if (textTopElement && textParts.top) {
+    if (textTopElement) {
       // Play typing audio
       this.audioHelper.playTypingAudio();
 
       // Start scramble animation
-      this.animationHelper.scrambleText(textTopElement, textParts.top, () => {
+      this.animationHelper.scrambleText(textTopElement, SLIDE_5_TEXT_TOP, () => {
         // Cuando termine el texto superior, animar el inferior
         const textBottomElement = document.getElementById(
           "slide-5-text-bottom"
         );
-        if (textBottomElement && textParts.bottom) {
+        if (textBottomElement) {
           this.animationHelper.scrambleText(
             textBottomElement,
-            textParts.bottom,
+            SLIDE_5_TEXT_BOTTOM,
             () => {
               this.audioHelper.stopTypingAudio();
               console.log("✅ Slide 5 text complete");

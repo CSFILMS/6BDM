@@ -3,7 +3,15 @@
  * Display instantáneo del texto sin animación
  */
 
-import { pages, isMobile } from "../constants.js";
+const SLIDE_1_TEXT = `RECIPIENT: DORSEY.6BDM180925
+
+EYES ONLY / NO FWD / 
+NO DSTRO
+
+SOURCE: CSF
+FILE ID: 369-108-11`;
+
+import { isMobile } from "../constants.js";
 
 export class Slide1 {
   constructor(audioHelper, animationHelper) {
@@ -34,24 +42,22 @@ export class Slide1 {
 
   onEnter() {
     console.log("🎬 Entering Slide 1 (Title)");
-    console.log("🔍 DEBUG: pages[0] exists?", !!pages[0]);
-    console.log("🔍 DEBUG: pages[0] content:", pages[0]?.substring(0, 100));
 
     const textElement = document.getElementById("slide-1-text");
     console.log("🔍 DEBUG: slide-1-text element found?", !!textElement);
 
-    if (textElement && pages[0]) {
+    if (textElement) {
       const mobile = isMobile();
       const text = mobile
-        ? this.animationHelper.wrapTextForMobile(pages[0])
-        : pages[0];
+        ? this.animationHelper.wrapTextForMobile(SLIDE_1_TEXT)
+        : SLIDE_1_TEXT;
 
       // Instant display - no animation
       textElement.textContent = text;
       this.animationHelper.wrapYearsInSpans(textElement);
       console.log("✅ Slide 1 text set");
     } else {
-      console.error("❌ Missing element or pages data");
+      console.error("❌ Missing element");
     }
   }
 

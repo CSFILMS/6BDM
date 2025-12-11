@@ -1,4 +1,9 @@
-import { pages } from "../constants.js";
+/**
+ * Slide 3 - Delayed Scramble Animation
+ * Texto con efecto scramble con delay y audio de typing
+ */
+
+const SLIDE_3_TEXT = `6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH`;
 
 export class Slide3 {
   constructor(audioHelper, animationHelper) {
@@ -32,7 +37,7 @@ export class Slide3 {
     console.log("🎬 Entering Slide 3 (Delayed scramble)");
 
     const textElement = document.getElementById("slide-3-text");
-    if (textElement && pages[2]) {
+    if (textElement) {
       // Wait 750ms before starting animation
       this.delayTimeout = setTimeout(() => {
         console.log("🎯 Starting delayed scramble for Slide 3");
@@ -41,7 +46,7 @@ export class Slide3 {
         this.audioHelper.playTypingAudio();
 
         // Start scramble animation
-        this.animationHelper.scrambleText(textElement, pages[2], () => {
+        this.animationHelper.scrambleText(textElement, SLIDE_3_TEXT, () => {
           // Stop audio when animation completes
           this.audioHelper.stopTypingAudio();
           console.log("✅ Slide 3 scramble complete");

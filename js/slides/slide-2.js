@@ -3,7 +3,11 @@
  * Texto con efecto scramble y audio de typing
  */
 
-import { pages } from "../constants.js";
+const SLIDE_2_TEXT = `THE SIX BILLION DOLLAR
+MAN
+
+
+PRESS [F] FOR FULL SCREEN`;
 
 export class Slide2 {
   constructor(audioHelper, animationHelper) {
@@ -36,12 +40,12 @@ export class Slide2 {
     console.log("🎬 Entering Slide 2 (Scramble with audio)");
 
     const textElement = document.getElementById("slide-2-text");
-    if (textElement && pages[1]) {
+    if (textElement) {
       // Play typing audio
       this.audioHelper.playTypingAudio();
 
       // Start scramble animation
-      this.animationHelper.scrambleText(textElement, pages[1], () => {
+      this.animationHelper.scrambleText(textElement, SLIDE_2_TEXT, () => {
         // Stop audio when animation completes
         this.audioHelper.stopTypingAudio();
         console.log("✅ Slide 2 scramble complete");

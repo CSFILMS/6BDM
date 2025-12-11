@@ -3,7 +3,13 @@
  * Imagen de arresto con fade in y texto con typewriter
  */
 
-import { pages, imageSources, isMobile } from "../constants.js";
+const SLIDE_6_TEXT = `IN 2025, THE SIX BILLION DOLLAR MAN WON THE CANNES FILM FESTIVAL AND THE FIRST-EVER GOLDEN GLOBE FOR DOCUMENTARY. BUT NO LEGACY MEDIA WILL TOUCH IT.
+ 
+SO, LIKE WIKILEAKS, WE ARE TAKING THE FILM DIRECT TO THE PUBLIC. 
+
+FOR THIS, WE NEED YOUR HELP.`;
+
+import { imageSources, isMobile } from "../constants.js";
 
 export class Slide6 {
   constructor(audioHelper, animationHelper) {
@@ -45,12 +51,12 @@ export class Slide6 {
 
     // Show text with scramble animation
     const textElement = document.getElementById("slide-6-text");
-    if (textElement && pages[5]) {
+    if (textElement) {
       // Play typing audio
       this.audioHelper.playTypingAudio();
 
       // Start scramble animation
-      this.animationHelper.scrambleText(textElement, pages[5], () => {
+      this.animationHelper.scrambleText(textElement, SLIDE_6_TEXT, () => {
         this.audioHelper.stopTypingAudio();
         console.log("✅ Slide 6 text complete");
       });
