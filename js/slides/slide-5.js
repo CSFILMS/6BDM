@@ -1,28 +1,46 @@
 /**
  * Slide 5 - Correa Photo with Text
  * Imagen de Rafael Correa con fade in y texto con typewriter
- * Texto arriba y abajo de la imagen
+ * 3 líneas arriba de la imagen, 2 líneas abajo
  */
 
-const SLIDE_5_TEXT_TOP = `2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.
-
-2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.
-
-2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.`;
-
-const SLIDE_5_TEXT_BOTTOM = `2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.
-
-2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.`;
-
 import { imageSources, isMobile } from "../constants.js";
+
+// 5 líneas de texto separadas
+const SLIDE_5_LINES = [
+  "2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.",
+  "2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.",
+  "2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
+  "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
+  "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
+];
+
+// Config para animación tipo terminal
+const TYPEWRITER_CHAR_DELAY = 15; // ms entre cada caracter
+const LINE_DELAY = 1000; // 1 segundo entre líneas
+
+// Calcular duración total de la animación para el fade de la imagen
+const getTotalAnimationDuration = () => {
+  const totalChars = SLIDE_5_LINES.reduce((sum, line) => sum + line.length, 0);
+  const typingTime = totalChars * TYPEWRITER_CHAR_DELAY;
+  const delayTime = (SLIDE_5_LINES.length - 1) * LINE_DELAY;
+  return typingTime + delayTime;
+};
 
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
     this.audioHelper = audioHelper;
     this.animationHelper = animationHelper;
+    this.typewriterTimeouts = [];
+    this.currentCharInterval = null;
+    this.imageFadeInterval = null;
   }
 
   render() {
+    // Altura fija para cada línea (considerando wrap en móvil)
+    const lineHeight = isMobile() ? "3.5em" : "2em";
+    const lineHeightLong = isMobile() ? "5em" : "3em"; // Para líneas más largas
+
     return `
       <div class="slide-content" style="
         display: flex;
@@ -30,39 +48,36 @@ export class Slide5 {
         align-items: center;
         justify-content: center;
         height: 100%;
-        padding: 5% 10%;
-        gap: 2rem;
+        padding: 3% 8%;
+        gap: 1rem;
         overflow: hidden;
       ">
-        <!-- Texto superior -->
+        <!-- Texto superior (3 líneas) -->
         <div id="slide-5-text-top" style="
           font-family: var(--font-family);
           color: var(--fg);
-          font-size: 1.1rem;
+          font-size: ${isMobile() ? "0.85rem" : "1rem"};
           line-height: 1.5;
-          white-space: pre-wrap;
           text-align: left;
           width: 90%;
           max-width: 90%;
-          height: ${isMobile() ? "18vh" : "15vh"};
-          min-height: ${isMobile() ? "18vh" : "15vh"};
-          max-height: ${isMobile() ? "18vh" : "15vh"};
-          flex: 0 0 ${isMobile() ? "18vh" : "15vh"};
-          overflow-wrap: break-word;
-          word-wrap: break-word;
-          overflow: hidden;
-          box-sizing: border-box;
-        "></div>
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        ">
+          <div id="line-1" class="terminal-line" style="height: ${lineHeight}; overflow: hidden;"></div>
+          <div id="line-2" class="terminal-line" style="height: ${lineHeight}; overflow: hidden;"></div>
+          <div id="line-3" class="terminal-line" style="height: ${lineHeightLong}; overflow: hidden;"></div>
+        </div>
         
         <!-- Imagen -->
         <div id="slide-5-image-container" style="
-          max-width: ${isMobile() ? "60vw" : "40vw"};
-          max-height: ${isMobile() ? "28vh" : "20vh"};
-          width: ${isMobile() ? "60vw" : "40vw"};
+          max-width: ${isMobile() ? "50vw" : "30vw"};
+          max-height: ${isMobile() ? "18vh" : "15vh"};
+          width: ${isMobile() ? "50vw" : "30vw"};
           height: auto;
           flex: 0 0 auto;
           opacity: 0;
-          transition: opacity 0.4s ease-in-out;
         ">
           <img id="slide-5-image" src="${imageSources.correa}" style="
             width: 100%;
@@ -71,70 +86,144 @@ export class Slide5 {
             filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0);
             display: block;
             opacity: 0.6;
-            transition: opacity 0.4s ease-in-out;
           " />
         </div>
         
-        <!-- Texto inferior -->
+        <!-- Texto inferior (2 líneas) -->
         <div id="slide-5-text-bottom" style="
           font-family: var(--font-family);
           color: var(--fg);
-          font-size: 1.1rem;
+          font-size: ${isMobile() ? "0.85rem" : "1rem"};
           line-height: 1.5;
-          white-space: pre-wrap;
           text-align: left;
           width: 90%;
           max-width: 90%;
-          height: ${isMobile() ? "18vh" : "15vh"};
-          min-height: ${isMobile() ? "18vh" : "15vh"};
-          max-height: ${isMobile() ? "18vh" : "15vh"};
-          flex: 0 0 ${isMobile() ? "18vh" : "15vh"};
-          overflow-wrap: break-word;
-          word-wrap: break-word;
-          overflow: hidden;
-          box-sizing: border-box;
-        "></div>
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        ">
+          <div id="line-4" class="terminal-line" style="height: ${lineHeightLong}; overflow: hidden;"></div>
+          <div id="line-5" class="terminal-line" style="height: ${
+            isMobile() ? "6em" : "3.5em"
+          }; overflow: hidden;"></div>
+        </div>
       </div>
     `;
+  }
+
+  /**
+   * Efecto typewriter para una línea
+   * @param {HTMLElement} element - Elemento donde escribir
+   * @param {string} text - Texto a escribir
+   * @param {function} onComplete - Callback al terminar
+   */
+  typewriteLine(element, text, onComplete) {
+    let charIndex = 0;
+    const cursor = "█";
+
+    this.currentCharInterval = setInterval(() => {
+      if (charIndex <= text.length) {
+        // Mostrar texto + cursor parpadeante
+        const displayText = text.substring(0, charIndex);
+        element.innerHTML =
+          this.formatLineWithYear(displayText) +
+          (charIndex < text.length
+            ? `<span class="cursor">${cursor}</span>`
+            : "");
+        charIndex++;
+      } else {
+        clearInterval(this.currentCharInterval);
+        this.currentCharInterval = null;
+        // Texto final sin cursor
+        element.innerHTML = this.formatLineWithYear(text);
+        if (onComplete) onComplete();
+      }
+    }, TYPEWRITER_CHAR_DELAY);
+  }
+
+  /**
+   * Formatea el año en la línea con un span especial
+   */
+  formatLineWithYear(text) {
+    return text.replace(
+      /^(\d{4}(?:-\d{4})?:)/,
+      '<span class="year-text">$1</span>'
+    );
+  }
+
+  /**
+   * Anima todas las líneas secuencialmente
+   */
+  animateAllLines(onComplete) {
+    let currentLineIndex = 0;
+
+    const animateNextLine = () => {
+      if (currentLineIndex >= SLIDE_5_LINES.length) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      const lineNumber = currentLineIndex + 1;
+      const element = document.getElementById(`line-${lineNumber}`);
+      const text = SLIDE_5_LINES[currentLineIndex];
+
+      if (element) {
+        this.typewriteLine(element, text, () => {
+          currentLineIndex++;
+          // Delay de 1 segundo antes de la siguiente línea
+          const timeout = setTimeout(() => {
+            animateNextLine();
+          }, LINE_DELAY);
+          this.typewriterTimeouts.push(timeout);
+        });
+      } else {
+        currentLineIndex++;
+        animateNextLine();
+      }
+    };
+
+    animateNextLine();
+  }
+
+  /**
+   * Inicia el fade-in gradual de la imagen
+   */
+  startImageFade() {
+    const imageContainer = document.getElementById("slide-5-image-container");
+    if (!imageContainer) return;
+
+    const totalDuration = getTotalAnimationDuration();
+    const fadeSteps = 60; // 60 pasos de fade
+    const stepDuration = totalDuration / fadeSteps;
+    let currentStep = 0;
+
+    this.imageFadeInterval = setInterval(() => {
+      currentStep++;
+      const opacity = currentStep / fadeSteps;
+      imageContainer.style.opacity = Math.min(opacity, 1).toString();
+
+      if (currentStep >= fadeSteps) {
+        clearInterval(this.imageFadeInterval);
+        this.imageFadeInterval = null;
+        imageContainer.style.opacity = "1";
+      }
+    }, stepDuration);
   }
 
   onEnter() {
     console.log("🎬 Entering Slide 5 (Correa Photo)");
 
-    // Mostrar imagen con fade-in
-    const imageContainer = document.getElementById("slide-5-image-container");
-    if (imageContainer) {
-      setTimeout(() => {
-        imageContainer.style.opacity = "1";
-      }, 50);
-    }
+    // Play typing audio
+    this.audioHelper.playTypingAudio();
 
-    // Animar texto superior
-    const textTopElement = document.getElementById("slide-5-text-top");
-    if (textTopElement) {
-      // Play typing audio
-      this.audioHelper.playTypingAudio();
+    // Iniciar fade-in gradual de la imagen
+    this.startImageFade();
 
-      // Start scramble animation
-      this.animationHelper.scrambleText(textTopElement, SLIDE_5_TEXT_TOP, () => {
-        // Cuando termine el texto superior, animar el inferior
-        const textBottomElement = document.getElementById(
-          "slide-5-text-bottom"
-        );
-        if (textBottomElement) {
-          this.animationHelper.scrambleText(
-            textBottomElement,
-            SLIDE_5_TEXT_BOTTOM,
-            () => {
-              this.audioHelper.stopTypingAudio();
-              console.log("✅ Slide 5 text complete");
-            }
-          );
-        } else {
-          this.audioHelper.stopTypingAudio();
-        }
-      });
-    }
+    // Animar todas las líneas secuencialmente
+    this.animateAllLines(() => {
+      this.audioHelper.stopTypingAudio();
+      console.log("✅ Slide 5 text complete");
+    });
   }
 
   onExit() {
@@ -147,12 +236,27 @@ export class Slide5 {
     }
 
     // Stop audio and animations
-    this.audioHelper.stopTypingAudio();
-    this.animationHelper.clearAnimations();
+    this.cleanup();
   }
 
   cleanup() {
-    // Stop audio and animations
+    // Limpiar todos los timeouts
+    this.typewriterTimeouts.forEach((timeout) => clearTimeout(timeout));
+    this.typewriterTimeouts = [];
+
+    // Limpiar interval del typewriter
+    if (this.currentCharInterval) {
+      clearInterval(this.currentCharInterval);
+      this.currentCharInterval = null;
+    }
+
+    // Limpiar interval del fade de imagen
+    if (this.imageFadeInterval) {
+      clearInterval(this.imageFadeInterval);
+      this.imageFadeInterval = null;
+    }
+
+    // Stop audio
     this.audioHelper.stopTypingAudio();
     this.animationHelper.clearAnimations();
   }

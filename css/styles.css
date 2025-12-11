@@ -729,3 +729,26 @@ body {
   font-weight: bold;
 }
 
+/* Terminal cursor effect for Slide 5 */
+.terminal-line {
+  font-family: var(--font-family);
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+.terminal-line .cursor {
+  animation: blink 0.7s step-end infinite;
+  color: var(--fg);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Year text styling */
+.year-text {
+  color: var(--soft);
+  text-shadow: 0 0 5px var(--soft);
+}
+
