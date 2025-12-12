@@ -76,6 +76,35 @@ export class AudioHelper {
   }
 
   /**
+   * Restart typing audio from the beginning (for each new line)
+   */
+  restartTypingAudio() {
+    const unscrambleAudioEl = document.getElementById("unscramble-audio");
+    if (unscrambleAudioEl) {
+      unscrambleAudioEl.currentTime = 0;
+      unscrambleAudioEl.volume = audioConfig.unscrambleVolume;
+      unscrambleAudioEl.loop = true;
+      unscrambleAudioEl.muted = false;
+
+      console.log("🔊 Restarting typing audio for new line...");
+      unscrambleAudioEl.play().catch((err) => {
+        console.log("❌ Typing audio restart failed:", err);
+      });
+    }
+    return unscrambleAudioEl;
+  }
+
+  /**
+   * Pause typing audio (without resetting position)
+   */
+  pauseTypingAudio() {
+    const unscrambleAudioEl = document.getElementById("unscramble-audio");
+    if (unscrambleAudioEl) {
+      unscrambleAudioEl.pause();
+    }
+  }
+
+  /**
    * Play video audio
    */
   playVideoAudio() {

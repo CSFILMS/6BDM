@@ -109,6 +109,9 @@ export class Slide6 {
     let charIndex = 0;
     const cursor = "█";
 
+    // Start audio for this line
+    this.audioHelper.restartTypingAudio();
+
     this.currentCharInterval = setInterval(() => {
       if (charIndex <= text.length) {
         const displayText = text.substring(0, charIndex);
@@ -121,6 +124,8 @@ export class Slide6 {
       } else {
         clearInterval(this.currentCharInterval);
         this.currentCharInterval = null;
+        // Stop audio when line is complete
+        this.audioHelper.pauseTypingAudio();
         element.innerHTML = text;
         if (onComplete) onComplete();
       }
@@ -190,13 +195,10 @@ export class Slide6 {
   onEnter() {
     console.log("🎬 Entering Slide 6 (Arrest Photo)");
 
-    // Play typing audio
-    this.audioHelper.playTypingAudio();
-
     // Iniciar fade-in gradual de la imagen
     this.startImageFade();
 
-    // Animar todas las líneas secuencialmente
+    // Animar todas las líneas secuencialmente (audio se maneja por línea)
     this.animateAllLines(() => {
       this.audioHelper.stopTypingAudio();
       console.log("✅ Slide 6 text complete");

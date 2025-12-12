@@ -122,6 +122,9 @@ export class Slide4 {
     let charIndex = 0;
     const cursor = "█";
 
+    // Start audio for this line
+    this.audioHelper.restartTypingAudio();
+
     this.currentCharInterval = setInterval(() => {
       if (charIndex <= text.length) {
         // Mostrar texto + cursor parpadeante
@@ -135,6 +138,8 @@ export class Slide4 {
       } else {
         clearInterval(this.currentCharInterval);
         this.currentCharInterval = null;
+        // Stop audio when line is complete
+        this.audioHelper.pauseTypingAudio();
         // Texto final sin cursor
         element.innerHTML = this.formatLineWithYear(text);
         if (onComplete) onComplete();
@@ -215,13 +220,10 @@ export class Slide4 {
   onEnter() {
     console.log("🎬 Entering Slide 4 (Correa Photo)");
 
-    // Play typing audio
-    this.audioHelper.playTypingAudio();
-
     // Iniciar fade-in gradual de la imagen
     this.startImageFade();
 
-    // Animar todas las líneas secuencialmente
+    // Animar todas las líneas secuencialmente (audio se maneja por línea)
     this.animateAllLines(() => {
       this.audioHelper.stopTypingAudio();
       console.log("✅ Slide 4 text complete");
