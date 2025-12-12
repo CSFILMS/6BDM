@@ -1,547 +1,265 @@
 /**
- * Slide 4 - Video Slide
- * Video de Assange con play button, texto overlay y audio
+ * Slide 4 - Correa Photo with Text
+ * Imagen de Rafael Correa con fade in y texto con typewriter
+ * 3 líneas arriba de la imagen, 2 líneas abajo
  */
 
-import { isMobile, videoSources } from "../constants.js";
+import { imageSources, isMobile } from "../constants.js";
+
+// 5 líneas de texto separadas
+const SLIDE_4_LINES = [
+  "2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.",
+  "2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.",
+  "2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
+  "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
+  "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
+];
+
+// Config para animación tipo terminal
+const TYPEWRITER_CHAR_DELAY = 15; // ms entre cada caracter
+const LINE_DELAY = 1000; // 1 segundo entre líneas
 
 export class Slide4 {
   constructor(audioHelper, animationHelper) {
     this.audioHelper = audioHelper;
     this.animationHelper = animationHelper;
-    this.videoStartTime = null;
-    this.videoMinPlayTime = 2000; // 2 seconds minimum
-    this.videoElement = null;
-    this.audioElement = null;
-    this.needsUnmute = false;
-    this.unmuteListener = null;
+    this.typewriterTimeouts = [];
+    this.currentCharInterval = null;
+    this.imageFadeInterval = null;
   }
 
   render() {
     return `
       <div class="slide-content" style="
-        position: relative;
-        width: 100%;
-        height: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: 100%;
+        padding: ${isMobile() ? "5% 6%" : "2% 8%"};
+        gap: 0.5rem;
+        overflow: hidden;
       ">
-        <!-- Video container -->
-        <div id="slide-4-video-container" style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #000;
-        ">
-          <video
-            id="slide-4-video"
-            playsinline
-            preload="metadata"
-            style="
-              max-width: 90%;
-              max-height: 90%;
-              object-fit: contain;
-              cursor: pointer;
-            "
-          >
-            <source id="slide-4-video-source" src="" type="video/mp4" />
-          </video>
-        </div>
-        
-        <!-- Text overlay -->
-        <div id="slide-4-text-overlay" style="
-          position: absolute;
-          top: 20%;
-          left: 50%;
-          transform: translateX(-50%);
-          color: rgb(0, 221, 0);
+        <!-- Texto superior (3 líneas) -->
+        <div id="slide-4-text-top" style="
           font-family: Crisp, 'Courier New', monospace;
-          font-size: 1.05rem;
-          text-align: center;
-          z-index: 10;
-          pointer-events: none;
+          color: rgb(0, 221, 0);
           text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
           filter: saturate(1.3);
-          display: none;
-        ">
-          A FILM BY EUGENE JARECKI
-        </div>
-        
-        <!-- Play button (shown when paused) -->
-        <div id="slide-4-play-button" style="
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 20;
-          cursor: pointer;
-          display: none;
-          align-items: center;
-          justify-content: center;
-          padding: 60px;
-          border-radius: 50%;
-          background-color: rgba(0, 0, 0, 0.5);
-          transition: background-color 0.2s ease;
-          pointer-events: auto;
-        ">
-          <div style="
-            width: 0;
-            height: 0;
-            border-left: 40px solid var(--fg);
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid transparent;
-            filter: drop-shadow(0 0 5px var(--fg)) drop-shadow(0 0 15px var(--fg)) blur(0.8px);
-          "></div>
-        </div>
-        
-        <!-- Video end subtitle -->
-        <div id="slide-4-end-subtitle" style="
-          position: absolute;
-          bottom: 15%;
-          left: 50%;
-          transform: translateX(-50%);
-          color: rgb(0, 221, 0);
-          font-family: Crisp, 'Courier New', monospace;
-          font-size: 1.05rem;
-          text-align: center;
-          z-index: 10;
-          pointer-events: none;
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-          filter: saturate(1.3);
-          white-space: pre-line;
+          font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
+          line-height: 1.4;
+          text-align: left;
           width: 90%;
-          height: 3.6em;
-          line-height: 1.8;
-          display: none;
-        "></div>
+          max-width: 90%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+        ">
+          <div id="s4-line-1" class="terminal-line" style="min-height: ${
+            isMobile() ? "3em" : "1.8em"
+          };"></div>
+          <div id="s4-line-2" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
+          <div id="s4-line-3" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
+        </div>
+        
+        <!-- Imagen -->
+        <div id="slide-4-image-container" style="
+          max-width: ${isMobile() ? "60vw" : "40vw"};
+          max-height: ${isMobile() ? "22vh" : "22vh"};
+          width: ${isMobile() ? "60vw" : "40vw"};
+          height: auto;
+          flex: 0 0 auto;
+          opacity: 0;
+          margin: 0.5rem 0;
+        ">
+          <img id="slide-4-image" src="${imageSources.correa}" style="
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0);
+            display: block;
+            opacity: 0.7;
+          " />
+        </div>
+        
+        <!-- Texto inferior (2 líneas) -->
+        <div id="slide-4-text-bottom" style="
+          font-family: Crisp, 'Courier New', monospace;
+          color: rgb(0, 221, 0);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
+          font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
+          line-height: 1.4;
+          text-align: left;
+          width: 90%;
+          max-width: 90%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+        ">
+          <div id="s4-line-4" class="terminal-line" style="min-height: ${
+            isMobile() ? "4.5em" : "2.8em"
+          };"></div>
+          <div id="s4-line-5" class="terminal-line" style="min-height: ${
+            isMobile() ? "6em" : "3.5em"
+          };"></div>
+        </div>
       </div>
     `;
   }
 
-  onEnter() {
-    console.log("🎬 Entering Slide 4 (Video)");
+  /**
+   * Efecto typewriter para una línea
+   * @param {HTMLElement} element - Elemento donde escribir
+   * @param {string} text - Texto a escribir
+   * @param {function} onComplete - Callback al terminar
+   */
+  typewriteLine(element, text, onComplete) {
+    let charIndex = 0;
+    const cursor = "█";
 
-    // Initialize video source
-    const video = document.getElementById("slide-4-video");
-    this.videoElement = video;
-    const videoSource = document.getElementById("slide-4-video-source");
-
-    if (video && videoSource) {
-      videoSource.src = isMobile() ? videoSources.mobile : videoSources.desktop;
-      video.load();
-      video.muted = true; // Video itself is muted (no audio track)
-      video.currentTime = 0;
-      console.log("📱 Video source set:", videoSource.src);
-    }
-
-    // Initialize external audio element
-    const audioElement = document.getElementById("video-audio");
-    this.audioElement = audioElement;
-    if (audioElement) {
-      // Force load the audio
-      this.audioHelper.playVideoAudio();
-    }
-
-    // Keep text overlays hidden initially
-    const textOverlay = document.getElementById("slide-4-text-overlay");
-    if (textOverlay) {
-      textOverlay.style.display = "none";
-      textOverlay.textContent = ""; // Clear content
-    }
-
-    const endSubtitle = document.getElementById("slide-4-end-subtitle");
-    if (endSubtitle) {
-      endSubtitle.style.display = "none";
-      endSubtitle.innerHTML = ""; // Clear content
-    }
-
-    // Setup play button (hidden initially)
-    const playButton = document.getElementById("slide-4-play-button");
-    if (playButton) {
-      playButton.style.display = "none";
-      playButton.onclick = () => this.resumeVideo();
-    }
-
-    // Setup video click to pause/play
-    if (video) {
-      video.onclick = () => this.toggleVideo();
-    }
-
-    // Reset flags
-    this.videoStartTime = null;
-    this.needsUnmute = false;
-
-    // Setup global click listener to unmute
-    this.setupUnmuteListener();
-
-    // Autoplay video after a short delay
-    setTimeout(() => {
-      this.playVideoWithSound();
-    }, 300);
-
-    // Start text animations after 1200ms (more time to see the video)
-    setTimeout(() => {
-      this.animateTopText();
-    }, 1200);
+    this.currentCharInterval = setInterval(() => {
+      if (charIndex <= text.length) {
+        // Mostrar texto + cursor parpadeante
+        const displayText = text.substring(0, charIndex);
+        element.innerHTML =
+          this.formatLineWithYear(displayText) +
+          (charIndex < text.length
+            ? `<span class="cursor">${cursor}</span>`
+            : "");
+        charIndex++;
+      } else {
+        clearInterval(this.currentCharInterval);
+        this.currentCharInterval = null;
+        // Texto final sin cursor
+        element.innerHTML = this.formatLineWithYear(text);
+        if (onComplete) onComplete();
+      }
+    }, TYPEWRITER_CHAR_DELAY);
   }
 
-  setupUnmuteListener() {
-    // Remove existing listener if any
-    if (this.unmuteListener) {
-      document.removeEventListener("click", this.unmuteListener, true);
-    }
+  /**
+   * Formatea el año en la línea con un span especial
+   */
+  formatLineWithYear(text) {
+    return text.replace(
+      /^(\d{4}(?:-\d{4})?:)/,
+      '<span class="year-text">$1</span>'
+    );
+  }
 
-    // Create new listener
-    this.unmuteListener = () => {
-      if (this.needsUnmute && this.audioElement) {
-        // Play the external audio
-        this.audioElement
-          .play()
-          .then(() => {
-            this.needsUnmute = false;
+  /**
+   * Anima todas las líneas secuencialmente
+   */
+  animateAllLines(onComplete) {
+    let currentLineIndex = 0;
 
-            // Hide unmute button
-            const playButton = document.getElementById("slide-4-play-button");
-            if (playButton) {
-              playButton.style.display = "none";
-            }
+    const animateNextLine = () => {
+      if (currentLineIndex >= SLIDE_4_LINES.length) {
+        if (onComplete) onComplete();
+        return;
+      }
 
-            console.log("🔊 Audio unmuted and playing!");
+      const lineNumber = currentLineIndex + 1;
+      const element = document.getElementById(`s4-line-${lineNumber}`);
+      const text = SLIDE_4_LINES[currentLineIndex];
 
-            // Remove listener after unmuting
-            document.removeEventListener("click", this.unmuteListener, true);
-            this.unmuteListener = null;
-          })
-          .catch((err) => {
-            console.error("❌ Failed to play audio:", err);
-          });
+      if (element) {
+        this.typewriteLine(element, text, () => {
+          currentLineIndex++;
+          // Delay de 1 segundo antes de la siguiente línea
+          const timeout = setTimeout(() => {
+            animateNextLine();
+          }, LINE_DELAY);
+          this.typewriterTimeouts.push(timeout);
+        });
+      } else {
+        currentLineIndex++;
+        animateNextLine();
       }
     };
 
-    // Add listener with capture phase
-    document.addEventListener("click", this.unmuteListener, true);
+    animateNextLine();
   }
 
-  async playVideoWithSound() {
-    console.log("▶️ Attempting autoplay with sound...");
+  /**
+   * Inicia el fade-in gradual de la imagen
+   */
+  startImageFade() {
+    const imageContainer = document.getElementById("slide-4-image-container");
+    if (!imageContainer) return;
 
-    const video = this.videoElement || document.getElementById("slide-4-video");
-    const playButton = document.getElementById("slide-4-play-button");
+    // Fade más rápido: 3 segundos en lugar de toda la animación
+    const fadeDuration = 3000;
+    const fadeSteps = 40;
+    const stepDuration = fadeDuration / fadeSteps;
+    let currentStep = 0;
 
-    if (!video) {
-      console.error("❌ Video element not found");
-      return;
-    }
+    this.imageFadeInterval = setInterval(() => {
+      currentStep++;
+      const opacity = currentStep / fadeSteps;
+      imageContainer.style.opacity = Math.min(opacity, 1).toString();
 
-    if (playButton) {
-      playButton.style.display = "none";
-    }
-
-    // Reset to beginning
-    video.currentTime = 0;
-    video.volume = 1.0;
-
-    // Mobile-specific: Force reload
-    if (isMobile()) {
-      video.load();
-      video.currentTime = 0;
-    }
-
-    // Handle video end (just keep video on last frame)
-    video.addEventListener(
-      "ended",
-      () => {
-        console.log("🎬 Video ended");
-        video.currentTime = video.duration - 0.01;
-        video.pause();
-      },
-      { once: true }
-    );
-
-    // Try unmuted first
-    video.muted = false;
-
-    try {
-      await video.play();
-      // Success with sound!
-      if (this.videoStartTime === null) {
-        this.videoStartTime = Date.now();
+      if (currentStep >= fadeSteps) {
+        clearInterval(this.imageFadeInterval);
+        this.imageFadeInterval = null;
+        imageContainer.style.opacity = "1";
       }
-      console.log("✅ Video playing WITH SOUND");
-      console.log("🔊 Muted:", video.muted, "Volume:", video.volume);
-      this.needsUnmute = false;
-    } catch (err) {
-      // Autoplay with sound failed, try muted
-      console.warn(
-        "⚠️ Autoplay with sound blocked, playing muted:",
-        err.message
-      );
-
-      video.muted = true;
-      this.needsUnmute = true;
-
-      try {
-        await video.play();
-        console.log("⚠️ Video playing MUTED - any click will unmute");
-
-        if (playButton) {
-          playButton.style.display = "flex";
-          playButton.innerHTML = `
-            <div style="
-              color: rgb(0, 221, 0);
-              font-family: Crisp, 'Courier New', monospace;
-              font-size: 1.05rem;
-              text-align: center;
-              text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-              filter: saturate(1.3);
-              line-height: 1.4;
-            ">🔊 CLICK ANYWHERE<br>TO HEAR AUDIO</div>
-          `;
-        }
-
-        if (this.videoStartTime === null) {
-          this.videoStartTime = Date.now();
-        }
-      } catch (err2) {
-        console.error("❌ Video play completely failed:", err2);
-        if (playButton) {
-          playButton.style.display = "flex";
-          playButton.innerHTML = `
-            <div style="
-              color: rgb(0, 221, 0);
-              font-family: Crisp, 'Courier New', monospace;
-              font-size: 1.05rem;
-              text-align: center;
-              text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-              filter: saturate(1.3);
-            ">▶️<br>CLICK TO PLAY</div>
-          `;
-          playButton.onclick = () => {
-            video.muted = false;
-            video.volume = 1.0;
-            video.play().then(() => {
-              playButton.style.display = "none";
-              if (this.videoStartTime === null) {
-                this.videoStartTime = Date.now();
-              }
-            });
-          };
-        }
-      }
-    }
+    }, stepDuration);
   }
 
-  playVideo() {
-    this.playVideoWithSound();
-  }
-
-  resumeVideo() {
-    console.log("▶️ Resuming video and audio");
-
-    const video = document.getElementById("slide-4-video");
-    const audio = this.audioElement || document.getElementById("video-audio");
-    const playButton = document.getElementById("slide-4-play-button");
-
-    if (playButton) {
-      playButton.style.display = "none";
-    }
-
-    if (video) {
-      video.play();
-      if (audio) {
-        audio
-          .play()
-          .then(() => {
-            console.log("✅ Video and audio resumed");
-          })
-          .catch((err) => {
-            console.error("❌ Audio resume failed:", err);
-          });
-      }
-    }
-  }
-
-  toggleVideo() {
-    console.log("⏯️ Toggling video");
-
-    const video = document.getElementById("slide-4-video");
-    const audio = this.audioElement || document.getElementById("video-audio");
-    const playButton = document.getElementById("slide-4-play-button");
-
-    if (video) {
-      if (video.paused) {
-        // Resume playback
-        this.resumeVideo();
-      } else {
-        // Pause both video and audio
-        video.pause();
-        if (audio) {
-          audio.pause();
-        }
-        if (playButton) {
-          playButton.style.display = "flex";
-        }
-        console.log("⏸️ Video and audio paused");
-      }
-    }
-  }
-
-  animateTopText() {
-    console.log("✨ Animating top text");
-
-    const textOverlay = document.getElementById("slide-4-text-overlay");
-    if (!textOverlay) return;
-
-    const message = "A FILM BY EUGENE JARECKI";
-
-    // Show element
-    textOverlay.style.display = "block";
-    textOverlay.textContent = "";
+  onEnter() {
+    console.log("🎬 Entering Slide 4 (Correa Photo)");
 
     // Play typing audio
     this.audioHelper.playTypingAudio();
 
-    // Use scramble effect (decodification) with slower, smoother animation
-    this.animationHelper.scrambleText(
-      textOverlay,
-      message,
-      () => {
-        // Stop audio when animation completes
-        this.audioHelper.stopTypingAudio();
-        console.log("✅ Top text animation complete");
+    // Iniciar fade-in gradual de la imagen
+    this.startImageFade();
 
-        // Start bottom text animation after a delay
-        setTimeout(() => {
-          this.animateBottomText();
-        }, 1000);
-      },
-      false,
-      {
-        chunkSize: 3, // Reveal fewer characters per step (more gradual)
-        intervalMs: 80, // Slightly faster interval for smoothness
-      }
-    );
-  }
-
-  animateBottomText() {
-    console.log("✨ Animating bottom text");
-
-    const subtitleEl = document.getElementById("slide-4-end-subtitle");
-    if (!subtitleEl) return;
-
-    subtitleEl.style.display = "block";
-    subtitleEl.innerHTML = "";
-
-    const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
-
-    // Play typing audio
-    this.audioHelper.playTypingAudio();
-
-    // Use scramble effect (decodification) with slower, smoother animation
-    this.animationHelper.scrambleText(
-      subtitleEl,
-      message,
-      () => {
-        // Stop audio when animation completes
-        this.audioHelper.stopTypingAudio();
-        console.log("✅ Bottom text animation complete");
-      },
-      false,
-      {
-        chunkSize: 3, // Reveal fewer characters per step (more gradual)
-        intervalMs: 80, // Slightly faster interval for smoothness
-      }
-    );
-  }
-
-  canNavigateNext() {
-    // Block navigation if video hasn't been played or hasn't played for minimum time
-    if (this.videoStartTime === null) {
-      console.log("🚫 Video not started yet");
-      return false;
-    }
-
-    const elapsed = Date.now() - this.videoStartTime;
-    if (elapsed < this.videoMinPlayTime) {
-      console.log(
-        `🚫 Video only played ${elapsed}ms, need ${this.videoMinPlayTime}ms`
-      );
-      return false;
-    }
-
-    return true;
+    // Animar todas las líneas secuencialmente
+    this.animateAllLines(() => {
+      this.audioHelper.stopTypingAudio();
+      console.log("✅ Slide 4 text complete");
+    });
   }
 
   onExit() {
     console.log("🚪 Exiting Slide 4");
 
-    // Remove unmute listener
-    if (this.unmuteListener) {
-      document.removeEventListener("click", this.unmuteListener, true);
-      this.unmuteListener = null;
+    // Ocultar imagen
+    const imageContainer = document.getElementById("slide-4-image-container");
+    if (imageContainer) {
+      imageContainer.style.opacity = "0";
     }
 
-    // Stop video
-    const video = document.getElementById("slide-4-video");
-    if (video) {
-      video.pause();
-      video.currentTime = 0;
-      video.muted = true;
-    }
-
-    // Stop external audio
-    const audio = this.audioElement || document.getElementById("video-audio");
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-
-    // Stop typing audio and clear animations
-    this.audioHelper.stopTypingAudio();
-    this.animationHelper.clearAnimations();
-
-    // Hide and clear text overlays
-    const textOverlay = document.getElementById("slide-4-text-overlay");
-    if (textOverlay) {
-      textOverlay.style.display = "none";
-      textOverlay.textContent = "";
-    }
-
-    const endSubtitle = document.getElementById("slide-4-end-subtitle");
-    if (endSubtitle) {
-      endSubtitle.style.display = "none";
-      endSubtitle.innerHTML = "";
-    }
-
-    // Reset flags
-    this.needsUnmute = false;
-    this.videoElement = null;
-    this.audioElement = null;
+    // Stop audio and animations
+    this.cleanup();
   }
 
   cleanup() {
-    // Remove unmute listener
-    if (this.unmuteListener) {
-      document.removeEventListener("click", this.unmuteListener, true);
-      this.unmuteListener = null;
+    // Limpiar todos los timeouts
+    this.typewriterTimeouts.forEach((timeout) => clearTimeout(timeout));
+    this.typewriterTimeouts = [];
+
+    // Limpiar interval del typewriter
+    if (this.currentCharInterval) {
+      clearInterval(this.currentCharInterval);
+      this.currentCharInterval = null;
     }
 
-    const video = document.getElementById("slide-4-video");
-    if (video) {
-      video.pause();
-      video.src = "";
+    // Limpiar interval del fade de imagen
+    if (this.imageFadeInterval) {
+      clearInterval(this.imageFadeInterval);
+      this.imageFadeInterval = null;
     }
 
+    // Stop audio
     this.audioHelper.stopTypingAudio();
     this.animationHelper.clearAnimations();
-
-    this.needsUnmute = false;
-    this.videoElement = null;
   }
 }

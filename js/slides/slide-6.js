@@ -1,5 +1,5 @@
 /**
- * Slide 6 - Arrest Photo with Text
+ * Slide 6 - Arrest Photo with Text (duplicate of Slide 5)
  * Imagen de arresto con fade in y texto con typewriter
  * 3 líneas de texto encima de la imagen
  */
