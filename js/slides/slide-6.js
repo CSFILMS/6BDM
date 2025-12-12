@@ -41,9 +41,11 @@ export class Slide6 {
       ">
         <!-- Texto superior (2 líneas) -->
         <div id="slide-6-text-top" style="
-          font-family: var(--font-family);
-          color: var(--fg);
-          font-size: ${isMobile() ? "0.8rem" : "0.95rem"};
+          font-family: Crisp, 'Courier New', monospace;
+          color: rgb(0, 221, 0);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
+          font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
           line-height: 1.4;
           text-align: left;
           width: 90%;
@@ -82,9 +84,11 @@ export class Slide6 {
         
         <!-- Texto inferior (última línea - importante) -->
         <div id="slide-6-text-bottom" style="
-          font-family: var(--font-family);
-          color: var(--fg);
-          font-size: ${isMobile() ? "0.9rem" : "1.1rem"};
+          font-family: Crisp, 'Courier New', monospace;
+          color: rgb(0, 221, 0);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
+          font-size: ${isMobile() ? "0.9rem" : "1.05rem"};
           line-height: 1.4;
           text-align: center;
           width: 90%;

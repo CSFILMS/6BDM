@@ -26,23 +26,25 @@ export class Slide7 {
           top: 20%;
           left: 50%;
           transform: translateX(-50%);
-          color: var(--fg);
-          font-family: var(--font-family);
-          font-size: 1.5rem;
+          color: rgb(0, 221, 0);
+          font-family: Crisp, 'Courier New', monospace;
+          font-size: 1.05rem;
           text-align: center;
           z-index: 10;
-          text-shadow: 0 0 5px var(--fg), 0 0 15px var(--fg);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
         ">
           [TRAILER]
         </div>
         
         <!-- Coming soon message -->
         <div style="
-          color: var(--accent);
-          font-family: var(--font-family);
-          font-size: 1.2rem;
+          color: rgb(0, 221, 0);
+          font-family: Crisp, 'Courier New', monospace;
+          font-size: 1.05rem;
           text-align: center;
-          text-shadow: 0 0 3px var(--accent), 0 0 10px var(--accent);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
         ">
           Trailer video coming soon...
         </div>

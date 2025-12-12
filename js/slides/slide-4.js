@@ -60,13 +60,14 @@ export class Slide4 {
           top: 20%;
           left: 50%;
           transform: translateX(-50%);
-          color: var(--fg);
-          font-family: var(--font-family);
+          color: rgb(0, 221, 0);
+          font-family: Crisp, 'Courier New', monospace;
           font-size: 1.05rem;
           text-align: center;
           z-index: 10;
           pointer-events: none;
-          text-shadow: 0 0 3px var(--fg), 0 0 10px var(--fg);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
           display: none;
         ">
           A FILM BY EUGENE JARECKI
@@ -105,13 +106,14 @@ export class Slide4 {
           bottom: 15%;
           left: 50%;
           transform: translateX(-50%);
-          color: var(--accent);
-          font-family: var(--font-family);
-          font-size: 1.2rem;
+          color: rgb(0, 221, 0);
+          font-family: Crisp, 'Courier New', monospace;
+          font-size: 1.05rem;
           text-align: center;
           z-index: 10;
           pointer-events: none;
-          text-shadow: 0 0 2px var(--accent), 0 0 5px var(--accent);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
           white-space: pre-line;
           width: 90%;
           height: 3.6em;
@@ -292,11 +294,12 @@ export class Slide4 {
           playButton.style.display = "flex";
           playButton.innerHTML = `
             <div style="
-              color: var(--fg);
-              font-family: var(--font-family);
-              font-size: 0.9rem;
+              color: rgb(0, 221, 0);
+              font-family: Crisp, 'Courier New', monospace;
+              font-size: 1.05rem;
               text-align: center;
-              text-shadow: 0 0 5px var(--fg);
+              text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+              filter: saturate(1.3);
               line-height: 1.4;
             ">🔊 CLICK ANYWHERE<br>TO HEAR AUDIO</div>
           `;
@@ -311,11 +314,12 @@ export class Slide4 {
           playButton.style.display = "flex";
           playButton.innerHTML = `
             <div style="
-              color: var(--fg);
-              font-family: var(--font-family);
-              font-size: 1rem;
+              color: rgb(0, 221, 0);
+              font-family: Crisp, 'Courier New', monospace;
+              font-size: 1.05rem;
               text-align: center;
-              text-shadow: 0 0 5px var(--fg);
+              text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+              filter: saturate(1.3);
             ">▶️<br>CLICK TO PLAY</div>
           `;
           playButton.onclick = () => {

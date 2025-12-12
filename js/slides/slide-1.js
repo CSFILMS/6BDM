@@ -28,8 +28,10 @@ export class Slide1 {
         padding-top: 20%;
       ">
         <div id="slide-1-text" style="
-          font-family: var(--font-family);
-          color: var(--fg);
+          font-family: Crisp, 'Courier New', monospace;
+          color: rgb(0, 221, 0);
+          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          filter: saturate(1.3);
           font-size: ${isMobile() ? "1.0rem" : "1.8rem"};
           line-height: 1.5;
           white-space: pre-wrap;
