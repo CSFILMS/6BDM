@@ -6,17 +6,15 @@
 
 import { imageSources, isMobile } from "../constants.js";
 
-// 3 líneas de texto separadas
+// 2 líneas de texto (todas arriba de la imagen)
 const SLIDE_5_LINES = [
-  "IN 2025, THE SIX BILLION DOLLAR MAN WON THE CANNES FILM FESTIVAL AND THE FIRST-EVER GOLDEN GLOBE FOR DOCUMENTARY. BUT NO LEGACY MEDIA WILL TOUCH IT.",
-  "SO, LIKE WIKILEAKS, WE ARE TAKING THE FILM DIRECT TO THE PUBLIC.",
-  "FOR THIS, WE NEED YOUR HELP.",
+  "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
+  "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
 ];
 
 // Config para animación tipo terminal
 const TYPEWRITER_CHAR_DELAY = 15; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
-const LAST_LINE_DELAY = 2000; // 2 segundos antes de la última línea (más importancia)
 
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
@@ -30,47 +28,37 @@ export class Slide5 {
   render() {
     return `
       <div class="slide-content" style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        position: relative;
         height: 100%;
-        padding: ${isMobile() ? "5% 6%" : "2% 8%"};
-        gap: 0.8rem;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 20%;
         overflow: hidden;
       ">
-        <!-- Texto superior (2 líneas) -->
+        <!-- Texto (2 líneas) -->
         <div id="slide-5-text-top" style="
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
           filter: saturate(1.3);
           font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
-          line-height: 1.4;
+          line-height: 1.5;
           text-align: left;
           width: 90%;
           max-width: 90%;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
         ">
-          <div id="s5-line-1" class="terminal-line" style="min-height: ${
-            isMobile() ? "6em" : "3.5em"
-          };"></div>
-          <div id="s5-line-2" class="terminal-line" style="min-height: ${
-            isMobile() ? "3.5em" : "2em"
-          };"></div>
+          <div id="s5-line-1" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s5-line-2" class="terminal-line"></div>
         </div>
         
-        <!-- Imagen -->
+        <!-- Imagen - posición fija en la parte inferior -->
         <div id="slide-5-image-container" style="
-          max-width: ${isMobile() ? "70vw" : "50vw"};
-          max-height: ${isMobile() ? "35vh" : "35vh"};
-          width: ${isMobile() ? "70vw" : "50vw"};
-          height: auto;
-          flex: 0 0 auto;
+          position: absolute;
+          bottom: 30%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 90%;
           opacity: 0;
-          margin: 1rem 0;
         ">
           <img id="slide-5-image" src="${imageSources.arrest}" style="
             width: 100%;
@@ -80,23 +68,6 @@ export class Slide5 {
             display: block;
             opacity: 0.7;
           " />
-        </div>
-        
-        <!-- Texto inferior (última línea - importante) -->
-        <div id="slide-5-text-bottom" style="
-          font-family: Crisp, 'Courier New', monospace;
-          color: rgb(0, 221, 0);
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-          filter: saturate(1.3);
-          font-size: ${isMobile() ? "0.9rem" : "1.05rem"};
-          line-height: 1.4;
-          text-align: center;
-          width: 90%;
-          max-width: 90%;
-        ">
-          <div id="s5-line-3" class="terminal-line" style="min-height: ${
-            isMobile() ? "2em" : "1.5em"
-          };"></div>
         </div>
       </div>
     `;
@@ -116,7 +87,7 @@ export class Slide5 {
       if (charIndex <= text.length) {
         const displayText = text.substring(0, charIndex);
         element.innerHTML =
-          displayText +
+          this.formatLineWithYear(displayText) +
           (charIndex < text.length
             ? `<span class="cursor">${cursor}</span>`
             : "");
@@ -126,10 +97,20 @@ export class Slide5 {
         this.currentCharInterval = null;
         // Stop audio when line is complete
         this.audioHelper.pauseTypingAudio();
-        element.innerHTML = text;
+        element.innerHTML = this.formatLineWithYear(text);
         if (onComplete) onComplete();
       }
     }, TYPEWRITER_CHAR_DELAY);
+  }
+
+  /**
+   * Formatea el año en la línea con un span especial
+   */
+  formatLineWithYear(text) {
+    return text.replace(
+      /^(\d{4}(?:-\d{4})?:)/,
+      '<span class="year-text">$1</span>'
+    );
   }
 
   /**
@@ -151,11 +132,9 @@ export class Slide5 {
       if (element) {
         this.typewriteLine(element, text, () => {
           currentLineIndex++;
-          // Delay más largo antes de la última línea (línea 3)
-          const delay = currentLineIndex === 2 ? LAST_LINE_DELAY : LINE_DELAY;
           const timeout = setTimeout(() => {
             animateNextLine();
-          }, delay);
+          }, LINE_DELAY);
           this.typewriterTimeouts.push(timeout);
         });
       } else {

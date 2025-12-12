@@ -1,10 +1,10 @@
 /**
- * Slide 6 - Arrest Photo with Text (duplicate of Slide 5)
- * Imagen de arresto con fade in y texto con typewriter
- * 3 líneas de texto encima de la imagen
+ * Slide 6 - Text Only (Documentary info)
+ * Solo texto con typewriter, sin imagen
+ * 3 líneas de texto centradas
  */
 
-import { imageSources, isMobile } from "../constants.js";
+import { isMobile } from "../constants.js";
 
 // 3 líneas de texto separadas
 const SLIDE_6_LINES = [
@@ -24,79 +24,32 @@ export class Slide6 {
     this.animationHelper = animationHelper;
     this.typewriterTimeouts = [];
     this.currentCharInterval = null;
-    this.imageFadeInterval = null;
   }
 
   render() {
     return `
       <div class="slide-content" style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         height: 100%;
-        padding: ${isMobile() ? "5% 6%" : "2% 8%"};
-        gap: 0.8rem;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 20%;
         overflow: hidden;
       ">
-        <!-- Texto superior (2 líneas) -->
-        <div id="slide-6-text-top" style="
+        <!-- Texto (3 líneas, sin imagen) -->
+        <div id="slide-6-text" style="
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
           filter: saturate(1.3);
           font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
-          line-height: 1.4;
+          line-height: 1.5;
           text-align: left;
           width: 90%;
           max-width: 90%;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
         ">
-          <div id="s6-line-1" class="terminal-line" style="min-height: ${
-            isMobile() ? "6em" : "3.5em"
-          };"></div>
-          <div id="s6-line-2" class="terminal-line" style="min-height: ${
-            isMobile() ? "3.5em" : "2em"
-          };"></div>
-        </div>
-        
-        <!-- Imagen -->
-        <div id="slide-6-image-container" style="
-          max-width: ${isMobile() ? "70vw" : "50vw"};
-          max-height: ${isMobile() ? "35vh" : "35vh"};
-          width: ${isMobile() ? "70vw" : "50vw"};
-          height: auto;
-          flex: 0 0 auto;
-          opacity: 0;
-          margin: 1rem 0;
-        ">
-          <img id="slide-6-image" src="${imageSources.arrest}" style="
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0);
-            display: block;
-            opacity: 0.7;
-          " />
-        </div>
-        
-        <!-- Texto inferior (última línea - importante) -->
-        <div id="slide-6-text-bottom" style="
-          font-family: Crisp, 'Courier New', monospace;
-          color: rgb(0, 221, 0);
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-          filter: saturate(1.3);
-          font-size: ${isMobile() ? "0.9rem" : "1.05rem"};
-          line-height: 1.4;
-          text-align: center;
-          width: 90%;
-          max-width: 90%;
-        ">
-          <div id="s6-line-3" class="terminal-line" style="min-height: ${
-            isMobile() ? "2em" : "1.5em"
-          };"></div>
+          <div id="s6-line-1" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s6-line-2" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s6-line-3" class="terminal-line"></div>
         </div>
       </div>
     `;
@@ -167,36 +120,8 @@ export class Slide6 {
     animateNextLine();
   }
 
-  /**
-   * Inicia el fade-in gradual de la imagen
-   */
-  startImageFade() {
-    const imageContainer = document.getElementById("slide-6-image-container");
-    if (!imageContainer) return;
-
-    const fadeDuration = 3000;
-    const fadeSteps = 40;
-    const stepDuration = fadeDuration / fadeSteps;
-    let currentStep = 0;
-
-    this.imageFadeInterval = setInterval(() => {
-      currentStep++;
-      const opacity = currentStep / fadeSteps;
-      imageContainer.style.opacity = Math.min(opacity, 1).toString();
-
-      if (currentStep >= fadeSteps) {
-        clearInterval(this.imageFadeInterval);
-        this.imageFadeInterval = null;
-        imageContainer.style.opacity = "1";
-      }
-    }, stepDuration);
-  }
-
   onEnter() {
-    console.log("🎬 Entering Slide 6 (Arrest Photo)");
-
-    // Iniciar fade-in gradual de la imagen
-    this.startImageFade();
+    console.log("🎬 Entering Slide 6 (Text Only)");
 
     // Animar todas las líneas secuencialmente (audio se maneja por línea)
     this.animateAllLines(() => {
@@ -207,12 +132,6 @@ export class Slide6 {
 
   onExit() {
     console.log("🚪 Exiting Slide 6");
-
-    // Ocultar imagen
-    const imageContainer = document.getElementById("slide-6-image-container");
-    if (imageContainer) {
-      imageContainer.style.opacity = "0";
-    }
 
     // Stop audio and animations
     this.cleanup();
@@ -227,12 +146,6 @@ export class Slide6 {
     if (this.currentCharInterval) {
       clearInterval(this.currentCharInterval);
       this.currentCharInterval = null;
-    }
-
-    // Limpiar interval del fade de imagen
-    if (this.imageFadeInterval) {
-      clearInterval(this.imageFadeInterval);
-      this.imageFadeInterval = null;
     }
 
     // Stop audio

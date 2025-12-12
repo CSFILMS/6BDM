@@ -6,13 +6,11 @@
 
 import { imageSources, isMobile } from "../constants.js";
 
-// 5 líneas de texto separadas
+// 3 líneas de texto (todas arriba de la imagen)
 const SLIDE_4_LINES = [
   "2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.",
   "2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.",
   "2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
-  "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
-  "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
 ];
 
 // Config para animación tipo terminal
@@ -31,50 +29,38 @@ export class Slide4 {
   render() {
     return `
       <div class="slide-content" style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        position: relative;
         height: 100%;
-        padding: ${isMobile() ? "5% 6%" : "2% 8%"};
-        gap: 0.5rem;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 20%;
         overflow: hidden;
       ">
-        <!-- Texto superior (3 líneas) -->
+        <!-- Texto (3 líneas) -->
         <div id="slide-4-text-top" style="
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
           filter: saturate(1.3);
           font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
-          line-height: 1.4;
+          line-height: 1.5;
           text-align: left;
           width: 90%;
           max-width: 90%;
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
         ">
-          <div id="s4-line-1" class="terminal-line" style="min-height: ${
-            isMobile() ? "3em" : "1.8em"
-          };"></div>
-          <div id="s4-line-2" class="terminal-line" style="min-height: ${
-            isMobile() ? "4.5em" : "2.8em"
-          };"></div>
-          <div id="s4-line-3" class="terminal-line" style="min-height: ${
-            isMobile() ? "4.5em" : "2.8em"
-          };"></div>
+          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s4-line-3" class="terminal-line"></div>
         </div>
         
-        <!-- Imagen -->
+        <!-- Imagen - posición fija en la parte inferior -->
         <div id="slide-4-image-container" style="
-          max-width: ${isMobile() ? "60vw" : "40vw"};
-          max-height: ${isMobile() ? "22vh" : "22vh"};
-          width: ${isMobile() ? "60vw" : "40vw"};
-          height: auto;
-          flex: 0 0 auto;
+          position: absolute;
+          bottom: 30%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 90%;
           opacity: 0;
-          margin: 0.5rem 0;
         ">
           <img id="slide-4-image" src="${imageSources.correa}" style="
             width: 100%;
@@ -84,29 +70,6 @@ export class Slide4 {
             display: block;
             opacity: 0.7;
           " />
-        </div>
-        
-        <!-- Texto inferior (2 líneas) -->
-        <div id="slide-4-text-bottom" style="
-          font-family: Crisp, 'Courier New', monospace;
-          color: rgb(0, 221, 0);
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
-          filter: saturate(1.3);
-          font-size: ${isMobile() ? "0.8rem" : "1.05rem"};
-          line-height: 1.4;
-          text-align: left;
-          width: 90%;
-          max-width: 90%;
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
-        ">
-          <div id="s4-line-4" class="terminal-line" style="min-height: ${
-            isMobile() ? "4.5em" : "2.8em"
-          };"></div>
-          <div id="s4-line-5" class="terminal-line" style="min-height: ${
-            isMobile() ? "6em" : "3.5em"
-          };"></div>
         </div>
       </div>
     `;
