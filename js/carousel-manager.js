@@ -175,6 +175,37 @@ export class CarouselManager {
     } else if (e.code === "ArrowLeft") {
       e.preventDefault();
       this.prev();
+    } else if (e.code === "KeyF") {
+      e.preventDefault();
+      this.toggleFullscreen();
+    }
+  }
+
+  /**
+   * Toggle fullscreen mode
+   */
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      // Enter fullscreen
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen(); // Safari
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen(); // IE11
+      }
+      console.log("🖥️ Entering fullscreen mode");
+    } else {
+      // Exit fullscreen
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen(); // Safari
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen(); // IE11
+      }
+      console.log("🖥️ Exiting fullscreen mode");
     }
   }
 
