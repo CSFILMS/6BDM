@@ -131,6 +131,13 @@ export class Slide3 {
     const video = document.getElementById("slide-3-video");
     this.videoElement = video;
     const videoSource = document.getElementById("slide-3-video-source");
+    const videoContainer = document.getElementById("slide-3-video-container");
+
+    // Reset video container opacity (in case we're re-entering after fade out)
+    if (videoContainer) {
+      videoContainer.style.opacity = "1";
+      videoContainer.style.transition = "";
+    }
 
     if (video && videoSource) {
       videoSource.src = isMobile() ? videoSources.mobile : videoSources.desktop;
@@ -253,13 +260,12 @@ export class Slide3 {
       video.currentTime = 0;
     }
 
-    // Handle video end (just keep video on last frame)
+    // Handle video end - fade out video and audio
     video.addEventListener(
       "ended",
       () => {
-        console.log("🎬 Video ended");
-        video.currentTime = video.duration - 0.01;
-        video.pause();
+        console.log("🎬 Video ended - starting fade out");
+        this.fadeOutVideo();
       },
       { once: true }
     );
@@ -392,6 +398,27 @@ export class Slide3 {
     }
   }
 
+  fadeOutVideo() {
+    const video = document.getElementById("slide-3-video");
+    const videoContainer = document.getElementById("slide-3-video-container");
+
+    if (!video) return;
+
+    // Keep video on last frame
+    video.currentTime = video.duration - 0.01;
+    video.pause();
+
+    // Fade out the audio
+    this.audioHelper.fadeOutVideoAudio(1500);
+
+    // Fade out the video visually
+    if (videoContainer) {
+      videoContainer.style.transition = "opacity 1.5s ease-out";
+      videoContainer.style.opacity = "0";
+      console.log("🎬 Video fading out...");
+    }
+  }
+
   animateTopText() {
     console.log("✨ Animating top text");
 
@@ -487,20 +514,24 @@ export class Slide3 {
       this.unmuteListener = null;
     }
 
-    // Stop video
+    // Stop video and reset container
     const video = document.getElementById("slide-3-video");
+    const videoContainer = document.getElementById("slide-3-video-container");
+
     if (video) {
       video.pause();
       video.currentTime = 0;
       video.muted = true;
     }
 
-    // Stop external audio
-    const audio = this.audioElement || document.getElementById("video-audio");
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
+    // Reset container opacity for next time
+    if (videoContainer) {
+      videoContainer.style.opacity = "1";
+      videoContainer.style.transition = "";
     }
+
+    // Stop external audio using helper
+    this.audioHelper.stopVideoAudio();
 
     // Stop typing audio and clear animations
     this.audioHelper.stopTypingAudio();

@@ -105,21 +105,60 @@ export class AudioHelper {
   }
 
   /**
-   * Play video audio
+   * Play video audio (no loop - plays once)
    */
   playVideoAudio() {
     const videoAudioEl = document.getElementById("video-audio");
     if (videoAudioEl) {
       videoAudioEl.volume = audioConfig.unscrambleVolume;
-      videoAudioEl.loop = true;
+      videoAudioEl.loop = false; // No loop - plays once with the video
       videoAudioEl.muted = false;
+      videoAudioEl.currentTime = 0;
 
-      console.log("🔊 Playing typing audio...");
+      console.log("🔊 Playing video audio...");
       videoAudioEl.play().catch((err) => {
-        console.log("❌ Typing audio play failed:", err);
+        console.log("❌ Video audio play failed:", err);
       });
     }
     return videoAudioEl;
+  }
+
+  /**
+   * Stop video audio
+   */
+  stopVideoAudio() {
+    const videoAudioEl = document.getElementById("video-audio");
+    if (videoAudioEl) {
+      videoAudioEl.pause();
+      videoAudioEl.currentTime = 0;
+    }
+  }
+
+  /**
+   * Fade out video audio
+   */
+  fadeOutVideoAudio(duration = 1000) {
+    const videoAudioEl = document.getElementById("video-audio");
+    if (videoAudioEl && !videoAudioEl.paused) {
+      const startVolume = videoAudioEl.volume;
+      const steps = 20;
+      const stepDuration = duration / steps;
+      const volumeStep = startVolume / steps;
+      let currentStep = 0;
+
+      const fadeInterval = setInterval(() => {
+        currentStep++;
+        videoAudioEl.volume = Math.max(0, startVolume - volumeStep * currentStep);
+        
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval);
+          videoAudioEl.pause();
+          videoAudioEl.currentTime = 0;
+          videoAudioEl.volume = startVolume; // Reset volume for next play
+          console.log("🔇 Video audio faded out");
+        }
+      }, stepDuration);
+    }
   }
 
   /**
