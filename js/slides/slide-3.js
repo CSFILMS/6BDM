@@ -44,9 +44,9 @@ export class Slide3 {
             playsinline
             preload="metadata"
             style="
-              max-width: 90%;
-              max-height: 90%;
-              object-fit: contain;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
               cursor: pointer;
             "
           >
@@ -195,11 +195,6 @@ export class Slide3 {
     setTimeout(() => {
       this.playVideoWithSound();
     }, 300);
-
-    // Start text animations after 1200ms (more time to see the video)
-    setTimeout(() => {
-      this.animateTopText();
-    }, 1200);
   }
 
   setupUnmuteListener() {
@@ -421,6 +416,9 @@ export class Slide3 {
       videoContainer.style.opacity = "0";
       console.log("🎬 Video fading out...");
     }
+
+    // Start text animations after video ends
+    this.animateTopText();
   }
 
   animateTopText() {
