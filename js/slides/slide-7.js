@@ -28,7 +28,7 @@ export class Slide7 {
           transform: translateX(-50%);
           color: rgb(0, 221, 0);
           font-family: Crisp, 'Courier New', monospace;
-          font-size: 1.2em;
+          font-size: 19.2px;
           line-height: 1.4;
           text-align: center;
           z-index: 10;
@@ -42,7 +42,7 @@ export class Slide7 {
         <div style="
           color: rgb(0, 221, 0);
           font-family: Crisp, 'Courier New', monospace;
-          font-size: 1.2em;
+          font-size: 19.2px;
           line-height: 1.4;
           text-align: center;
           text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
