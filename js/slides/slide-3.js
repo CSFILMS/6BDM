@@ -322,7 +322,7 @@ export class Slide3 {
             <div style="
               color: rgb(0, 221, 0);
               font-family: Crisp, 'Courier New', monospace;
-              font-size: 1.05rem;
+              font-size: 1.2em;
               text-align: center;
               text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
               filter: saturate(1.3);
