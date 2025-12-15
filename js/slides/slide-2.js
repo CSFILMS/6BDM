@@ -27,7 +27,6 @@ export class Slide2 {
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-          filter: saturate(1.3);
           font-size: 19.2px;
           line-height: 1.4 !important;
           white-space: pre-wrap;

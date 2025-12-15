@@ -86,7 +86,6 @@
   pointer-events: none;
   white-space: pre-wrap;
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   background-color: transparent; /* Remove black background */
 }
 
@@ -302,7 +301,6 @@
   font-size: 1.05rem;
   line-height: 1.4;
   text-shadow: var(--text-glow);
-  filter: saturate(1.3);
   padding: 6vmin;
 }
 html,body { height:100%; margin:0; background:#000; }
@@ -351,7 +349,6 @@ body {
   color: rgb(0, 221, 0);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: var(--text-glow);
-  filter: saturate(1.3);
   padding: 0;
   perspective: 1000px; 
   margin: 0;
@@ -537,7 +534,6 @@ body {
   font-size: 1.05rem;
   color: rgb(0, 221, 0);
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   margin-bottom: 1.5rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -613,7 +609,6 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(0, 221, 0);
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   height: 7vh;
   position: fixed;
   bottom: 16vh;
@@ -645,7 +640,6 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(0, 221, 0);
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   min-height: 2.5rem;
   visibility: hidden;
   max-width: 140px;
@@ -665,7 +659,6 @@ body {
   opacity: 1;
   color: rgb(0, 221, 0);
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   font-family: 'Crisp', 'Courier New', monospace;
   pointer-events: none;
   z-index: 1001;
@@ -730,7 +723,6 @@ body {
   color: rgb(0, 221, 0);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   font-size: 1.05rem;
 }
 
@@ -753,7 +745,6 @@ body {
   color: rgb(0, 221, 0);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   font-size: 1.05rem;
   text-align: center;
   font-weight: bold;
@@ -764,7 +755,6 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(0, 221, 0);
   text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
-  filter: saturate(1.3);
   font-size: 1.05rem;
   line-height: 1.4;
 }
