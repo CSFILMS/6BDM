@@ -58,7 +58,7 @@ export class Slide2 {
             console.log("✅ Slide 2 scramble complete");
           },
           false,
-          { initialDelayMs: 300 }
+          { initialDelayMs: 100 }
         );
       }, 1000);
     }
