@@ -29,7 +29,7 @@ export class Slide2 {
           text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
           filter: saturate(1.3);
           font-size: 1.2em;
-          line-height: 1.5;
+          line-height: 1.4;
           white-space: pre-wrap;
           text-align: left;
           max-width: 90%;
