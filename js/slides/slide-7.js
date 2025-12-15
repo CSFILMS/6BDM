@@ -31,7 +31,7 @@ export class Slide7 {
           font-size: 1.05rem;
           text-align: center;
           z-index: 10;
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
           filter: saturate(1.3);
         ">
           [TRAILER]
@@ -43,7 +43,7 @@ export class Slide7 {
           font-family: Crisp, 'Courier New', monospace;
           font-size: 1.05rem;
           text-align: center;
-          text-shadow: 0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0);
+          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
           filter: saturate(1.3);
         ">
           Trailer video coming soon...
