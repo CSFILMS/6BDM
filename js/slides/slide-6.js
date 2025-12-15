@@ -40,6 +40,7 @@ export class Slide6 {
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          filter: saturate(1.1);
           font-size: ${isMobile() ? "19.2px" : "1.05rem"};
           line-height: 1.4;
           text-align: left;

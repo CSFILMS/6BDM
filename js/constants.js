@@ -93,6 +93,7 @@ export const textStyle = {
   color: "rgb(0, 221, 0)",
   textShadow:
     "0px 0px 2px rgb(0, 221, 0), 0px 0px 8px rgb(0, 221, 0), 0px 0px 16px rgb(0, 221, 0)",
+  filter: "saturate(1.1)",
   fontSize: "1.05rem",
   fontFamily: 'Crisp, "Courier New", monospace',
 };
