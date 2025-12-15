@@ -57,7 +57,8 @@ export class Slide3 {
         <!-- Text overlay -->
         <div id="slide-3-text-overlay" style="
           position: absolute;
-          top: 20%;
+          width: 100%;
+          top: 50px;
           left: 50%;
           transform: translateX(-50%);
           color: rgb(0, 221, 0);
