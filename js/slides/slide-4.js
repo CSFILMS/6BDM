@@ -59,7 +59,7 @@ export class Slide4 {
           bottom: 30%;
           left: 50%;
           transform: translateX(-50%);
-          width: 90%;
+          width: 100%;
           opacity: 0;
         ">
           <img id="slide-4-image" src="${imageSources.correa}" style="
@@ -162,7 +162,7 @@ export class Slide4 {
     if (!imageContainer) return;
 
     // Fade más rápido: 3 segundos en lugar de toda la animación
-    const fadeDuration = 3000;
+    const fadeDuration = 1500;
     const fadeSteps = 40;
     const stepDuration = fadeDuration / fadeSteps;
     let currentStep = 0;
