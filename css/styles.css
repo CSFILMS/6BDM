@@ -445,6 +445,7 @@ body.video-slide-active #scanline-overlay {
     font-size: 0.95rem;
     line-height: 1.2;
     padding: 0.5rem;
+    width: 136px;
   }
   
   #slide-counter {
