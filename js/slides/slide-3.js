@@ -104,7 +104,7 @@ export class Slide3 {
         <!-- Video end subtitle -->
         <div id="slide-3-end-subtitle" style="
           position: absolute;
-          bottom: 15%;
+          bottom: 18%;
           left: 50%;
           transform: translateX(-50%);
           color: rgb(0, 221, 0);
