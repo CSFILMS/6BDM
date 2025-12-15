@@ -24,8 +24,8 @@ export class Slide1 {
       <div class="slide-content" style="
         display: flex;
         height: 100%;
-        padding-left: 10%;
-        padding-top: 20%;
+        padding-left: 42px;
+        padding-top: 82px;
       ">
         <div id="slide-1-text" style="
           font-family: Crisp, 'Courier New', monospace;
