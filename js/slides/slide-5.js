@@ -57,7 +57,7 @@ export class Slide5 {
           bottom: 30%;
           left: 50%;
           transform: translateX(-50%);
-          width: 90%;
+          width: 100%;
           opacity: 0;
         ">
           <img id="slide-5-image" src="${imageSources.arrest}" style="

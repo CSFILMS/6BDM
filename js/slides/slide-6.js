@@ -14,7 +14,7 @@ const SLIDE_6_LINES = [
 ];
 
 // Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 15; // ms entre cada caracter
+const TYPEWRITER_CHAR_DELAY = 35; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 const LAST_LINE_DELAY = 2000; // 2 segundos antes de la última línea (más importancia)
 
