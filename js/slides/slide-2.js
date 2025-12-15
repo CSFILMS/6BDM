@@ -48,12 +48,18 @@ export class Slide2 {
       setTimeout(() => {
         this.audioHelper.playTypingAudio();
 
-        // Start scramble animation
-        this.animationHelper.scrambleText(textElement, SLIDE_2_TEXT, () => {
-          // Stop audio when animation completes
-          this.audioHelper.stopTypingAudio();
-          console.log("✅ Slide 2 scramble complete");
-        });
+        // Start scramble animation with initial delay to show encrypted text first
+        this.animationHelper.scrambleText(
+          textElement,
+          SLIDE_2_TEXT,
+          () => {
+            // Stop audio when animation completes
+            this.audioHelper.stopTypingAudio();
+            console.log("✅ Slide 2 scramble complete");
+          },
+          false,
+          { initialDelayMs: 300 }
+        );
       }, 1000);
     }
   }

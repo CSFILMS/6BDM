@@ -122,6 +122,7 @@ export class AnimationHelper {
    * @param {object} options - Optional animation parameters
    * @param {number} options.chunkSize - Characters to reveal per step (default: 15)
    * @param {number} options.intervalMs - Milliseconds between steps (default: 100)
+   * @param {number} options.initialDelayMs - Milliseconds to show scrambled text before animation (default: 0)
    */
   scrambleText(element, text, onComplete, playAudio = false, options = {}) {
     if (this.currentAnimationFrame) {
@@ -135,6 +136,7 @@ export class AnimationHelper {
     let index = 0;
     const chunkSize = options.chunkSize || animationConfig.scrambleChunkSize;
     const intervalMs = options.intervalMs || animationConfig.scrambleIntervalMs;
+    const initialDelayMs = options.initialDelayMs || 0;
     const scrambled = text.split("");
     const len = text.length;
 
@@ -147,39 +149,52 @@ export class AnimationHelper {
 
     this.isAnimating = true;
 
-    // Use requestAnimationFrame for better performance
-    const stopAnimation = this.createRAFAnimation(() => {
-      const display = scrambled.slice();
+    // Show scrambled text immediately
+    element.textContent = scrambled.join("");
 
-      // Reveal completed chunks
-      for (let i = 0; i < index; i++) {
-        let s = i * chunkSize;
-        let e = Math.min(s + chunkSize, len);
-        for (let j = s; j < e; j++) {
-          display[j] = text[j];
+    // Function to start the reveal animation
+    const startRevealAnimation = () => {
+      // Use requestAnimationFrame for better performance
+      const stopAnimation = this.createRAFAnimation(() => {
+        const display = scrambled.slice();
+
+        // Reveal completed chunks
+        for (let i = 0; i < index; i++) {
+          let s = i * chunkSize;
+          let e = Math.min(s + chunkSize, len);
+          for (let j = s; j < e; j++) {
+            display[j] = text[j];
+          }
         }
-      }
 
-      // Scramble remaining text
-      for (let k = index * chunkSize; k < len; k++) {
-        display[k] = /\s/.test(text[k])
-          ? text[k]
-          : chars[Math.floor(Math.random() * chars.length)];
-      }
+        // Scramble remaining text
+        for (let k = index * chunkSize; k < len; k++) {
+          display[k] = /\s/.test(text[k])
+            ? text[k]
+            : chars[Math.floor(Math.random() * chars.length)];
+        }
 
-      element.textContent = display.join("");
+        element.textContent = display.join("");
 
-      index++;
-      if (index * chunkSize >= len) {
-        stopAnimation();
-        element.textContent = text;
-        this.isAnimating = false;
-        this.wrapYearsInSpans(element);
-        onComplete && onComplete();
-        return false; // Stop animation
-      }
-      return true; // Continue animation
-    }, intervalMs);
+        index++;
+        if (index * chunkSize >= len) {
+          stopAnimation();
+          element.textContent = text;
+          this.isAnimating = false;
+          this.wrapYearsInSpans(element);
+          onComplete && onComplete();
+          return false; // Stop animation
+        }
+        return true; // Continue animation
+      }, intervalMs);
+    };
+
+    // If there's an initial delay, wait before starting the reveal animation
+    if (initialDelayMs > 0) {
+      setTimeout(startRevealAnimation, initialDelayMs);
+    } else {
+      startRevealAnimation();
+    }
   }
 
   /**
