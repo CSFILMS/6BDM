@@ -58,12 +58,12 @@ export class Slide3 {
         <div id="slide-3-text-overlay" style="
           position: absolute;
           width: 100%;
-          top: 50px;
+          top: 60px;
           left: 50%;
           transform: translateX(-50%);
           color: rgb(0, 221, 0);
           font-family: Crisp, 'Courier New', monospace;
-          font-size: 1.05rem;
+          font-size: 17.6px;
           text-align: center;
           z-index: 10;
           pointer-events: none;
