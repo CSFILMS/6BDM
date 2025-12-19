@@ -38,6 +38,8 @@ export class Slide4 {
       ">
         <!-- Texto (3 líneas) -->
         <div id="slide-4-text-top" style="
+          position: relative;
+          z-index: 10;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(0, 221, 0);
           text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
