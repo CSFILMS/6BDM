@@ -201,18 +201,21 @@ export class Slide4 {
           this.audioHelper.stopTypingAudio();
           console.log("✅ Slide 4 first line scramble complete");
 
-          // Paso 2: Reducir font-size y mostrar imagen
-          line1Element.style.fontSize = NORMAL_FONT_SIZE;
-          this.startImageFade();
+          // Paso 2: Delay antes de reducir font-size y mostrar imagen
+          const transitionTimeout = setTimeout(() => {
+            line1Element.style.fontSize = NORMAL_FONT_SIZE;
+            this.startImageFade();
 
-          // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
-          const timeout = setTimeout(() => {
-            this.animateRemainingLines(() => {
-              this.audioHelper.stopTypingAudio();
-              console.log("✅ Slide 4 text complete");
-            });
-          }, LINE_DELAY);
-          this.typewriterTimeouts.push(timeout);
+            // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
+            const timeout = setTimeout(() => {
+              this.animateRemainingLines(() => {
+                this.audioHelper.stopTypingAudio();
+                console.log("✅ Slide 4 text complete");
+              });
+            }, LINE_DELAY);
+            this.typewriterTimeouts.push(timeout);
+          }, 200);
+          this.typewriterTimeouts.push(transitionTimeout);
         },
         false,
         { initialDelayMs: 100 }
