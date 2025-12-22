@@ -43,6 +43,7 @@ export const audioSources = {
 
 export const imageSources = {
   arrest: "PHOTOS/photo_arrest.webp",
+  first_correa: "PHOTOS/correa.jpeg",
   correa: "PHOTOS/photo_correa.jpg",
 };
 

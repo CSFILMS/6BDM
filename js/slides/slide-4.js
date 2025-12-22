@@ -57,7 +57,7 @@ export class Slide4 {
         </div>
         
         <!-- Imagen - Right side, cropped to fit -->
-        <img id="slide-4-image" src="${imageSources.correa}" style="
+        <img id="slide-4-image" src="${imageSources.first_correa}" style="
           display: block;
           position: absolute;
           right: 0;

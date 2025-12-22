@@ -9,7 +9,7 @@ import { imageSources, isMobile } from "../constants.js";
 // 3 líneas de texto (todas arriba de la imagen)
 const SLIDE_5_LINES = [
   "2012-2019: ASSANGE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
-  "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
+  "2019: HE IS JAILED IN THE UK. AWAITS EXTRADITION TO THE U.S. TO FACE A POSSIBLE 175 YEARS IN PRISON. ",
   "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
 ];
 
@@ -39,7 +39,7 @@ export class Slide5 {
         <div id="slide-5-text-top" style="
           position: absolute;
           left: 0;
-          top: 10%;
+          top: 18%;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
