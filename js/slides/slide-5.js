@@ -39,7 +39,7 @@ export class Slide5 {
         <div id="slide-5-text-top" style="
           position: absolute;
           left: 0;
-          top: 18%;
+          top: 14%;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
@@ -61,7 +61,7 @@ export class Slide5 {
           display: block;
           position: absolute;
           right: 0;
-          top: 10%;
+          top: 14%;
           width: 50%;
           height: 75%;
           object-fit: cover;
