@@ -76,17 +76,19 @@ export class AudioHelper {
   }
 
   /**
-   * Restart typing audio from the beginning (for each new line)
+   * Restart typing audio from a random position (for each new line)
+   * Starting at different points makes it feel less repetitive
    */
   restartTypingAudio() {
     const unscrambleAudioEl = document.getElementById("unscramble-audio");
     if (unscrambleAudioEl) {
-      unscrambleAudioEl.currentTime = 0;
+      // Start from a random position in the audio file
+      const duration = unscrambleAudioEl.duration || 5;
+      unscrambleAudioEl.currentTime = Math.random() * duration;
       unscrambleAudioEl.volume = audioConfig.unscrambleVolume;
       unscrambleAudioEl.loop = true;
       unscrambleAudioEl.muted = false;
 
-      console.log("🔊 Restarting typing audio for new line...");
       unscrambleAudioEl.play().catch((err) => {
         console.log("❌ Typing audio restart failed:", err);
       });
