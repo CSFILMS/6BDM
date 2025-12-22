@@ -70,6 +70,12 @@ export class Slide4 {
           z-index: 1;
           opacity: 0;
           filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 85%, transparent 100%),
+                              linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+          -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent 0%, black 25%, black 85%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+          mask-composite: intersect;
         " />
       </div>
     `;
