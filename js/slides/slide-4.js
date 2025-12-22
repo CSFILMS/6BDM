@@ -31,48 +31,44 @@ export class Slide4 {
       <div class="slide-content" style="
         position: relative;
         height: 100%;
-        padding-left: 5%;
-        padding-right: 5%;
-        padding-top: 20%;
+        display: flex;
+        flex-direction: row;
         overflow: hidden;
       ">
-        <!-- Texto (3 líneas) -->
+        <!-- Texto (3 líneas) - Left side -->
         <div id="slide-4-text-top" style="
-          position: relative;
-          z-index: 10;
+          position: absolute;
+          left: 0;
+          top: 10%;
+          z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(0.95);
           font-size: ${isMobile() ? "19.2px" : "1.05rem"};
-          line-height: 1.4;
+          line-height: 1.6;
           text-align: left;
-          width: 90%;
-          max-width: 90%;
+          width: 45%;
+          padding-left: 5%;
         ">
-          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1em;"></div>
-          <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1em;"></div>
+          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em;"></div>
+          <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1.2em;"></div>
           <div id="s4-line-3" class="terminal-line"></div>
         </div>
         
-        <!-- Imagen - posición fija en la parte inferior -->
-        <div id="slide-4-image-container" style="
+        <!-- Imagen - Right side, cropped to fit -->
+        <img id="slide-4-image" src="${imageSources.correa}" style="
+          display: block;
           position: absolute;
-          bottom: 30%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100%;
+          right: 0;
+          top: 10%;
+          width: 50%;
+          height: 75%;
+          object-fit: cover;
+          z-index: 1;
           opacity: 0;
-        ">
-          <img id="slide-4-image" src="${imageSources.correa}" style="
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: brightness(0.9) sepia(1) hue-rotate(60deg) saturate(2.0);
-            display: block;
-            opacity: 0.7;
-          " />
-        </div>
+          filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
+        " />
       </div>
     `;
   }
@@ -160,8 +156,8 @@ export class Slide4 {
    * Inicia el fade-in gradual de la imagen
    */
   startImageFade() {
-    const imageContainer = document.getElementById("slide-4-image-container");
-    if (!imageContainer) return;
+    const image = document.getElementById("slide-4-image");
+    if (!image) return;
 
     // Fade más rápido: 3 segundos en lugar de toda la animación
     const fadeDuration = 0;
@@ -172,12 +168,12 @@ export class Slide4 {
     this.imageFadeInterval = setInterval(() => {
       currentStep++;
       const opacity = currentStep / fadeSteps;
-      imageContainer.style.opacity = Math.min(opacity, 1).toString();
+      image.style.opacity = Math.min(opacity, 1).toString();
 
       if (currentStep >= fadeSteps) {
         clearInterval(this.imageFadeInterval);
         this.imageFadeInterval = null;
-        imageContainer.style.opacity = "1";
+        image.style.opacity = "1";
       }
     }, stepDuration);
   }
@@ -199,9 +195,9 @@ export class Slide4 {
     console.log("🚪 Exiting Slide 4");
 
     // Ocultar imagen
-    const imageContainer = document.getElementById("slide-4-image-container");
-    if (imageContainer) {
-      imageContainer.style.opacity = "0";
+    const image = document.getElementById("slide-4-image");
+    if (image) {
+      image.style.opacity = "0";
     }
 
     // Stop audio and animations
