@@ -17,7 +17,7 @@ const SLIDE_4_LINES = [
 const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
-const NORMAL_FONT_SIZE = isMobile() ? "19.2px" : "1.05rem"; // Font size normal
+const NORMAL_FONT_SIZE = isMobile() ? "16.2px" : "1.05rem"; // Font size normal
 
 export class Slide4 {
   constructor(audioHelper, animationHelper) {
@@ -67,6 +67,7 @@ export class Slide4 {
           width: 60%;
           height: 75%;
           object-fit: cover;
+          object-position: 50% center;
           z-index: 1;
           opacity: 0;
           filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
