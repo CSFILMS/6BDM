@@ -55,7 +55,7 @@ export class Slide5 {
         </div>
         
         <!-- Imagen - Right side, cropped to fit -->
-        <img id="slide-5-image" src="${imageSources.arrest}" style="
+        <img id="slide-5-image" src="${imageSources.correa}" style="
           display: block;
           position: absolute;
           right: 0;
