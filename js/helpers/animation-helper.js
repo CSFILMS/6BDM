@@ -36,27 +36,26 @@ export class AnimationHelper {
         } else {
           const words = content.split(" ");
           let currentLine = indent + hasBullet;
+          const prefix = indent + hasBullet;
 
           for (const word of words) {
-            const testLine =
-              currentLine +
-              (currentLine.endsWith(indent + hasBullet) ? "" : " ") +
-              word;
+            // Add space only if currentLine has content beyond the prefix
+            const needsSpace = currentLine.length > prefix.length;
+            const testLine = currentLine + (needsSpace ? " " : "") + word;
 
             if (testLine.length > maxLineLength) {
-              if (currentLine.trim() !== (indent + hasBullet).trim()) {
+              if (currentLine.trim() !== prefix.trim()) {
                 wrappedLines.push(currentLine);
                 currentLine = indent + "  " + word;
               } else {
                 currentLine += word;
               }
             } else {
-              currentLine +=
-                (currentLine.endsWith(indent + hasBullet) ? "" : " ") + word;
+              currentLine += (needsSpace ? " " : "") + word;
             }
           }
 
-          if (currentLine.trim() !== (indent + hasBullet).trim()) {
+          if (currentLine.trim() !== prefix.trim()) {
             wrappedLines.push(currentLine);
           }
         }
