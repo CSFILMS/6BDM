@@ -16,6 +16,8 @@ const SLIDE_4_LINES = [
 // Config para animación tipo terminal
 const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
+const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
+const NORMAL_FONT_SIZE = isMobile() ? "19.2px" : "1.05rem"; // Font size normal
 
 export class Slide4 {
   constructor(audioHelper, animationHelper) {
@@ -45,15 +47,15 @@ export class Slide4 {
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(0.95);
-          font-size: ${isMobile() ? "19.2px" : "1.05rem"};
+          font-size: ${NORMAL_FONT_SIZE};
           line-height: 1.6;
           text-align: left;
           width: 45%;
           padding-left: 5%;
         ">
-          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em;"></div>
-          <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1.2em;"></div>
-          <div id="s4-line-3" class="terminal-line"></div>
+          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em; font-size: ${FIRST_LINE_BIG_FONT_SIZE}; white-space: pre-wrap;"></div>
+          <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1.2em; opacity: 0;"></div>
+          <div id="s4-line-3" class="terminal-line" style="opacity: 0;"></div>
         </div>
         
         <!-- Imagen - Right side, cropped to fit -->
@@ -119,10 +121,11 @@ export class Slide4 {
   }
 
   /**
-   * Anima todas las líneas secuencialmente
+   * Anima las líneas 2 y 3 con typewriter (después del scramble de la línea 1)
    */
-  animateAllLines(onComplete) {
-    let currentLineIndex = 0;
+  animateRemainingLines(onComplete) {
+    // Índice 1 = línea 2, índice 2 = línea 3
+    let currentLineIndex = 1;
 
     const animateNextLine = () => {
       if (currentLineIndex >= SLIDE_4_LINES.length) {
@@ -135,6 +138,9 @@ export class Slide4 {
       const text = SLIDE_4_LINES[currentLineIndex];
 
       if (element) {
+        // Hacer visible la línea
+        element.style.opacity = "1";
+
         this.typewriteLine(element, text, () => {
           currentLineIndex++;
           // Delay de 1 segundo antes de la siguiente línea
@@ -181,14 +187,37 @@ export class Slide4 {
   onEnter() {
     console.log("🎬 Entering Slide 4 (Correa Photo)");
 
-    // Iniciar fade-in gradual de la imagen
-    this.startImageFade();
+    const line1Element = document.getElementById("s4-line-1");
 
-    // Animar todas las líneas secuencialmente (audio se maneja por línea)
-    this.animateAllLines(() => {
-      this.audioHelper.stopTypingAudio();
-      console.log("✅ Slide 4 text complete");
-    });
+    if (line1Element) {
+      // Paso 1: Primera línea con scramble (font grande)
+      this.audioHelper.playTypingAudio();
+
+      this.animationHelper.scrambleText(
+        line1Element,
+        SLIDE_4_LINES[0],
+        () => {
+          // Scramble completado
+          this.audioHelper.stopTypingAudio();
+          console.log("✅ Slide 4 first line scramble complete");
+
+          // Paso 2: Reducir font-size y mostrar imagen
+          line1Element.style.fontSize = NORMAL_FONT_SIZE;
+          this.startImageFade();
+
+          // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
+          const timeout = setTimeout(() => {
+            this.animateRemainingLines(() => {
+              this.audioHelper.stopTypingAudio();
+              console.log("✅ Slide 4 text complete");
+            });
+          }, LINE_DELAY);
+          this.typewriterTimeouts.push(timeout);
+        },
+        false,
+        { initialDelayMs: 100 }
+      );
+    }
   }
 
   onExit() {
