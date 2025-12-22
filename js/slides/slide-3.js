@@ -129,6 +129,9 @@ export class Slide3 {
   onEnter() {
     console.log("🎬 Entering Slide 3 (Video)");
 
+    // Hide scanlines for video slide
+    document.body.classList.add("video-slide-active");
+
     // Initialize video source
     const video = document.getElementById("slide-3-video");
     this.videoElement = video;
@@ -508,6 +511,9 @@ export class Slide3 {
   onExit() {
     console.log("🚪 Exiting Slide 3");
 
+    // Show scanlines again
+    document.body.classList.remove("video-slide-active");
+
     // Remove unmute listener
     if (this.unmuteListener) {
       document.removeEventListener("click", this.unmuteListener, true);
@@ -557,6 +563,9 @@ export class Slide3 {
   }
 
   cleanup() {
+    // Show scanlines again
+    document.body.classList.remove("video-slide-active");
+
     // Remove unmute listener
     if (this.unmuteListener) {
       document.removeEventListener("click", this.unmuteListener, true);
