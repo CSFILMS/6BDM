@@ -48,6 +48,7 @@ export class Slide3 {
               max-height: 100%;
               object-fit: contain;
               cursor: pointer;
+              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(2.0);
             "
           >
             <source id="slide-3-video-source" src="" type="video/mp4" />
