@@ -2,7 +2,7 @@ export const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,'\"?!-:;";
 
 export const audioConfig = {
   enabled: true,
-  defaultVolume: 0.3,
+  defaultVolume: 0.1,
   debugMode: true,
   unscrambleVolume: 0.1,
   typingVolume: 0.1,
