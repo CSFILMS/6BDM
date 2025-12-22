@@ -14,7 +14,7 @@ const SLIDE_4_LINES = [
 ];
 
 // Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 35; // ms entre cada caracter
+const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 
 export class Slide4 {
@@ -164,7 +164,7 @@ export class Slide4 {
     if (!imageContainer) return;
 
     // Fade más rápido: 3 segundos en lugar de toda la animación
-    const fadeDuration = 1500;
+    const fadeDuration = 0;
     const fadeSteps = 40;
     const stepDuration = fadeDuration / fadeSteps;
     let currentStep = 0;

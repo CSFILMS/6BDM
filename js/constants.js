@@ -10,9 +10,9 @@ export const audioConfig = {
 
 export const animationConfig = {
   scrambleChunkSize: 8,
-  scrambleIntervalMs: 120,
-  ultraFastScrambleIntervalMs: 25,
-  typewriterCharDelayMs: 50,
+  scrambleIntervalMs: 40,
+  ultraFastScrambleIntervalMs: 10,
+  typewriterCharDelayMs: 15,
   slideTransitionDurationMs: 250,
 };
 

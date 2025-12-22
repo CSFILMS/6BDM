@@ -13,7 +13,7 @@ const SLIDE_5_LINES = [
 ];
 
 // Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 35; // ms entre cada caracter
+const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 
 export class Slide5 {
@@ -155,7 +155,7 @@ export class Slide5 {
     const imageContainer = document.getElementById("slide-5-image-container");
     if (!imageContainer) return;
 
-    const fadeDuration = 3000;
+    const fadeDuration = 0;
     const fadeSteps = 40;
     const stepDuration = fadeDuration / fadeSteps;
     let currentStep = 0;
