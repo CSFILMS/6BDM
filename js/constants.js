@@ -2,10 +2,10 @@ export const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,'\"?!-:;";
 
 export const audioConfig = {
   enabled: true,
-  defaultVolume: 0.67,
+  defaultVolume: 0.3,
   debugMode: true,
-  unscrambleVolume: 0.3,
-  typingVolume: 0.3,
+  unscrambleVolume: 0.1,
+  typingVolume: 0.1,
 };
 
 export const animationConfig = {
