@@ -6,9 +6,9 @@
 
 import { imageSources, isMobile } from "../constants.js";
 
-// 2 líneas de texto (todas arriba de la imagen)
+// 3 líneas de texto (todas arriba de la imagen)
 const SLIDE_5_LINES = [
-  "2012-2019: HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
+  "2012-2019: ASSANGE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
   "2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.",
   "2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
 ];
@@ -35,7 +35,7 @@ export class Slide5 {
         flex-direction: row;
         overflow: hidden;
       ">
-        <!-- Texto (2 líneas) - Left side -->
+        <!-- Texto (3 líneas) - Left side -->
         <div id="slide-5-text-top" style="
           position: absolute;
           left: 0;
@@ -52,7 +52,8 @@ export class Slide5 {
           padding-left: 5%;
         ">
           <div id="s5-line-1" class="terminal-line" style="margin-bottom: 1.2em;"></div>
-          <div id="s5-line-2" class="terminal-line"></div>
+          <div id="s5-line-2" class="terminal-line" style="margin-bottom: 1.2em;"></div>
+          <div id="s5-line-3" class="terminal-line"></div>
         </div>
         
         <!-- Imagen - Right side, cropped to fit -->
