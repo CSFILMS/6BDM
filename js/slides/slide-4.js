@@ -53,7 +53,7 @@ export class Slide4 {
           width: 45%;
           padding-left: 5%;
         ">
-          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em; font-size: ${FIRST_LINE_BIG_FONT_SIZE}; white-space: pre-wrap;"></div>
+          <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em; font-size: ${FIRST_LINE_BIG_FONT_SIZE};"></div>
           <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1.2em; opacity: 0;"></div>
           <div id="s4-line-3" class="terminal-line" style="opacity: 0;"></div>
         </div>
