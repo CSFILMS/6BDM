@@ -86,7 +86,7 @@
   pointer-events: none;
   white-space: pre-wrap;
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   background-color: transparent; /* Remove black background */
 }
 
@@ -301,7 +301,7 @@
   font-size: 1.05rem;
   line-height: 1.4;
   text-shadow: var(--text-glow);
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   padding: 6vmin;
 }
 html,body { height:100%; margin:0; background:#000; }
@@ -350,7 +350,7 @@ body {
   color: rgb(102, 255, 102);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: var(--text-glow);
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   padding: 0;
   perspective: 1000px; 
   margin: 0;
@@ -537,7 +537,7 @@ body {
   font-size: 1.05rem;
   color: rgb(102, 255, 102);
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   margin-bottom: 1.5rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -613,7 +613,7 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(102, 255, 102);
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   height: 7vh;
   position: fixed;
   bottom: 14vh;
@@ -645,7 +645,7 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(102, 255, 102);
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   min-height: 2.5rem;
   visibility: hidden;
   max-width: 140px;
@@ -665,7 +665,7 @@ body {
   opacity: 1;
   color: rgb(102, 255, 102);
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   font-family: 'Crisp', 'Courier New', monospace;
   pointer-events: none;
   z-index: 1001;
@@ -730,7 +730,7 @@ body {
   color: rgb(102, 255, 102);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   font-size: 1.05rem;
 }
 
@@ -753,7 +753,7 @@ body {
   color: rgb(102, 255, 102);
   font-family: 'Crisp', 'Courier New', monospace;
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   font-size: 1.05rem;
   text-align: center;
   font-weight: bold;
@@ -764,7 +764,7 @@ body {
   font-family: 'Crisp', 'Courier New', monospace;
   color: rgb(102, 255, 102);
   text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 8px, rgb(102, 255, 102) 0px 0px 16px;
-  filter: saturate(1.1);
+  filter: saturate(0.95);
   font-size: 1.05rem;
   line-height: 1.4;
 }

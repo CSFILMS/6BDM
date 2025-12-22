@@ -43,7 +43,7 @@ export class Slide4 {
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-          filter: saturate(1.1);
+          filter: saturate(0.95);
           font-size: ${isMobile() ? "19.2px" : "1.05rem"};
           line-height: 1.4;
           text-align: left;

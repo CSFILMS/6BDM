@@ -33,7 +33,7 @@ export class Slide7 {
           text-align: center;
           z-index: 10;
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-          filter: saturate(1.1);
+          filter: saturate(0.95);
         ">
           [TRAILER]
         </div>
@@ -46,7 +46,7 @@ export class Slide7 {
           line-height: 1.4;
           text-align: center;
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-          filter: saturate(1.1);
+          filter: saturate(0.95);
         ">
           Trailer video coming soon...
         </div>

@@ -68,7 +68,7 @@ export class Slide3 {
           z-index: 10;
           pointer-events: none;
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-          filter: saturate(1.1);
+          filter: saturate(0.95);
           display: none;
         ">
           A FILM BY EUGENE JARECKI
@@ -114,7 +114,7 @@ export class Slide3 {
           z-index: 10;
           pointer-events: none;
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-          filter: saturate(1.1);
+          filter: saturate(0.95);
           white-space: pre-line;
           width: 90%;
           height: 3.6em;
@@ -304,7 +304,7 @@ export class Slide3 {
               font-size: 1.05rem;
               text-align: center;
               text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-              filter: saturate(1.1);
+              filter: saturate(0.95);
               line-height: 1.4;
             ">🔊 CLICK ANYWHERE<br>TO HEAR AUDIO</div>
           `;
@@ -324,7 +324,7 @@ export class Slide3 {
               font-size: 19.2px;
               text-align: center;
               text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-              filter: saturate(1.1);
+              filter: saturate(0.95);
             ">▶️<br>CLICK TO PLAY</div>
           `;
           playButton.onclick = () => {
