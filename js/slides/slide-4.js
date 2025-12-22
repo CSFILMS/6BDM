@@ -67,7 +67,7 @@ export class Slide4 {
           width: 60%;
           height: 75%;
           object-fit: cover;
-          object-position: 50% center;
+          object-position: 45% center;
           z-index: 1;
           opacity: 0;
           filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
