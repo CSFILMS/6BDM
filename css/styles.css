@@ -139,7 +139,7 @@
 /* Scanline patch over navbar */
 #nav-scanlines {
   position: fixed;
-  bottom: 14vh;
+  bottom: 8vh;
     left: 50%;
   transform: translateX(-50%);
   width: 30rem;
@@ -616,7 +616,7 @@ body {
   filter: saturate(0.95);
   height: 7vh;
   position: fixed;
-  bottom: 14vh;
+  bottom: 8vh;
   left: 0;
   right: 0;
   width: 100%;
