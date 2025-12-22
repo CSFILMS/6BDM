@@ -26,13 +26,13 @@ export class Slide7 {
           top: 20%;
           left: 50%;
           transform: translateX(-50%);
-          color: rgb(0, 221, 0);
+          color: rgb(102, 255, 102);
           font-family: Crisp, 'Courier New', monospace;
           font-size: 19.2px;
           line-height: 1.4;
           text-align: center;
           z-index: 10;
-          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(1.1);
         ">
           [TRAILER]
@@ -40,12 +40,12 @@ export class Slide7 {
         
         <!-- Coming soon message -->
         <div style="
-          color: rgb(0, 221, 0);
+          color: rgb(102, 255, 102);
           font-family: Crisp, 'Courier New', monospace;
           font-size: 19.2px;
           line-height: 1.4;
           text-align: center;
-          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(1.1);
         ">
           Trailer video coming soon...

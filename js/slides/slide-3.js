@@ -61,13 +61,13 @@ export class Slide3 {
           top: 60px;
           left: 50%;
           transform: translateX(-50%);
-          color: rgb(0, 221, 0);
+          color: rgb(102, 255, 102);
           font-family: Crisp, 'Courier New', monospace;
           font-size: 17.6px;
           text-align: center;
           z-index: 10;
           pointer-events: none;
-          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(1.1);
           display: none;
         ">
@@ -107,13 +107,13 @@ export class Slide3 {
           bottom: 18%;
           left: 50%;
           transform: translateX(-50%);
-          color: rgb(0, 221, 0);
+          color: rgb(102, 255, 102);
           font-family: Crisp, 'Courier New', monospace;
           font-size: 1.05rem;
           text-align: center; 
           z-index: 10;
           pointer-events: none;
-          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(1.1);
           white-space: pre-line;
           width: 90%;
@@ -299,11 +299,11 @@ export class Slide3 {
           playButton.style.display = "flex";
           playButton.innerHTML = `
             <div style="
-              color: rgb(0, 221, 0);
+              color: rgb(102, 255, 102);
               font-family: Crisp, 'Courier New', monospace;
               font-size: 1.05rem;
               text-align: center;
-              text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+              text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
               filter: saturate(1.1);
               line-height: 1.4;
             ">🔊 CLICK ANYWHERE<br>TO HEAR AUDIO</div>
@@ -319,11 +319,11 @@ export class Slide3 {
           playButton.style.display = "flex";
           playButton.innerHTML = `
             <div style="
-              color: rgb(0, 221, 0);
+              color: rgb(102, 255, 102);
               font-family: Crisp, 'Courier New', monospace;
               font-size: 19.2px;
               text-align: center;
-              text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+              text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
               filter: saturate(1.1);
             ">▶️<br>CLICK TO PLAY</div>
           `;

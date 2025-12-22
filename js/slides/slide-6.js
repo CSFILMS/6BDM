@@ -38,8 +38,8 @@ export class Slide6 {
         <!-- Texto (3 líneas, sin imagen) -->
         <div id="slide-6-text" style="
           font-family: Crisp, 'Courier New', monospace;
-          color: rgb(0, 221, 0);
-          text-shadow: rgb(0, 221, 0) 0px 0px 2px, rgb(0, 221, 0) 0px 0px 8px, rgb(0, 221, 0) 0px 0px 16px;
+          color: rgb(102, 255, 102);
+          text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(1.1);
           font-size: ${isMobile() ? "19.2px" : "1.05rem"};
           line-height: 1.4;
