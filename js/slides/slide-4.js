@@ -8,8 +8,8 @@ import { imageSources, isMobile } from "../constants.js";
 
 // 3 líneas de texto (todas arriba de la imagen)
 const SLIDE_4_LINES = [
-  "2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.",
-  "2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.",
+  "2006: JULIAN ASSANGE BUILDS WIKILEAKS TO HELP WHISTLEBLOWERS  INFORM THE PUBLIC.",
+  "2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. SECRETS IN HISTORY. EXPOSES U.S. WAR CRIMES.",
   "U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE.",
 ];
 
@@ -39,7 +39,7 @@ export class Slide4 {
         <div id="slide-4-text-top" style="
           position: absolute;
           left: 0;
-          top: 10%;
+          top: 20%;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
@@ -60,8 +60,8 @@ export class Slide4 {
         <img id="slide-4-image" src="${imageSources.first_correa}" style="
           display: block;
           position: absolute;
-          right: 0;
-          top: 10%;
+          right: -40px;
+          top: 20%;
           width: 50%;
           height: 75%;
           object-fit: cover;
