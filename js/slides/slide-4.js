@@ -64,7 +64,7 @@ export class Slide4 {
           position: absolute;
           right: -40px;
           top: 20%;
-          width: 50%;
+          width: 60%;
           height: 75%;
           object-fit: cover;
           z-index: 1;
