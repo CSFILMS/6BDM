@@ -66,7 +66,7 @@ export class Slide5 {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0);
+            brightness(0.9) sepia(1) hue-rotate(60deg) saturate(2.0);
             display: block;
             opacity: 0.7;
           " />
