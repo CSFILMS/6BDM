@@ -64,7 +64,7 @@ export class Slide3 {
           transform: translateX(-50%);
           color: rgb(102, 255, 102);
           font-family: Crisp, 'Courier New', monospace;
-          font-size: 17.6px;
+          font-size: 27.2px;
           text-align: center;
           z-index: 10;
           pointer-events: none;

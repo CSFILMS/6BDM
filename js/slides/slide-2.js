@@ -28,7 +28,7 @@ export class Slide2 {
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(0.95);
-          font-size: 17.6px;
+          font-size: 27.2px;
           margin-top: -10px;
           line-height: 26.4px !important;
           white-space: pre-wrap;
