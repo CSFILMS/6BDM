@@ -1,6 +1,6 @@
 /**
  * Carousel Manager
- * Handles horizontal carousel navigation with drag/swipe support
+ * Terminal-style navigation: instant transitions, no swipe/drag
  */
 
 export class CarouselManager {
@@ -9,10 +9,6 @@ export class CarouselManager {
     this.slides = slides;
     this.currentIndex = 0;
     this.isTransitioning = false;
-    this.isDragging = false;
-    this.startX = 0;
-    this.currentX = 0;
-    this.dragOffset = 0;
     this.slideWidth = window.innerWidth;
     this.slidesWrapper = null;
     this.lastNavigationTime = 0;
@@ -36,7 +32,7 @@ export class CarouselManager {
 
     // Go to first slide
     this.currentIndex = 0;
-    this.updateTransform(false);
+    this.updateTransform();
 
     // Call onEnter for first slide
     setTimeout(() => {
@@ -55,15 +51,14 @@ export class CarouselManager {
   createCarouselStructure() {
     this.container.innerHTML = "";
 
-    // Create slides wrapper
+    // Create slides wrapper - Terminal style: no transitions, instant changes
     this.slidesWrapper = document.createElement("div");
     this.slidesWrapper.id = "slides-wrapper";
     this.slidesWrapper.style.cssText = `
       display: flex;
       width: 100%;
       height: 100%;
-      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-      will-change: transform;
+      transition: none;
     `;
 
     this.container.appendChild(this.slidesWrapper);
@@ -107,29 +102,11 @@ export class CarouselManager {
   }
 
   /**
-   * Setup event listeners for navigation and drag
+   * Setup event listeners for navigation (Terminal style: no drag/swipe)
    */
   setupEventListeners() {
-    // Keyboard navigation
+    // Keyboard navigation only
     window.addEventListener("keydown", (e) => this.handleKeydown(e));
-
-    // Mouse drag
-    this.slidesWrapper.addEventListener("mousedown", (e) =>
-      this.handleDragStart(e)
-    );
-    window.addEventListener("mousemove", (e) => this.handleDragMove(e));
-    window.addEventListener("mouseup", (e) => this.handleDragEnd(e));
-
-    // Touch drag
-    this.slidesWrapper.addEventListener(
-      "touchstart",
-      (e) => this.handleDragStart(e),
-      { passive: true }
-    );
-    window.addEventListener("touchmove", (e) => this.handleDragMove(e), {
-      passive: true,
-    });
-    window.addEventListener("touchend", (e) => this.handleDragEnd(e));
 
     // Navigation buttons
     const navPrev = document.getElementById("nav-prev");
@@ -161,7 +138,7 @@ export class CarouselManager {
     // Window resize
     window.addEventListener("resize", () => {
       this.slideWidth = window.innerWidth;
-      this.updateTransform(false);
+      this.updateTransform();
     });
   }
 
@@ -210,62 +187,6 @@ export class CarouselManager {
   }
 
   /**
-   * Handle drag/swipe start
-   */
-  handleDragStart(e) {
-    if (this.isTransitioning) return;
-
-    this.isDragging = true;
-    this.startX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-    this.currentX = this.startX;
-    this.slidesWrapper.style.transition = "none";
-  }
-
-  /**
-   * Handle drag/swipe move
-   */
-  handleDragMove(e) {
-    if (!this.isDragging) return;
-
-    this.currentX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-    this.dragOffset = this.currentX - this.startX;
-
-    // Update transform with drag offset
-    const translateX = -(this.currentIndex * this.slideWidth) + this.dragOffset;
-    this.slidesWrapper.style.transform = `translate3d(${translateX}px, 0, 0)`;
-  }
-
-  /**
-   * Handle drag/swipe end
-   */
-  handleDragEnd(e) {
-    if (!this.isDragging) return;
-
-    this.isDragging = false;
-    this.slidesWrapper.style.transition =
-      "transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)";
-
-    // Determine if we should snap to next/prev slide
-    const dragThreshold = this.slideWidth * 0.2; // 20% of screen width
-
-    if (
-      this.dragOffset < -dragThreshold &&
-      this.currentIndex < this.slides.length - 1
-    ) {
-      // Swiped left - go to next slide
-      this.next();
-    } else if (this.dragOffset > dragThreshold && this.currentIndex > 0) {
-      // Swiped right - go to previous slide
-      this.prev();
-    } else {
-      // Snap back to current slide
-      this.updateTransform(true);
-    }
-
-    this.dragOffset = 0;
-  }
-
-  /**
    * Go to next slide
    */
   next() {
@@ -305,7 +226,7 @@ export class CarouselManager {
   }
 
   /**
-   * Go to specific slide
+   * Go to specific slide (Terminal style: instant switch, no animation)
    */
   goToSlide(index) {
     if (index < 0 || index >= this.slides.length || index === this.currentIndex)
@@ -320,46 +241,29 @@ export class CarouselManager {
       currentSlide.onExit();
     }
 
-    // Update index and transform
+    // Update index and transform - instant switch
     this.currentIndex = index;
-    this.updateTransform(true);
+    this.updateTransform();
 
     // Update navigation UI
     this.updateNavigationUI();
 
-    // Call onEnter on new slide
-    setTimeout(() => {
-      const newSlide = this.slides[this.currentIndex];
-      if (newSlide.onEnter) {
-        newSlide.onEnter();
-      }
+    // Call onEnter on new slide immediately (no animation delay)
+    const newSlide = this.slides[this.currentIndex];
+    if (newSlide.onEnter) {
+      newSlide.onEnter();
+    }
 
-      this.isTransitioning = false;
-      console.log(`📍 Navigated to slide ${this.currentIndex + 1}`);
-    }, 300); // Match transition duration
+    this.isTransitioning = false;
+    console.log(`📍 Navigated to slide ${this.currentIndex + 1}`);
   }
 
   /**
-   * Update transform position
+   * Update transform position (Terminal style: instant, no animation)
    */
-  updateTransform(animated = true) {
-    if (animated) {
-      this.slidesWrapper.style.transition =
-        "transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)";
-    } else {
-      this.slidesWrapper.style.transition = "none";
-    }
-
+  updateTransform() {
     const translateX = -(this.currentIndex * this.slideWidth);
     this.slidesWrapper.style.transform = `translate3d(${translateX}px, 0, 0)`;
-
-    // Reset transition after update
-    if (!animated) {
-      setTimeout(() => {
-        this.slidesWrapper.style.transition =
-          "transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)";
-      }, 50);
-    }
   }
 
   /**
