@@ -17,10 +17,10 @@ const SLIDE_4_LINES = [
 const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
-const NORMAL_FONT_SIZE = isMobile() ? "16.2px" : "1.05rem"; // Font size normal
-const SLIDE_4_INITIAL_DELAY = 1000; // Delay antes de empezar la animación
-const SLIDE_4_SCRAMBLE_CHUNK_SIZE = 15; // Más pequeño = más lento
-const SLIDE_4_SCRAMBLE_INTERVAL = 120; // Más alto = más lento
+const NORMAL_FONT_SIZE = isMobile() ? "18.2px" : "1.05rem"; // Font size normal
+const SLIDE_4_INITIAL_DELAY = 1050; // Delay antes de empezar la animación
+const SLIDE_4_SCRAMBLE_CHUNK_SIZE = 4; // Más pequeño = más lento
+const SLIDE_4_SCRAMBLE_INTERVAL = 50; // Más alto = más lento
 
 export class Slide4 {
   constructor(audioHelper, animationHelper) {
@@ -172,9 +172,9 @@ export class Slide4 {
    * Muestra la imagen instantáneamente
    */
   startImageFade() {
-    const image = document.getElementById("slide-4-image");
-    if (!image) return;
-    image.style.opacity = "1";
+    // const image = document.getElementById("slide-4-image");
+    // if (!image) return;
+    // image.style.opacity = "1";
   }
 
   onEnter() {
@@ -203,8 +203,7 @@ export class Slide4 {
               // Mover el contenedor de texto a su posición final
               const textContainer = document.getElementById("slide-4-text-top");
               if (textContainer) {
-                textContainer.style.top = "20%";
-                textContainer.style.paddingLeft = "5%";
+                textContainer.style.paddingTop = "8px";
               }
 
               // Imagen + líneas 2 y 3 con pequeño delay
@@ -214,9 +213,9 @@ export class Slide4 {
                   this.audioHelper.stopTypingAudio();
                   console.log("✅ Slide 4 text complete");
                 });
-              }, 100);
+              }, 900);
               this.typewriterTimeouts.push(timeout);
-            }, 800);
+            }, 700);
             this.typewriterTimeouts.push(transitionTimeout);
           },
           false,
