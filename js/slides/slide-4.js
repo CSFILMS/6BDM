@@ -169,29 +169,12 @@ export class Slide4 {
   }
 
   /**
-   * Inicia el fade-in gradual de la imagen
+   * Muestra la imagen instantáneamente
    */
   startImageFade() {
     const image = document.getElementById("slide-4-image");
     if (!image) return;
-
-    // Fade más rápido: 3 segundos en lugar de toda la animación
-    const fadeDuration = 0;
-    const fadeSteps = 40;
-    const stepDuration = fadeDuration / fadeSteps;
-    let currentStep = 0;
-
-    this.imageFadeInterval = setInterval(() => {
-      currentStep++;
-      const opacity = currentStep / fadeSteps;
-      image.style.opacity = Math.min(opacity, 1).toString();
-
-      if (currentStep >= fadeSteps) {
-        clearInterval(this.imageFadeInterval);
-        this.imageFadeInterval = null;
-        image.style.opacity = "1";
-      }
-    }, stepDuration);
+    image.style.opacity = "1";
   }
 
   onEnter() {
@@ -224,17 +207,16 @@ export class Slide4 {
                 textContainer.style.paddingLeft = "5%";
               }
 
-              this.startImageFade();
-
-              // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
+              // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter + imagen
               const timeout = setTimeout(() => {
+                this.startImageFade();
                 this.animateRemainingLines(() => {
                   this.audioHelper.stopTypingAudio();
                   console.log("✅ Slide 4 text complete");
                 });
               }, LINE_DELAY);
               this.typewriterTimeouts.push(timeout);
-            }, 500);
+            }, 400);
             this.typewriterTimeouts.push(transitionTimeout);
           },
           false,
