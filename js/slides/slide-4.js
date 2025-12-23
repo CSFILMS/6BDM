@@ -199,6 +199,11 @@ export class Slide4 {
             // Paso 2: Delay antes de reducir font-size y mostrar imagen
             const transitionTimeout = setTimeout(() => {
               line1Element.style.fontSize = NORMAL_FONT_SIZE;
+              // Mostrar nav-msg al terminar
+              const navMsg = document.getElementById("nav-msg");
+              if (navMsg) {
+                navMsg.style.visibility = "visible";
+              }
 
               // Mover el contenedor de texto a su posición final
               const textContainer = document.getElementById("slide-4-text-top");
@@ -237,6 +242,12 @@ export class Slide4 {
     const image = document.getElementById("slide-4-image");
     if (image) {
       image.style.opacity = "0";
+    }
+
+    // Restaurar nav-msg
+    const navMsg = document.getElementById("nav-msg");
+    if (navMsg) {
+      navMsg.style.visibility = "visible";
     }
 
     // Stop audio and animations

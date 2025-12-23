@@ -402,7 +402,6 @@ body.video-slide-active #scanline-overlay {
   padding: 60px;
   border-radius: 50%;
   background-color: transparent;
-  transition: background-color 0.2s ease;
 }
 
 #video-play-button:hover {

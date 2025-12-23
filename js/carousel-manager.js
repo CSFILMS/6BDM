@@ -248,6 +248,14 @@ export class CarouselManager {
     // Update navigation UI
     this.updateNavigationUI();
 
+    // Ocultar nav-msg durante las animaciones (solo en slide 4)
+    if (index === 3) {
+      const navMsg = document.getElementById("nav-msg");
+      if (navMsg) {
+        navMsg.style.visibility = "hidden";
+      }
+    }
+
     // Call onEnter on new slide immediately (no animation delay)
     const newSlide = this.slides[this.currentIndex];
     if (newSlide.onEnter) {
@@ -273,29 +281,30 @@ export class CarouselManager {
     const navMsg = document.getElementById("nav-msg");
     const slideCounter = document.getElementById("slide-counter");
 
-    if (this.currentIndex <= 1) {
-      // Slides 1-2: Show PRESS SPACEBAR
-      if (navMsg) {
-        navMsg.innerHTML = "PRESS SPACEBAR<br>TO CONTINUE";
-        navMsg.style.fontSize = "0.7rem";
-        navMsg.style.visibility = "visible";
-      }
-      if (slideCounter) {
-        slideCounter.style.visibility = "hidden";
-      }
-    } else {
-      // Slide 3 onwards: Show slide counter
-      if (navMsg) {
-        navMsg.textContent = `SLIDE ${this.currentIndex + 1} / ${
-          this.slides.length
-        }`;
-        navMsg.style.fontSize = "0.7rem";
-        navMsg.style.visibility = "visible";
-      }
-      if (slideCounter) {
-        slideCounter.style.visibility = "hidden";
-      }
+    // if (this.currentIndex <= 1) {
+    // Slides 1-2: Show PRESS SPACEBAR
+    if (navMsg) {
+      navMsg.innerHTML = "PRESS SPACEBAR TO CONTINUE";
+      navMsg.style.fontSize = "0.7rem";
+      navMsg.style.visibility = "visible";
+      navMsg.style.width = "66px";
     }
+    if (slideCounter) {
+      slideCounter.style.visibility = "hidden";
+    }
+    // } else {
+    //   // Slide 3 onwards: Show slide counter
+    //   if (navMsg) {
+    //     navMsg.textContent = `SLIDE ${this.currentIndex + 1} / ${
+    //       this.slides.length
+    //     }`;
+    //     navMsg.style.fontSize = "0.7rem";
+    //     navMsg.style.visibility = "visible";
+    //   }
+    //   if (slideCounter) {
+    //     slideCounter.style.visibility = "hidden";
+    //   }
+    // }
   }
 
   /**
