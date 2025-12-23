@@ -41,7 +41,7 @@ export class Slide4 {
         <div id="slide-4-text-top" style="
           position: absolute;
           left: 0;
-          top: 20%;
+          top: 82px;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
@@ -51,7 +51,7 @@ export class Slide4 {
           line-height: 1.6;
           text-align: left;
           width: 45%;
-          padding-left: 5%;
+          padding-left: 42px;
         ">
           <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em; font-size: ${FIRST_LINE_BIG_FONT_SIZE};"></div>
           <div id="s4-line-2" class="terminal-line" style="margin-bottom: 1.2em; opacity: 0;"></div>
@@ -211,6 +211,14 @@ export class Slide4 {
           // Paso 2: Delay antes de reducir font-size y mostrar imagen
           const transitionTimeout = setTimeout(() => {
             line1Element.style.fontSize = NORMAL_FONT_SIZE;
+
+            // Mover el contenedor de texto a su posición final
+            const textContainer = document.getElementById("slide-4-text-top");
+            if (textContainer) {
+              textContainer.style.top = "20%";
+              textContainer.style.paddingLeft = "5%";
+            }
+
             this.startImageFade();
 
             // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
