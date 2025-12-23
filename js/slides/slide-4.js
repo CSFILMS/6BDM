@@ -14,8 +14,10 @@ const SLIDE_4_LINES = [
 ];
 
 // Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
+const TYPEWRITER_CHAR_DELAY = 24; // ms entre cada caracter
+const THIRD_LINE_CHAR_DELAY = 35; // ms entre cada caracter para la tercera línea
 const LINE_DELAY = 1000; // 1 segundo entre líneas
+const THIRD_LINE_DELAY = 2200; // Delay extra antes de la tercera línea
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
 const NORMAL_FONT_SIZE = isMobile() ? "18.2px" : "1.05rem"; // Font size normal
 const SLIDE_4_INITIAL_DELAY = 1050; // Delay antes de empezar la animación
@@ -53,7 +55,7 @@ export class Slide4 {
           font-size: ${NORMAL_FONT_SIZE};
           line-height: 1.6;
           text-align: left;
-          width: 45%;
+          width: 67%;
           padding-left: 42px;
         ">
           <div id="s4-line-1" class="terminal-line" style="margin-bottom: 1.2em; font-size: ${FIRST_LINE_BIG_FONT_SIZE};"></div>
@@ -90,8 +92,9 @@ export class Slide4 {
    * @param {HTMLElement} element - Elemento donde escribir
    * @param {string} text - Texto a escribir
    * @param {function} onComplete - Callback al terminar
+   * @param {number} charDelay - Delay entre caracteres (opcional)
    */
-  typewriteLine(element, text, onComplete) {
+  typewriteLine(element, text, onComplete, charDelay = TYPEWRITER_CHAR_DELAY) {
     let charIndex = 0;
     const cursor = "█";
 
@@ -117,7 +120,7 @@ export class Slide4 {
         element.innerHTML = this.formatLineWithYear(text);
         if (onComplete) onComplete();
       }
-    }, TYPEWRITER_CHAR_DELAY);
+    }, charDelay);
   }
 
   /**
@@ -151,14 +154,27 @@ export class Slide4 {
         // Hacer visible la línea
         element.style.opacity = "1";
 
-        this.typewriteLine(element, text, () => {
-          currentLineIndex++;
-          // Delay de 1 segundo antes de la siguiente línea
-          const timeout = setTimeout(() => {
-            animateNextLine();
-          }, LINE_DELAY);
-          this.typewriterTimeouts.push(timeout);
-        });
+        // Usar char delay más lento para la tercera línea (índice 2)
+        const charDelay =
+          currentLineIndex === 2
+            ? THIRD_LINE_CHAR_DELAY
+            : TYPEWRITER_CHAR_DELAY;
+
+        this.typewriteLine(
+          element,
+          text,
+          () => {
+            currentLineIndex++;
+            // Delay antes de la siguiente línea (más largo antes de la línea 3)
+            const delay =
+              currentLineIndex === 2 ? THIRD_LINE_DELAY : LINE_DELAY;
+            const timeout = setTimeout(() => {
+              animateNextLine();
+            }, delay);
+            this.typewriterTimeouts.push(timeout);
+          },
+          charDelay
+        );
       } else {
         currentLineIndex++;
         animateNextLine();
@@ -172,9 +188,10 @@ export class Slide4 {
    * Muestra la imagen instantáneamente
    */
   startImageFade() {
-    // const image = document.getElementById("slide-4-image");
-    // if (!image) return;
-    // image.style.opacity = "1";
+    const image = document.getElementById("slide-4-image");
+    if (!image) return;
+    image.style.opacity = "1";
+    image.style.transition = "opacity 0.3s ease-in-out";
   }
 
   onEnter() {
@@ -199,16 +216,15 @@ export class Slide4 {
             // Paso 2: Delay antes de reducir font-size y mostrar imagen
             const transitionTimeout = setTimeout(() => {
               line1Element.style.fontSize = NORMAL_FONT_SIZE;
-              // Mostrar nav-msg al terminar
-              const navMsg = document.getElementById("nav-msg");
-              if (navMsg) {
-                navMsg.style.visibility = "visible";
-              }
+              setTimeout(() => {
+                this.startImageFade();
+              }, 800);
 
               // Mover el contenedor de texto a su posición final
               const textContainer = document.getElementById("slide-4-text-top");
               if (textContainer) {
                 textContainer.style.paddingTop = "8px";
+                textContainer.style.width = "45%";
               }
 
               // Imagen + líneas 2 y 3 con pequeño delay
@@ -218,7 +234,7 @@ export class Slide4 {
                   this.audioHelper.stopTypingAudio();
                   console.log("✅ Slide 4 text complete");
                 });
-              }, 900);
+              }, 2600);
               this.typewriterTimeouts.push(timeout);
             }, 700);
             this.typewriterTimeouts.push(transitionTimeout);
@@ -242,12 +258,6 @@ export class Slide4 {
     const image = document.getElementById("slide-4-image");
     if (image) {
       image.style.opacity = "0";
-    }
-
-    // Restaurar nav-msg
-    const navMsg = document.getElementById("nav-msg");
-    if (navMsg) {
-      navMsg.style.visibility = "visible";
     }
 
     // Stop audio and animations
