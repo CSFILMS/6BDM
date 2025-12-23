@@ -10,12 +10,13 @@ import { imageSources, isMobile } from "../constants.js";
 const SLIDE_5_LINES = [
   "2012: ASSANGE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
   "2019: HE IS JAILED IN THE UK. AWAITS EXTRADITION TO THE U.S. TO FACE A POSSIBLE 175 YEARS IN PRISON. ",
-  "2024: U.S. SUDDENLY DROPS 17 OF 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.",
+  "2024: THE U.S. DROPS 17 OF 18 COUNTS, DISMISSES CASE. ASSANGE RETURNS HOME A FREE MAN.",
 ];
 
 // Config para animación tipo terminal
 const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
+const INITIAL_DELAY = 1000; // Delay antes de empezar el typing
 
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
@@ -39,13 +40,13 @@ export class Slide5 {
         <div id="slide-5-text-top" style="
           position: absolute;
           left: 0;
-          top: 14%;
+          top: 10%;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(0.95);
-          font-size: ${isMobile() ? "19.2px" : "1.05rem"};
+          font-size: 18.2px;
           line-height: 1.6;
           text-align: left;
           width: 45%;
@@ -174,14 +175,21 @@ export class Slide5 {
   onEnter() {
     console.log("🎬 Entering Slide 5 (Arrest Photo)");
 
-    // Iniciar fade-in gradual de la imagen
-    this.startImageFade();
+    // Mostrar imagen instantáneamente
+    const image = document.getElementById("slide-5-image");
+    if (image) {
+      image.style.opacity = "1";
+    }
 
-    // Animar todas las líneas secuencialmente (audio se maneja por línea)
-    this.animateAllLines(() => {
-      this.audioHelper.stopTypingAudio();
-      console.log("✅ Slide 5 text complete");
-    });
+    // Delay antes de empezar el typing
+    const initialTimeout = setTimeout(() => {
+      // Animar todas las líneas secuencialmente (audio se maneja por línea)
+      this.animateAllLines(() => {
+        this.audioHelper.stopTypingAudio();
+        console.log("✅ Slide 5 text complete");
+      });
+    }, INITIAL_DELAY);
+    this.typewriterTimeouts.push(initialTimeout);
   }
 
   onExit() {
