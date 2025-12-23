@@ -216,7 +216,7 @@ export class Slide4 {
                 });
               }, 100);
               this.typewriterTimeouts.push(timeout);
-            }, 400);
+            }, 800);
             this.typewriterTimeouts.push(transitionTimeout);
           },
           false,
