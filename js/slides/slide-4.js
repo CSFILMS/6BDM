@@ -18,6 +18,9 @@ const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
 const NORMAL_FONT_SIZE = isMobile() ? "16.2px" : "1.05rem"; // Font size normal
+const SLIDE_4_INITIAL_DELAY = 500; // Delay antes de empezar la animación
+const SLIDE_4_SCRAMBLE_CHUNK_SIZE = 8; // Más pequeño = más lento
+const SLIDE_4_SCRAMBLE_INTERVAL = 80; // Más alto = más lento
 
 export class Slide4 {
   constructor(audioHelper, animationHelper) {
@@ -197,44 +200,52 @@ export class Slide4 {
     const line1Element = document.getElementById("s4-line-1");
 
     if (line1Element) {
-      // Paso 1: Primera línea con scramble (font grande)
-      this.audioHelper.playTypingAudio();
+      // Delay inicial antes de empezar la animación
+      const initialTimeout = setTimeout(() => {
+        // Paso 1: Primera línea con scramble (font grande, más lento)
+        this.audioHelper.playTypingAudio();
 
-      this.animationHelper.scrambleText(
-        line1Element,
-        SLIDE_4_LINES[0],
-        () => {
-          // Scramble completado
-          this.audioHelper.stopTypingAudio();
-          console.log("✅ Slide 4 first line scramble complete");
+        this.animationHelper.scrambleText(
+          line1Element,
+          SLIDE_4_LINES[0],
+          () => {
+            // Scramble completado
+            this.audioHelper.stopTypingAudio();
+            console.log("✅ Slide 4 first line scramble complete");
 
-          // Paso 2: Delay antes de reducir font-size y mostrar imagen
-          const transitionTimeout = setTimeout(() => {
-            line1Element.style.fontSize = NORMAL_FONT_SIZE;
+            // Paso 2: Delay antes de reducir font-size y mostrar imagen
+            const transitionTimeout = setTimeout(() => {
+              line1Element.style.fontSize = NORMAL_FONT_SIZE;
 
-            // Mover el contenedor de texto a su posición final
-            const textContainer = document.getElementById("slide-4-text-top");
-            if (textContainer) {
-              textContainer.style.top = "20%";
-              textContainer.style.paddingLeft = "5%";
-            }
+              // Mover el contenedor de texto a su posición final
+              const textContainer = document.getElementById("slide-4-text-top");
+              if (textContainer) {
+                textContainer.style.top = "20%";
+                textContainer.style.paddingLeft = "5%";
+              }
 
-            this.startImageFade();
+              this.startImageFade();
 
-            // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
-            const timeout = setTimeout(() => {
-              this.animateRemainingLines(() => {
-                this.audioHelper.stopTypingAudio();
-                console.log("✅ Slide 4 text complete");
-              });
-            }, LINE_DELAY);
-            this.typewriterTimeouts.push(timeout);
-          }, 200);
-          this.typewriterTimeouts.push(transitionTimeout);
-        },
-        false,
-        { initialDelayMs: 100 }
-      );
+              // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter
+              const timeout = setTimeout(() => {
+                this.animateRemainingLines(() => {
+                  this.audioHelper.stopTypingAudio();
+                  console.log("✅ Slide 4 text complete");
+                });
+              }, LINE_DELAY);
+              this.typewriterTimeouts.push(timeout);
+            }, 200);
+            this.typewriterTimeouts.push(transitionTimeout);
+          },
+          false,
+          {
+            initialDelayMs: 100,
+            chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
+            intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
+          }
+        );
+      }, SLIDE_4_INITIAL_DELAY);
+      this.typewriterTimeouts.push(initialTimeout);
     }
   }
 
