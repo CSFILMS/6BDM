@@ -207,14 +207,14 @@ export class Slide4 {
                 textContainer.style.paddingLeft = "5%";
               }
 
-              // Paso 3: Después de un delay, mostrar líneas 2 y 3 con typewriter + imagen
+              // Imagen + líneas 2 y 3 con pequeño delay
               const timeout = setTimeout(() => {
                 this.startImageFade();
                 this.animateRemainingLines(() => {
                   this.audioHelper.stopTypingAudio();
                   console.log("✅ Slide 4 text complete");
                 });
-              }, LINE_DELAY);
+              }, 100);
               this.typewriterTimeouts.push(timeout);
             }, 400);
             this.typewriterTimeouts.push(transitionTimeout);
