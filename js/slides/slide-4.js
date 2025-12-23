@@ -19,7 +19,7 @@ const LINE_DELAY = 1000; // 1 segundo entre líneas
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
 const NORMAL_FONT_SIZE = isMobile() ? "16.2px" : "1.05rem"; // Font size normal
 const SLIDE_4_INITIAL_DELAY = 1000; // Delay antes de empezar la animación
-const SLIDE_4_SCRAMBLE_CHUNK_SIZE = 8; // Más pequeño = más lento
+const SLIDE_4_SCRAMBLE_CHUNK_SIZE = 15; // Más pequeño = más lento
 const SLIDE_4_SCRAMBLE_INTERVAL = 80; // Más alto = más lento
 
 export class Slide4 {
