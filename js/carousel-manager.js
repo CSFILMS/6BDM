@@ -273,8 +273,8 @@ export class CarouselManager {
     const navMsg = document.getElementById("nav-msg");
     const slideCounter = document.getElementById("slide-counter");
 
-    if (this.currentIndex <= 1) {
-      // Slides 1-2: Show PRESS SPACEBAR
+    if (this.currentIndex < 1) {
+      // Slides 0-1: Show PRESS SPACEBAR
       if (navMsg) {
         navMsg.innerHTML = "PRESS SPACEBAR TO CONTINUE";
         navMsg.style.fontSize = "0.7rem";
