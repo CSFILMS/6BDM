@@ -41,31 +41,60 @@ export class AudioHelper {
   }
 
   /**
-   * Play unscramble/typing audio (looped)
+   * Play scramble audio (computer readout - very subtle)
+   */
+  playScrambleAudio() {
+    const scrambleAudioEl = document.getElementById("scramble-audio");
+    if (scrambleAudioEl) {
+      scrambleAudioEl.volume = audioConfig.scrambleVolume;
+      scrambleAudioEl.loop = true;
+      scrambleAudioEl.muted = false;
+
+      console.log("🔊 Playing scramble audio...");
+      scrambleAudioEl.play().catch((err) => {
+        console.log("❌ Scramble audio play failed:", err);
+      });
+    }
+    return scrambleAudioEl;
+  }
+
+  /**
+   * Stop scramble audio
+   */
+  stopScrambleAudio() {
+    const scrambleAudioEl = document.getElementById("scramble-audio");
+    if (scrambleAudioEl) {
+      scrambleAudioEl.pause();
+      scrambleAudioEl.currentTime = 0;
+    }
+  }
+
+  /**
+   * Play typing audio (looped)
    */
   playTypingAudio() {
-    const unscrambleAudioEl = document.getElementById("unscramble-audio");
-    if (unscrambleAudioEl) {
-      unscrambleAudioEl.volume = audioConfig.unscrambleVolume;
-      unscrambleAudioEl.loop = true;
-      unscrambleAudioEl.muted = false;
+    const typingAudioEl = document.getElementById("typing-audio");
+    if (typingAudioEl) {
+      typingAudioEl.volume = audioConfig.typingVolume;
+      typingAudioEl.loop = true;
+      typingAudioEl.muted = false;
 
       console.log("🔊 Playing typing audio...");
-      unscrambleAudioEl.play().catch((err) => {
+      typingAudioEl.play().catch((err) => {
         console.log("❌ Typing audio play failed:", err);
       });
     }
-    return unscrambleAudioEl;
+    return typingAudioEl;
   }
 
   /**
    * Stop typing audio
    */
   stopTypingAudio() {
-    const unscrambleAudioEl = document.getElementById("unscramble-audio");
-    if (unscrambleAudioEl) {
-      unscrambleAudioEl.pause();
-      unscrambleAudioEl.currentTime = 0;
+    const typingAudioEl = document.getElementById("typing-audio");
+    if (typingAudioEl) {
+      typingAudioEl.pause();
+      typingAudioEl.currentTime = 0;
     }
 
     if (this.typingAudio) {
@@ -80,29 +109,29 @@ export class AudioHelper {
    * Starting at different points makes it feel less repetitive
    */
   restartTypingAudio() {
-    const unscrambleAudioEl = document.getElementById("unscramble-audio");
-    if (unscrambleAudioEl) {
+    const typingAudioEl = document.getElementById("typing-audio");
+    if (typingAudioEl) {
       // Start from a random position in the audio file
-      const duration = unscrambleAudioEl.duration || 5;
-      unscrambleAudioEl.currentTime = Math.random() * duration;
-      unscrambleAudioEl.volume = audioConfig.unscrambleVolume;
-      unscrambleAudioEl.loop = true;
-      unscrambleAudioEl.muted = false;
+      const duration = typingAudioEl.duration || 5;
+      typingAudioEl.currentTime = Math.random() * duration;
+      typingAudioEl.volume = audioConfig.typingVolume;
+      typingAudioEl.loop = true;
+      typingAudioEl.muted = false;
 
-      unscrambleAudioEl.play().catch((err) => {
+      typingAudioEl.play().catch((err) => {
         console.log("❌ Typing audio restart failed:", err);
       });
     }
-    return unscrambleAudioEl;
+    return typingAudioEl;
   }
 
   /**
    * Pause typing audio (without resetting position)
    */
   pauseTypingAudio() {
-    const unscrambleAudioEl = document.getElementById("unscramble-audio");
-    if (unscrambleAudioEl) {
-      unscrambleAudioEl.pause();
+    const typingAudioEl = document.getElementById("typing-audio");
+    if (typingAudioEl) {
+      typingAudioEl.pause();
     }
   }
 
@@ -112,7 +141,7 @@ export class AudioHelper {
   playVideoAudio() {
     const videoAudioEl = document.getElementById("video-audio");
     if (videoAudioEl) {
-      videoAudioEl.volume = audioConfig.unscrambleVolume;
+      videoAudioEl.volume = audioConfig.defaultVolume;
       videoAudioEl.loop = false; // No loop - plays once with the video
       videoAudioEl.muted = false;
       videoAudioEl.currentTime = 0;
@@ -150,8 +179,11 @@ export class AudioHelper {
 
       const fadeInterval = setInterval(() => {
         currentStep++;
-        videoAudioEl.volume = Math.max(0, startVolume - volumeStep * currentStep);
-        
+        videoAudioEl.volume = Math.max(
+          0,
+          startVolume - volumeStep * currentStep
+        );
+
         if (currentStep >= steps) {
           clearInterval(fadeInterval);
           videoAudioEl.pause();

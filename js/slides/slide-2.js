@@ -44,9 +44,9 @@ export class Slide2 {
 
     const textElement = document.getElementById("slide-2-text");
     if (textElement) {
-      // Play typing audio
+      // Play scramble audio
       setTimeout(() => {
-        this.audioHelper.playTypingAudio();
+        this.audioHelper.playScrambleAudio();
 
         // Start scramble animation with initial delay to show encrypted text first
         this.animationHelper.scrambleText(
@@ -54,7 +54,7 @@ export class Slide2 {
           SLIDE_2_TEXT,
           () => {
             // Stop audio when animation completes
-            this.audioHelper.stopTypingAudio();
+            this.audioHelper.stopScrambleAudio();
             console.log("✅ Slide 2 scramble complete");
           },
           false,
@@ -68,12 +68,12 @@ export class Slide2 {
     console.log("🚪 Exiting Slide 2");
 
     // Stop audio and animations
-    this.audioHelper.stopTypingAudio();
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 
   cleanup() {
-    this.audioHelper.stopTypingAudio();
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 }

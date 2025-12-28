@@ -4,7 +4,7 @@ export const audioConfig = {
   enabled: true,
   defaultVolume: 0.1,
   debugMode: true,
-  unscrambleVolume: 0.1,
+  scrambleVolume: 0.03,
   typingVolume: 0.1,
 };
 
@@ -38,7 +38,8 @@ export const videoSources = {
 
 export const audioSources = {
   text: "TEXTAUDIO.mp4",
-  unscramble: "VIDEOS/speduptyping.wav",
+  scramble: "audio/ComputerReadout.wav",
+  typing: "audio/speduptyping.wav",
 };
 
 export const imageSources = {

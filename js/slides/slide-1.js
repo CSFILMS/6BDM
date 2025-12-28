@@ -54,9 +54,9 @@ export class Slide1 {
         ? this.animationHelper.wrapTextForMobile(SLIDE_1_TEXT)
         : SLIDE_1_TEXT;
 
-      // Play typing audio with delay
+      // Play scramble audio with delay
       setTimeout(() => {
-        this.audioHelper.playTypingAudio();
+        this.audioHelper.playScrambleAudio();
 
         // Start scramble animation with initial delay to show encrypted text first
         this.animationHelper.scrambleText(
@@ -64,7 +64,7 @@ export class Slide1 {
           text,
           () => {
             // Stop audio when animation completes
-            this.audioHelper.stopTypingAudio();
+            this.audioHelper.stopScrambleAudio();
             this.animationHelper.wrapYearsInSpans(textElement);
             console.log("✅ Slide 1 scramble complete");
           },
@@ -81,12 +81,12 @@ export class Slide1 {
     console.log("🚪 Exiting Slide 1");
 
     // Stop audio and animations
-    this.audioHelper.stopTypingAudio();
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 
   cleanup() {
-    this.audioHelper.stopTypingAudio();
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 }

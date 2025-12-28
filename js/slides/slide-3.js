@@ -434,8 +434,8 @@ export class Slide3 {
     textOverlay.style.display = "block";
     textOverlay.textContent = "";
 
-    // Play typing audio
-    this.audioHelper.playTypingAudio();
+    // Play scramble audio
+    this.audioHelper.playScrambleAudio();
 
     // Use scramble effect (decodification) with slower, smoother animation
     this.animationHelper.scrambleText(
@@ -443,7 +443,7 @@ export class Slide3 {
       message,
       () => {
         // Stop audio when animation completes
-        this.audioHelper.stopTypingAudio();
+        this.audioHelper.stopScrambleAudio();
         console.log("✅ Top text animation complete");
 
         // Start bottom text animation after a delay
@@ -470,8 +470,8 @@ export class Slide3 {
 
     const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
 
-    // Play typing audio
-    this.audioHelper.playTypingAudio();
+    // Play scramble audio
+    this.audioHelper.playScrambleAudio();
 
     // Use scramble effect (decodification) with slower, smoother animation
     this.animationHelper.scrambleText(
@@ -479,7 +479,7 @@ export class Slide3 {
       message,
       () => {
         // Stop audio when animation completes
-        this.audioHelper.stopTypingAudio();
+        this.audioHelper.stopScrambleAudio();
         console.log("✅ Bottom text animation complete");
       },
       false,
@@ -539,8 +539,8 @@ export class Slide3 {
     // Stop external audio using helper
     this.audioHelper.stopVideoAudio();
 
-    // Stop typing audio and clear animations
-    this.audioHelper.stopTypingAudio();
+    // Stop scramble audio and clear animations
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
 
     // Hide and clear text overlays
@@ -578,7 +578,7 @@ export class Slide3 {
       video.src = "";
     }
 
-    this.audioHelper.stopTypingAudio();
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
 
     this.needsUnmute = false;

@@ -203,14 +203,14 @@ export class Slide4 {
       // Delay inicial antes de empezar la animación
       const initialTimeout = setTimeout(() => {
         // Paso 1: Primera línea con scramble (font grande, más lento)
-        this.audioHelper.playTypingAudio();
+        this.audioHelper.playScrambleAudio();
 
         this.animationHelper.scrambleText(
           line1Element,
           SLIDE_4_LINES[0],
           () => {
             // Scramble completado
-            this.audioHelper.stopTypingAudio();
+            this.audioHelper.stopScrambleAudio();
             console.log("✅ Slide 4 first line scramble complete");
 
             // Paso 2: Delay antes de reducir font-size y mostrar imagen
