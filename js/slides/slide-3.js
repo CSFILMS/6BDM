@@ -154,7 +154,7 @@ export class Slide3 {
     }
 
     // Start alien audio with fade in (creates atmosphere before video)
-    this.audioHelper.playAlienAudio(1500);
+    // TEMP MUTED: this.audioHelper.playAlienAudio(1500);
 
     // Keep text overlays hidden initially
     const textOverlay = document.getElementById("slide-3-text-overlay");
