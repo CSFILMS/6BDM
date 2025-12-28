@@ -42,15 +42,24 @@ export class AudioHelper {
 
   /**
    * Play scramble audio (computer readout - very subtle)
+   * Starts from a random position in the first half of the audio
    */
   playScrambleAudio() {
     const scrambleAudioEl = document.getElementById("scramble-audio");
     if (scrambleAudioEl) {
+      // Start from a random position in the first half of the audio
+      const duration = scrambleAudioEl.duration || 10;
+      const firstHalf = duration / 2;
+      scrambleAudioEl.currentTime = Math.random() * firstHalf;
+
       scrambleAudioEl.volume = audioConfig.scrambleVolume;
       scrambleAudioEl.loop = true;
       scrambleAudioEl.muted = false;
 
-      console.log("🔊 Playing scramble audio...");
+      console.log(
+        "🔊 Playing scramble audio from:",
+        scrambleAudioEl.currentTime.toFixed(2) + "s"
+      );
       scrambleAudioEl.play().catch((err) => {
         console.log("❌ Scramble audio play failed:", err);
       });
