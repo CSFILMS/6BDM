@@ -18,7 +18,7 @@ export class Slide0 {
         justify-content: center;
         height: 100%;
         width: 100%;
-        padding-top: 82px;
+        padding-top: 92px;
       ">
         <div id="slide-0-text" style="
           font-family: Crisp, 'Courier New', monospace;
@@ -29,7 +29,7 @@ export class Slide0 {
           line-height: 1.4;
           text-align: center;
           cursor: pointer;
-        ">CLICK TO START SEQUENCE</div>
+        ">CLICK TO<br>START SEQUENCE</div>
       </div>
     `;
   }
