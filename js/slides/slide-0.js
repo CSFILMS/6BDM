@@ -15,9 +15,9 @@ export class Slide0 {
     return `
       <div class="slide-content" style="
         display: flex;
+        justify-content: center;
         height: 100%;
         width: 100%;
-        padding-left: 42px;
         padding-top: 82px;
       ">
         <div id="slide-0-text" style="
@@ -27,7 +27,7 @@ export class Slide0 {
           filter: saturate(0.95);
           font-size: ${isMobile() ? "27.2px" : "1.8rem"};
           line-height: 1.4;
-          text-align: left;
+          text-align: center;
           cursor: pointer;
         ">CLICK TO START SEQUENCE</div>
       </div>
