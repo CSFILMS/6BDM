@@ -3,6 +3,7 @@
  * Exports all slide components
  */
 
+export { Slide0 } from './slide-0.js';
 export { Slide1 } from './slide-1.js';
 export { Slide2 } from './slide-2.js';
 export { Slide3 } from './slide-3.js';

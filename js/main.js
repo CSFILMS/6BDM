@@ -7,6 +7,7 @@ import { CarouselManager } from "./carousel-manager.js";
 import { AudioHelper } from "./helpers/audio-helper.js";
 import { AnimationHelper } from "./helpers/animation-helper.js";
 import {
+  Slide0,
   Slide1,
   Slide2,
   Slide3,
@@ -27,6 +28,7 @@ class Application {
 
     // Initialize slides with helpers
     this.slides = [
+      new Slide0(this.audioHelper, this.animationHelper),
       new Slide1(this.audioHelper, this.animationHelper),
       new Slide2(this.audioHelper, this.animationHelper),
       new Slide3(this.audioHelper, this.animationHelper),
