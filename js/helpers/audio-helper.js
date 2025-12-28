@@ -151,7 +151,7 @@ export class AudioHelper {
     const alienAudioEl = document.getElementById("alien-audio");
     if (alienAudioEl) {
       // Start from second 2
-      alienAudioEl.currentTime = 4;
+      alienAudioEl.currentTime = 0;
 
       // Start at volume 0 for fade in
       alienAudioEl.volume = 0;
