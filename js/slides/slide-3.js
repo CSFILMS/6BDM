@@ -276,8 +276,8 @@ export class Slide3 {
 
       // Fade out alien audio after delay (let both audios overlap)
       setTimeout(() => {
-        this.audioHelper.fadeOutAlienAudio(5000);
-      }, 2000);
+        this.audioHelper.fadeOutAlienAudio(1500);
+      }, 800);
     } catch (err) {
       // Autoplay with sound failed, try muted
       console.warn(
