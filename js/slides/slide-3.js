@@ -275,7 +275,7 @@ export class Slide3 {
       this.needsUnmute = false;
 
       // Fade out alien audio
-      this.audioHelper.fadeOutAlienAudio(2000);
+      this.audioHelper.fadeOutAlienAudio(4500);
     } catch (err) {
       // Autoplay with sound failed, try muted
       console.warn(
@@ -291,7 +291,7 @@ export class Slide3 {
         console.log("⚠️ Video playing MUTED - any click will unmute");
 
         // Fade out alien audio (video is playing even if muted)
-        this.audioHelper.fadeOutAlienAudio(2000);
+        this.audioHelper.fadeOutAlienAudio(4500);
 
         if (playButton) {
           playButton.style.display = "flex";
@@ -334,7 +334,7 @@ export class Slide3 {
                 this.videoStartTime = Date.now();
               }
               // Fade out alien audio
-              this.audioHelper.fadeOutAlienAudio(2000);
+              this.audioHelper.fadeOutAlienAudio(4500);
             });
           };
         }

@@ -150,10 +150,8 @@ export class AudioHelper {
   playAlienAudio(fadeInDuration = 1500) {
     const alienAudioEl = document.getElementById("alien-audio");
     if (alienAudioEl) {
-      // Start from random position in first half
-      const duration = alienAudioEl.duration || 10;
-      const firstHalf = duration / 2;
-      alienAudioEl.currentTime = Math.random() * firstHalf;
+      // Start from second 2
+      alienAudioEl.currentTime = 4;
 
       // Start at volume 0 for fade in
       alienAudioEl.volume = 0;
@@ -187,24 +185,24 @@ export class AudioHelper {
   }
 
   /**
-   * Fade out alien audio
+   * Fade out alien audio - slow and smooth
    */
-  fadeOutAlienAudio(duration = 2000) {
+  fadeOutAlienAudio(duration = 4000) {
     const alienAudioEl = document.getElementById("alien-audio");
     if (alienAudioEl && !alienAudioEl.paused) {
       const startVolume = alienAudioEl.volume;
-      const steps = 30;
+      const steps = 60; // More steps for smoother fade
       const stepDuration = duration / steps;
       const volumeStep = startVolume / steps;
       let currentStep = 0;
 
-      console.log("🔇 Fading out alien audio...");
+      console.log("🔇 Fading out alien audio (slow)...");
       const fadeInterval = setInterval(() => {
         currentStep++;
-        alienAudioEl.volume = Math.max(
-          0,
-          startVolume - volumeStep * currentStep
-        );
+        // Use easing for smoother fade (ease-out curve)
+        const progress = currentStep / steps;
+        const easedProgress = 1 - Math.pow(1 - progress, 2);
+        alienAudioEl.volume = Math.max(0, startVolume * (1 - easedProgress));
 
         if (currentStep >= steps) {
           clearInterval(fadeInterval);
