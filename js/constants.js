@@ -33,8 +33,8 @@ export const isMobile = () => {
 };
 
 export const videoSources = {
-  mobile: "VIDEOS/FADELONG_mobile.mp4?v=13",
-  desktop: "VIDEOS/FADELONG.mp4?v=13",
+  mobile: "VIDEOS/video.mp4",
+  desktop: "VIDEOS/video.mp4",
 };
 
 export const audioSources = {

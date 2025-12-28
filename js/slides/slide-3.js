@@ -12,9 +12,9 @@ export class Slide3 {
     this.videoStartTime = null;
     this.videoMinPlayTime = 2000; // 2 seconds minimum
     this.videoElement = null;
-    this.audioElement = null;
     this.needsUnmute = false;
     this.unmuteListener = null;
+    this.volumeFadeInterval = null;
   }
 
   render() {
@@ -48,7 +48,7 @@ export class Slide3 {
               max-height: 100%;
               object-fit: contain;
               cursor: pointer;
-              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0);
+              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0) blur(1.4px);
             "
           >
             <source id="slide-3-video-source" src="" type="video/mp4" />
@@ -147,14 +147,11 @@ export class Slide3 {
     if (video && videoSource) {
       videoSource.src = isMobile() ? videoSources.mobile : videoSources.desktop;
       video.load();
-      video.muted = true; // Video itself is muted (no audio track)
+      video.muted = true; // Start muted for autoplay compatibility
       video.currentTime = 0;
+      video.volume = 0.6;
       console.log("📱 Video source set:", videoSource.src);
     }
-
-    // Initialize external audio element
-    const audioElement = document.getElementById("video-audio");
-    this.audioElement = audioElement;
 
     // Start alien audio with fade in (creates atmosphere before video)
     this.audioHelper.playAlienAudio(1500);
@@ -205,28 +202,23 @@ export class Slide3 {
 
     // Create new listener
     this.unmuteListener = () => {
-      if (this.needsUnmute && this.audioElement) {
-        // Play the external audio
-        this.audioElement
-          .play()
-          .then(() => {
-            this.needsUnmute = false;
+      if (this.needsUnmute && this.videoElement) {
+        // Unmute the video's own audio
+        this.videoElement.muted = false;
+        this.videoElement.volume = 1.0;
+        this.needsUnmute = false;
 
-            // Hide unmute button
-            const playButton = document.getElementById("slide-3-play-button");
-            if (playButton) {
-              playButton.style.display = "none";
-            }
+        // Hide unmute button
+        const playButton = document.getElementById("slide-3-play-button");
+        if (playButton) {
+          playButton.style.display = "none";
+        }
 
-            console.log("🔊 Audio unmuted and playing!");
+        console.log("🔊 Video audio unmuted!");
 
-            // Remove listener after unmuting
-            document.removeEventListener("click", this.unmuteListener, true);
-            this.unmuteListener = null;
-          })
-          .catch((err) => {
-            console.error("❌ Failed to play audio:", err);
-          });
+        // Remove listener after unmuting
+        document.removeEventListener("click", this.unmuteListener, true);
+        this.unmuteListener = null;
       }
     };
 
@@ -251,7 +243,7 @@ export class Slide3 {
 
     // Reset to beginning
     video.currentTime = 0;
-    video.volume = 1.0;
+    video.volume = 0.6;
 
     // Mobile-specific: Force reload
     if (isMobile()) {
@@ -278,13 +270,12 @@ export class Slide3 {
       if (this.videoStartTime === null) {
         this.videoStartTime = Date.now();
       }
-      console.log("✅ Video playing WITH SOUND");
+      console.log("✅ Video playing WITH SOUND (using video's own audio)");
       console.log("🔊 Muted:", video.muted, "Volume:", video.volume);
       this.needsUnmute = false;
-      
-      // Fade out alien audio and start video audio (overlapping transition)
+
+      // Fade out alien audio
       this.audioHelper.fadeOutAlienAudio(2000);
-      this.audioHelper.playVideoAudio();
     } catch (err) {
       // Autoplay with sound failed, try muted
       console.warn(
@@ -298,7 +289,7 @@ export class Slide3 {
       try {
         await video.play();
         console.log("⚠️ Video playing MUTED - any click will unmute");
-        
+
         // Fade out alien audio (video is playing even if muted)
         this.audioHelper.fadeOutAlienAudio(2000);
 
@@ -336,15 +327,14 @@ export class Slide3 {
           `;
           playButton.onclick = () => {
             video.muted = false;
-            video.volume = 1.0;
+            video.volume = 0.6;
             video.play().then(() => {
               playButton.style.display = "none";
               if (this.videoStartTime === null) {
                 this.videoStartTime = Date.now();
               }
-              // Fade out alien audio and start video audio
+              // Fade out alien audio
               this.audioHelper.fadeOutAlienAudio(2000);
-              this.audioHelper.playVideoAudio();
             });
           };
         }
@@ -357,10 +347,9 @@ export class Slide3 {
   }
 
   resumeVideo() {
-    console.log("▶️ Resuming video and audio");
+    console.log("▶️ Resuming video");
 
     const video = document.getElementById("slide-3-video");
-    const audio = this.audioElement || document.getElementById("video-audio");
     const playButton = document.getElementById("slide-3-play-button");
 
     if (playButton) {
@@ -368,17 +357,11 @@ export class Slide3 {
     }
 
     if (video) {
-      video.play();
-      if (audio) {
-        audio
-          .play()
-          .then(() => {
-            console.log("✅ Video and audio resumed");
-          })
-          .catch((err) => {
-            console.error("❌ Audio resume failed:", err);
-          });
-      }
+      video.play().then(() => {
+        console.log("✅ Video resumed");
+      }).catch((err) => {
+        console.error("❌ Video resume failed:", err);
+      });
     }
   }
 
@@ -386,7 +369,6 @@ export class Slide3 {
     console.log("⏯️ Toggling video");
 
     const video = document.getElementById("slide-3-video");
-    const audio = this.audioElement || document.getElementById("video-audio");
     const playButton = document.getElementById("slide-3-play-button");
 
     if (video) {
@@ -394,15 +376,12 @@ export class Slide3 {
         // Resume playback
         this.resumeVideo();
       } else {
-        // Pause both video and audio
+        // Pause video (audio is part of video)
         video.pause();
-        if (audio) {
-          audio.pause();
-        }
         if (playButton) {
           playButton.style.display = "flex";
         }
-        console.log("⏸️ Video and audio paused");
+        console.log("⏸️ Video paused");
       }
     }
   }
@@ -417,8 +396,8 @@ export class Slide3 {
     video.currentTime = video.duration - 0.01;
     video.pause();
 
-    // Fade out the audio
-    this.audioHelper.fadeOutVideoAudio(1500);
+    // Fade out the video's audio
+    this.fadeOutVideoVolume(video, 1500);
 
     // Fade out the video visually
     if (videoContainer) {
@@ -429,6 +408,37 @@ export class Slide3 {
 
     // Start text animations after video ends
     this.animateTopText();
+  }
+
+  /**
+   * Fade out video volume gradually
+   */
+  fadeOutVideoVolume(video, duration = 1500) {
+    if (!video) return;
+
+    // Clear any existing fade
+    if (this.volumeFadeInterval) {
+      clearInterval(this.volumeFadeInterval);
+    }
+
+    const startVolume = video.volume;
+    const steps = 20;
+    const stepDuration = duration / steps;
+    const volumeStep = startVolume / steps;
+    let currentStep = 0;
+
+    console.log("🔇 Fading out video audio...");
+    this.volumeFadeInterval = setInterval(() => {
+      currentStep++;
+      video.volume = Math.max(0, startVolume - volumeStep * currentStep);
+
+      if (currentStep >= steps) {
+        clearInterval(this.volumeFadeInterval);
+        this.volumeFadeInterval = null;
+        video.volume = 0;
+        console.log("🔇 Video audio faded out");
+      }
+    }, stepDuration);
   }
 
   animateTopText() {
@@ -529,6 +539,12 @@ export class Slide3 {
       this.unmuteListener = null;
     }
 
+    // Clear volume fade interval
+    if (this.volumeFadeInterval) {
+      clearInterval(this.volumeFadeInterval);
+      this.volumeFadeInterval = null;
+    }
+
     // Stop video and reset container
     const video = document.getElementById("slide-3-video");
     const videoContainer = document.getElementById("slide-3-video-container");
@@ -537,6 +553,7 @@ export class Slide3 {
       video.pause();
       video.currentTime = 0;
       video.muted = true;
+      video.volume = 0.6; // Reset volume for next time
     }
 
     // Reset container opacity for next time
@@ -545,8 +562,7 @@ export class Slide3 {
       videoContainer.style.transition = "";
     }
 
-    // Stop all audio using helper
-    this.audioHelper.stopVideoAudio();
+    // Stop other audio using helper
     this.audioHelper.stopAlienAudio();
     this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
@@ -567,7 +583,6 @@ export class Slide3 {
     // Reset flags
     this.needsUnmute = false;
     this.videoElement = null;
-    this.audioElement = null;
   }
 
   cleanup() {
@@ -580,10 +595,17 @@ export class Slide3 {
       this.unmuteListener = null;
     }
 
+    // Clear volume fade interval
+    if (this.volumeFadeInterval) {
+      clearInterval(this.volumeFadeInterval);
+      this.volumeFadeInterval = null;
+    }
+
     const video = document.getElementById("slide-3-video");
     if (video) {
       video.pause();
       video.src = "";
+      video.volume = 0.6;
     }
 
     this.audioHelper.stopAlienAudio();

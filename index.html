@@ -28,6 +28,20 @@
 </head>
 <body>
 
+  <!-- SVG Filters for video effects -->
+  <svg style="display: none;">
+    <defs>
+      <!-- Pixelation filter - creates blocky/low-res look -->
+      <filter id="pixelate-filter" x="0" y="0" width="100%" height="100%">
+        <feFlood x="2" y="2" height="1" width="1"/>
+        <feComposite width="5" height="5"/>
+        <feTile result="tile"/>
+        <feComposite in="SourceGraphic" in2="tile" operator="in"/>
+        <feMorphology operator="dilate" radius="2.5"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- video2 removed - defunct -->
 
   <div class="video-container" id="video-container">
