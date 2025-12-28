@@ -155,10 +155,9 @@ export class Slide3 {
     // Initialize external audio element
     const audioElement = document.getElementById("video-audio");
     this.audioElement = audioElement;
-    if (audioElement) {
-      // Force load the audio
-      this.audioHelper.playVideoAudio();
-    }
+
+    // Start alien audio with fade in (creates atmosphere before video)
+    this.audioHelper.playAlienAudio(1500);
 
     // Keep text overlays hidden initially
     const textOverlay = document.getElementById("slide-3-text-overlay");
@@ -282,6 +281,10 @@ export class Slide3 {
       console.log("✅ Video playing WITH SOUND");
       console.log("🔊 Muted:", video.muted, "Volume:", video.volume);
       this.needsUnmute = false;
+      
+      // Fade out alien audio and start video audio (overlapping transition)
+      this.audioHelper.fadeOutAlienAudio(2000);
+      this.audioHelper.playVideoAudio();
     } catch (err) {
       // Autoplay with sound failed, try muted
       console.warn(
@@ -295,6 +298,9 @@ export class Slide3 {
       try {
         await video.play();
         console.log("⚠️ Video playing MUTED - any click will unmute");
+        
+        // Fade out alien audio (video is playing even if muted)
+        this.audioHelper.fadeOutAlienAudio(2000);
 
         if (playButton) {
           playButton.style.display = "flex";
@@ -336,6 +342,9 @@ export class Slide3 {
               if (this.videoStartTime === null) {
                 this.videoStartTime = Date.now();
               }
+              // Fade out alien audio and start video audio
+              this.audioHelper.fadeOutAlienAudio(2000);
+              this.audioHelper.playVideoAudio();
             });
           };
         }
@@ -536,10 +545,9 @@ export class Slide3 {
       videoContainer.style.transition = "";
     }
 
-    // Stop external audio using helper
+    // Stop all audio using helper
     this.audioHelper.stopVideoAudio();
-
-    // Stop scramble audio and clear animations
+    this.audioHelper.stopAlienAudio();
     this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
 
@@ -578,6 +586,7 @@ export class Slide3 {
       video.src = "";
     }
 
+    this.audioHelper.stopAlienAudio();
     this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
 

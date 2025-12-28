@@ -145,6 +145,90 @@ export class AudioHelper {
   }
 
   /**
+   * Play alien audio with fade in (for slide-3 intro)
+   */
+  playAlienAudio(fadeInDuration = 1500) {
+    const alienAudioEl = document.getElementById("alien-audio");
+    if (alienAudioEl) {
+      // Start from random position in first half
+      const duration = alienAudioEl.duration || 10;
+      const firstHalf = duration / 2;
+      alienAudioEl.currentTime = Math.random() * firstHalf;
+
+      // Start at volume 0 for fade in
+      alienAudioEl.volume = 0;
+      alienAudioEl.loop = true;
+      alienAudioEl.muted = false;
+
+      console.log("🔊 Playing alien audio with fade in...");
+      alienAudioEl.play().catch((err) => {
+        console.log("❌ Alien audio play failed:", err);
+      });
+
+      // Fade in
+      const targetVolume = audioConfig.alienVolume;
+      const steps = 30;
+      const stepDuration = fadeInDuration / steps;
+      const volumeStep = targetVolume / steps;
+      let currentStep = 0;
+
+      const fadeInterval = setInterval(() => {
+        currentStep++;
+        alienAudioEl.volume = Math.min(targetVolume, volumeStep * currentStep);
+
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval);
+          alienAudioEl.volume = targetVolume;
+          console.log("🔊 Alien audio fade in complete");
+        }
+      }, stepDuration);
+    }
+    return alienAudioEl;
+  }
+
+  /**
+   * Fade out alien audio
+   */
+  fadeOutAlienAudio(duration = 2000) {
+    const alienAudioEl = document.getElementById("alien-audio");
+    if (alienAudioEl && !alienAudioEl.paused) {
+      const startVolume = alienAudioEl.volume;
+      const steps = 30;
+      const stepDuration = duration / steps;
+      const volumeStep = startVolume / steps;
+      let currentStep = 0;
+
+      console.log("🔇 Fading out alien audio...");
+      const fadeInterval = setInterval(() => {
+        currentStep++;
+        alienAudioEl.volume = Math.max(
+          0,
+          startVolume - volumeStep * currentStep
+        );
+
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval);
+          alienAudioEl.pause();
+          alienAudioEl.currentTime = 0;
+          alienAudioEl.volume = audioConfig.alienVolume; // Reset for next time
+          console.log("🔇 Alien audio faded out");
+        }
+      }, stepDuration);
+    }
+  }
+
+  /**
+   * Stop alien audio immediately
+   */
+  stopAlienAudio() {
+    const alienAudioEl = document.getElementById("alien-audio");
+    if (alienAudioEl) {
+      alienAudioEl.pause();
+      alienAudioEl.currentTime = 0;
+    }
+  }
+
+  /**
    * Play video audio (no loop - plays once)
    */
   playVideoAudio() {

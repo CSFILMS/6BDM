@@ -6,6 +6,7 @@ export const audioConfig = {
   debugMode: true,
   scrambleVolume: 0.03,
   typingVolume: 0.1,
+  alienVolume: 0.09,
 };
 
 export const animationConfig = {
