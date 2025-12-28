@@ -54,10 +54,24 @@ export class Slide1 {
         ? this.animationHelper.wrapTextForMobile(SLIDE_1_TEXT)
         : SLIDE_1_TEXT;
 
-      // Instant display - no animation
-      textElement.textContent = text;
-      this.animationHelper.wrapYearsInSpans(textElement);
-      console.log("✅ Slide 1 text set");
+      // Play typing audio with delay
+      setTimeout(() => {
+        this.audioHelper.playTypingAudio();
+
+        // Start scramble animation with initial delay to show encrypted text first
+        this.animationHelper.scrambleText(
+          textElement,
+          text,
+          () => {
+            // Stop audio when animation completes
+            this.audioHelper.stopTypingAudio();
+            this.animationHelper.wrapYearsInSpans(textElement);
+            console.log("✅ Slide 1 scramble complete");
+          },
+          false,
+          { initialDelayMs: 100 }
+        );
+      }, 1000);
     } else {
       console.error("❌ Missing element");
     }
@@ -65,9 +79,14 @@ export class Slide1 {
 
   onExit() {
     console.log("🚪 Exiting Slide 1");
+
+    // Stop audio and animations
+    this.audioHelper.stopTypingAudio();
+    this.animationHelper.clearAnimations();
   }
 
   cleanup() {
-    // No cleanup needed
+    this.audioHelper.stopTypingAudio();
+    this.animationHelper.clearAnimations();
   }
 }

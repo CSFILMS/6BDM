@@ -10,7 +10,8 @@ import { imageSources, isMobile } from "../constants.js";
 const SLIDE_5_LINES = [
   "2012: ASSANGE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.",
   "2019: HE IS JAILED IN THE UK. AWAITS EXTRADITION TO THE U.S. TO FACE A POSSIBLE 175 YEARS IN PRISON. ",
-  "2024: THE U.S. DROPS 17 OF 18 COUNTS, DISMISSES CASE. ASSANGE RETURNS HOME A FREE MAN.",
+  "2024: THE U.S. <br>DROPS 17 OF 18 COUNTS, DISMISSES CASE.",
+  "ASSANGE RETURNS HOME A FREE MAN.",
 ];
 
 // Config para animación tipo terminal
@@ -40,7 +41,7 @@ export class Slide5 {
         <div id="slide-5-text-top" style="
           position: absolute;
           left: 0;
-          top: 10%;
+          top: 15%;
           z-index: 2;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
@@ -54,7 +55,8 @@ export class Slide5 {
         ">
           <div id="s5-line-1" class="terminal-line" style="margin-bottom: 1.2em;"></div>
           <div id="s5-line-2" class="terminal-line" style="margin-bottom: 1.2em;"></div>
-          <div id="s5-line-3" class="terminal-line"></div>
+          <div id="s5-line-3" class="terminal-line" style="margin-bottom: 1.2em; width: 121%;"></div>
+          <div id="s5-line-4" class="terminal-line"></div>
         </div>
         
         <!-- Imagen - Right side, cropped to fit -->
