@@ -48,7 +48,7 @@ export class Slide3 {
               max-height: 100%;
               object-fit: contain;
               cursor: pointer;
-              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0) blur(1.4px);
+              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0);
             "
           >
             <source id="slide-3-video-source" src="" type="video/mp4" />
@@ -357,11 +357,14 @@ export class Slide3 {
     }
 
     if (video) {
-      video.play().then(() => {
-        console.log("✅ Video resumed");
-      }).catch((err) => {
-        console.error("❌ Video resume failed:", err);
-      });
+      video
+        .play()
+        .then(() => {
+          console.log("✅ Video resumed");
+        })
+        .catch((err) => {
+          console.error("❌ Video resume failed:", err);
+        });
     }
   }
 
