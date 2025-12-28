@@ -154,7 +154,7 @@ export class Slide3 {
     }
 
     // Start alien audio with fade in (creates atmosphere before video)
-    // TEMP MUTED: this.audioHelper.playAlienAudio(1500);
+    this.audioHelper.playAlienAudio(1500);
 
     // Keep text overlays hidden initially
     const textOverlay = document.getElementById("slide-3-text-overlay");
@@ -188,10 +188,10 @@ export class Slide3 {
     // Setup global click listener to unmute
     this.setupUnmuteListener();
 
-    // Autoplay video after a short delay
+    // Autoplay video after delay (let alien audio build hype first)
     setTimeout(() => {
       this.playVideoWithSound();
-    }, 300);
+    }, 1700);
   }
 
   setupUnmuteListener() {
