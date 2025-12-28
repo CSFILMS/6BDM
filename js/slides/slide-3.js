@@ -274,8 +274,10 @@ export class Slide3 {
       console.log("🔊 Muted:", video.muted, "Volume:", video.volume);
       this.needsUnmute = false;
 
-      // Fade out alien audio
-      this.audioHelper.fadeOutAlienAudio(4500);
+      // Fade out alien audio after delay (let both audios overlap)
+      setTimeout(() => {
+        this.audioHelper.fadeOutAlienAudio(5000);
+      }, 2000);
     } catch (err) {
       // Autoplay with sound failed, try muted
       console.warn(
@@ -290,8 +292,10 @@ export class Slide3 {
         await video.play();
         console.log("⚠️ Video playing MUTED - any click will unmute");
 
-        // Fade out alien audio (video is playing even if muted)
-        this.audioHelper.fadeOutAlienAudio(4500);
+        // Fade out alien audio after delay (let both audios overlap)
+        setTimeout(() => {
+          this.audioHelper.fadeOutAlienAudio(5000);
+        }, 2000);
 
         if (playButton) {
           playButton.style.display = "flex";
@@ -333,8 +337,10 @@ export class Slide3 {
               if (this.videoStartTime === null) {
                 this.videoStartTime = Date.now();
               }
-              // Fade out alien audio
-              this.audioHelper.fadeOutAlienAudio(4500);
+              // Fade out alien audio after delay (let both audios overlap)
+              setTimeout(() => {
+                this.audioHelper.fadeOutAlienAudio(5000);
+              }, 2000);
             });
           };
         }
