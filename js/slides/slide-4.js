@@ -64,7 +64,7 @@ export class Slide4 {
         <img id="slide-4-image" src="${imageSources.first_correa}" style="
           display: block;
           position: absolute;
-          right: -40px;
+          right: -30px;
           top: 20%;
           width: 60%;
           height: 75%;
@@ -72,11 +72,11 @@ export class Slide4 {
           object-position: 45% center;
           z-index: 1;
           opacity: 0;
-          filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
-          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 85%, transparent 100%),
+          filter: brightness(0.75) sepia(1) hue-rotate(60deg) saturate(1.2);
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 80%, transparent 100%),
                               linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
           -webkit-mask-composite: source-in;
-          mask-image: linear-gradient(to right, transparent 0%, black 25%, black 85%, transparent 100%),
+          mask-image: linear-gradient(to right, transparent 0%, black 15%, black 80%, transparent 100%),
                       linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
           mask-composite: intersect;
         " />
