@@ -40,7 +40,7 @@ export const videoSources = {
 export const audioSources = {
   text: "TEXTAUDIO.mp4",
   scramble: "audio/ComputerReadout-1.wav",
-  typing: "audio/speduptyping.wav",
+  typing: "audio/ComputerReadout-1.wav",
 };
 
 export const imageSources = {
