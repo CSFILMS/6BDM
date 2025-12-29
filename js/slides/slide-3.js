@@ -38,6 +38,15 @@ export class Slide3 {
           align-items: center;
           justify-content: center;
           background: #000;
+          overflow: hidden;
+        ">
+        <div style="
+          width: 100%;
+          height: 70%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
         ">
           <video
             id="slide-3-video"
@@ -48,11 +57,14 @@ export class Slide3 {
               max-height: 100%;
               object-fit: contain;
               cursor: pointer;
-              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0);
+              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3) blur(0.5px);
+              transform: scale(1);
+              transition: transform 25s ease-out;
             "
           >
             <source id="slide-3-video-source" src="" type="video/mp4" />
           </video>
+          </div>
         </div>
         
         <!-- Text overlay -->
@@ -274,6 +286,9 @@ export class Slide3 {
       console.log("🔊 Muted:", video.muted, "Volume:", video.volume);
       this.needsUnmute = false;
 
+      // Start zoom effect
+      this.startVideoZoom();
+
       // Fade out alien audio after delay (let both audios overlap)
       setTimeout(() => {
         this.audioHelper.fadeOutAlienAudio(1500);
@@ -291,6 +306,9 @@ export class Slide3 {
       try {
         await video.play();
         console.log("⚠️ Video playing MUTED - any click will unmute");
+
+        // Start zoom effect
+        this.startVideoZoom();
 
         // Fade out alien audio after delay (let both audios overlap)
         setTimeout(() => {
@@ -337,6 +355,8 @@ export class Slide3 {
               if (this.videoStartTime === null) {
                 this.videoStartTime = Date.now();
               }
+              // Start zoom effect
+              this.startVideoZoom();
               // Fade out alien audio after delay (let both audios overlap)
               setTimeout(() => {
                 this.audioHelper.fadeOutAlienAudio(5000);
@@ -350,6 +370,35 @@ export class Slide3 {
 
   playVideo() {
     this.playVideoWithSound();
+  }
+
+  /**
+   * Start the Ken Burns zoom effect on the video
+   */
+  startVideoZoom() {
+    const video = document.getElementById("slide-3-video");
+    if (video) {
+      // Small delay to ensure the transition is applied after initial render
+      requestAnimationFrame(() => {
+        video.style.transform = "scale(2)";
+        console.log("🔍 Video zoom effect started");
+      });
+    }
+  }
+
+  /**
+   * Reset the video zoom to initial state
+   */
+  resetVideoZoom() {
+    const video = document.getElementById("slide-3-video");
+    if (video) {
+      video.style.transition = "none";
+      video.style.transform = "scale(1)";
+      // Re-enable transition after reset
+      requestAnimationFrame(() => {
+        video.style.transition = "transform 25s ease-out";
+      });
+    }
   }
 
   resumeVideo() {
@@ -565,6 +614,9 @@ export class Slide3 {
       video.volume = 0.6; // Reset volume for next time
     }
 
+    // Reset video zoom for next time
+    this.resetVideoZoom();
+
     // Reset container opacity for next time
     if (videoContainer) {
       videoContainer.style.opacity = "1";
@@ -616,6 +668,9 @@ export class Slide3 {
       video.src = "";
       video.volume = 0.6;
     }
+
+    // Reset video zoom
+    this.resetVideoZoom();
 
     this.audioHelper.stopAlienAudio();
     this.audioHelper.stopScrambleAudio();
