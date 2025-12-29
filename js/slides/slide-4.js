@@ -111,7 +111,15 @@ export class Slide4 {
           element,
           text,
           () => {
-            this.audioHelper.stopScrambleAudio();
+            // Si es la última línea (índice 2 = línea 3), esperar 200ms antes de detener el audio
+            if (currentLineIndex === 2) {
+              const audioStopTimeout = setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 200);
+              this.typewriterTimeouts.push(audioStopTimeout);
+            } else {
+              this.audioHelper.stopScrambleAudio();
+            }
             currentLineIndex++;
             // Delay antes de la siguiente línea (más largo antes de la línea 3)
             const delay =
