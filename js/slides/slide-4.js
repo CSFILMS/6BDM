@@ -64,7 +64,7 @@ export class Slide4 {
         <img id="slide-4-image" src="${imageSources.first_correa}" style="
           display: block;
           position: absolute;
-          right: -30px;
+          right: -40px;
           top: 20%;
           width: 60%;
           height: 75%;
