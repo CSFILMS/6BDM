@@ -194,9 +194,8 @@ export class Slide4 {
                 textContainer.style.width = "45%";
               }
 
-              // Imagen + líneas 2 y 3 con pequeño delay
+              // Líneas 2 y 3 con pequeño delay (imagen ya visible)
               const timeout = setTimeout(() => {
-                this.startImageFade();
                 this.animateRemainingLines(() => {
                   console.log("✅ Slide 4 text complete");
                 });
