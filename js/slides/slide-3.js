@@ -15,6 +15,7 @@ export class Slide3 {
     this.needsUnmute = false;
     this.unmuteListener = null;
     this.volumeFadeInterval = null;
+    this.autoplayTimeout = null;
   }
 
   render() {
@@ -201,7 +202,7 @@ export class Slide3 {
     this.setupUnmuteListener();
 
     // Autoplay video after delay (let alien audio build hype first)
-    setTimeout(() => {
+    this.autoplayTimeout = setTimeout(() => {
       this.playVideoWithSound();
     }, 1700);
   }
@@ -596,6 +597,12 @@ export class Slide3 {
       this.volumeFadeInterval = null;
     }
 
+    // Clear autoplay timeout (prevents video from starting if we exit quickly)
+    if (this.autoplayTimeout) {
+      clearTimeout(this.autoplayTimeout);
+      this.autoplayTimeout = null;
+    }
+
     // Stop video and reset container
     const video = document.getElementById("slide-3-video");
     const videoContainer = document.getElementById("slide-3-video-container");
@@ -653,6 +660,12 @@ export class Slide3 {
     if (this.volumeFadeInterval) {
       clearInterval(this.volumeFadeInterval);
       this.volumeFadeInterval = null;
+    }
+
+    // Clear autoplay timeout
+    if (this.autoplayTimeout) {
+      clearTimeout(this.autoplayTimeout);
+      this.autoplayTimeout = null;
     }
 
     const video = document.getElementById("slide-3-video");

@@ -127,6 +127,9 @@ export class CarouselManager {
       if (e.target.closest("#video-play-button")) return;
       if (e.target.closest("#nav")) return;
 
+      // Disable click navigation on video slide (index 3 = Slide3) to allow play/pause
+      if (this.currentIndex === 3) return;
+
       // Left half goes back, right half goes forward
       if (e.clientX < window.innerWidth / 2) {
         this.prev();
