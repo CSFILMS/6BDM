@@ -4,7 +4,7 @@ export const audioConfig = {
   enabled: true,
   defaultVolume: 0.1,
   debugMode: true,
-  scrambleVolume: 0.1,
+  scrambleVolume: 0.2,
   typingVolume: 0.1,
   alienVolume: 0.08,
 };

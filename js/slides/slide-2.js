@@ -46,20 +46,25 @@ export class Slide2 {
     if (textElement) {
       // Play scramble audio
       setTimeout(() => {
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
 
-        // Start scramble animation with initial delay to show encrypted text first
-        this.animationHelper.scrambleText(
-          textElement,
-          SLIDE_2_TEXT,
-          () => {
-            // Stop audio when animation completes
-            this.audioHelper.stopScrambleAudio();
-            console.log("✅ Slide 2 scramble complete");
-          },
-          false,
-          { initialDelayMs: 100 }
-        );
+        setTimeout(() => {
+          // Start scramble animation with initial delay to show encrypted text first
+          this.animationHelper.scrambleText(
+            textElement,
+            SLIDE_2_TEXT,
+            () => {
+              // Stop audio 100ms after animation completes
+              setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 100);
+              console.log("✅ Slide 2 scramble complete");
+            },
+            false,
+            { initialDelayMs: 100 }
+          );
+        }, 200);
       }, 1000);
     }
   }

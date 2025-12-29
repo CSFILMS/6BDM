@@ -511,29 +511,33 @@ export class Slide3 {
     textOverlay.style.display = "block";
     textOverlay.textContent = "";
 
-    // Play scramble audio
+    // Start audio 200ms before animation
     this.audioHelper.playScrambleAudio();
 
-    // Use scramble effect (decodification) with slower, smoother animation
-    this.animationHelper.scrambleText(
-      textOverlay,
-      message,
-      () => {
-        // Stop audio when animation completes
-        this.audioHelper.stopScrambleAudio();
-        console.log("✅ Top text animation complete");
+    setTimeout(() => {
+      // Use scramble effect (decodification) with slower, smoother animation
+      this.animationHelper.scrambleText(
+        textOverlay,
+        message,
+        () => {
+          // Stop audio 100ms after animation completes
+          setTimeout(() => {
+            this.audioHelper.stopScrambleAudio();
+          }, 100);
+          console.log("✅ Top text animation complete");
 
-        // Start bottom text animation after a delay
-        setTimeout(() => {
-          this.animateBottomText();
-        }, 1000);
-      },
-      false,
-      {
-        chunkSize: 3, // Reveal fewer characters per step (more gradual)
-        intervalMs: 80, // Slightly faster interval for smoothness
-      }
-    );
+          // Start bottom text animation after a delay
+          setTimeout(() => {
+            this.animateBottomText();
+          }, 1000);
+        },
+        false,
+        {
+          chunkSize: 3, // Reveal fewer characters per step (more gradual)
+          intervalMs: 80, // Slightly faster interval for smoothness
+        }
+      );
+    }, 200);
   }
 
   animateBottomText() {
@@ -547,24 +551,28 @@ export class Slide3 {
 
     const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
 
-    // Play scramble audio
+    // Start audio 200ms before animation
     this.audioHelper.playScrambleAudio();
 
-    // Use scramble effect (decodification) with slower, smoother animation
-    this.animationHelper.scrambleText(
-      subtitleEl,
-      message,
-      () => {
-        // Stop audio when animation completes
-        this.audioHelper.stopScrambleAudio();
-        console.log("✅ Bottom text animation complete");
-      },
-      false,
-      {
-        chunkSize: 3, // Reveal fewer characters per step (more gradual)
-        intervalMs: 80, // Slightly faster interval for smoothness
-      }
-    );
+    setTimeout(() => {
+      // Use scramble effect (decodification) with slower, smoother animation
+      this.animationHelper.scrambleText(
+        subtitleEl,
+        message,
+        () => {
+          // Stop audio 100ms after animation completes
+          setTimeout(() => {
+            this.audioHelper.stopScrambleAudio();
+          }, 100);
+          console.log("✅ Bottom text animation complete");
+        },
+        false,
+        {
+          chunkSize: 3, // Reveal fewer characters per step (more gradual)
+          intervalMs: 80, // Slightly faster interval for smoothness
+        }
+      );
+    }, 200);
   }
 
   canNavigateNext() {

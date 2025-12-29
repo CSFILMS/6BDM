@@ -72,26 +72,35 @@ export class Slide6 {
       const text = SLIDE_6_LINES[currentLineIndex];
 
       if (element) {
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
-        this.animationHelper.scrambleText(
-          element,
-          text,
-          () => {
-            this.audioHelper.stopScrambleAudio();
-            currentLineIndex++;
-            // Delay más largo antes de la última línea (línea 3)
-            const delay = currentLineIndex === 2 ? LAST_LINE_DELAY : LINE_DELAY;
-            const timeout = setTimeout(() => {
-              animateNextLine();
-            }, delay);
-            this.typewriterTimeouts.push(timeout);
-          },
-          false,
-          {
-            chunkSize: SCRAMBLE_CHUNK_SIZE,
-            intervalMs: SCRAMBLE_INTERVAL,
-          }
-        );
+        const animationTimeout = setTimeout(() => {
+          this.animationHelper.scrambleText(
+            element,
+            text,
+            () => {
+              // Stop audio 100ms after animation completes
+              const audioStopTimeout = setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 100);
+              this.typewriterTimeouts.push(audioStopTimeout);
+              currentLineIndex++;
+              // Delay más largo antes de la última línea (línea 3)
+              const delay =
+                currentLineIndex === 2 ? LAST_LINE_DELAY : LINE_DELAY;
+              const timeout = setTimeout(() => {
+                animateNextLine();
+              }, delay);
+              this.typewriterTimeouts.push(timeout);
+            },
+            false,
+            {
+              chunkSize: SCRAMBLE_CHUNK_SIZE,
+              intervalMs: SCRAMBLE_INTERVAL,
+            }
+          );
+        }, 100);
+        this.typewriterTimeouts.push(animationTimeout);
       } else {
         currentLineIndex++;
         animateNextLine();

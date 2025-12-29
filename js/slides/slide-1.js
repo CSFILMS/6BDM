@@ -56,21 +56,26 @@ export class Slide1 {
 
       // Play scramble audio with delay
       setTimeout(() => {
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
 
-        // Start scramble animation with initial delay to show encrypted text first
-        this.animationHelper.scrambleText(
-          textElement,
-          text,
-          () => {
-            // Stop audio when animation completes
-            this.audioHelper.stopScrambleAudio();
-            this.animationHelper.wrapYearsInSpans(textElement);
-            console.log("✅ Slide 1 scramble complete");
-          },
-          false,
-          { initialDelayMs: 100 }
-        );
+        setTimeout(() => {
+          // Start scramble animation with initial delay to show encrypted text first
+          this.animationHelper.scrambleText(
+            textElement,
+            text,
+            () => {
+              // Stop audio 100ms after animation completes
+              setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 100);
+              this.animationHelper.wrapYearsInSpans(textElement);
+              console.log("✅ Slide 1 scramble complete");
+            },
+            false,
+            { initialDelayMs: 100 }
+          );
+        }, 200);
       }, 1000);
     } else {
       console.error("❌ Missing element");

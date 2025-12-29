@@ -93,24 +93,32 @@ export class Slide5 {
       const text = SLIDE_5_LINES[currentLineIndex];
 
       if (element) {
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
-        this.animationHelper.scrambleText(
-          element,
-          text,
-          () => {
-            this.audioHelper.stopScrambleAudio();
-            currentLineIndex++;
-            const timeout = setTimeout(() => {
-              animateNextLine();
-            }, LINE_DELAY);
-            this.typewriterTimeouts.push(timeout);
-          },
-          false,
-          {
-            chunkSize: SCRAMBLE_CHUNK_SIZE,
-            intervalMs: SCRAMBLE_INTERVAL,
-          }
-        );
+        const animationTimeout = setTimeout(() => {
+          this.animationHelper.scrambleText(
+            element,
+            text,
+            () => {
+              // Stop audio 100ms after animation completes
+              const audioStopTimeout = setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 100);
+              this.typewriterTimeouts.push(audioStopTimeout);
+              currentLineIndex++;
+              const timeout = setTimeout(() => {
+                animateNextLine();
+              }, LINE_DELAY);
+              this.typewriterTimeouts.push(timeout);
+            },
+            false,
+            {
+              chunkSize: SCRAMBLE_CHUNK_SIZE,
+              intervalMs: SCRAMBLE_INTERVAL,
+            }
+          );
+        }, 100);
+        this.typewriterTimeouts.push(animationTimeout);
       } else {
         currentLineIndex++;
         animateNextLine();

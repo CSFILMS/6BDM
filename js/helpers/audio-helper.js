@@ -48,9 +48,7 @@ export class AudioHelper {
     const scrambleAudioEl = document.getElementById("scramble-audio");
     if (scrambleAudioEl) {
       // Start from a random position in the first half of the audio
-      const duration = scrambleAudioEl.duration || 10;
-      const firstHalf = duration / 2;
-      scrambleAudioEl.currentTime = Math.random() * firstHalf;
+      scrambleAudioEl.currentTime = 2;
 
       scrambleAudioEl.volume = audioConfig.scrambleVolume;
       scrambleAudioEl.loop = true;

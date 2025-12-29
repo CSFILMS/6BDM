@@ -105,36 +105,43 @@ export class Slide4 {
         // Hacer visible la línea
         element.style.opacity = "1";
 
-        // Usar scramble para todas las líneas
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
-        this.animationHelper.scrambleText(
-          element,
-          text,
-          () => {
-            // Si es la última línea (índice 2 = línea 3), esperar 200ms antes de detener el audio
-            if (currentLineIndex === 2) {
-              const audioStopTimeout = setTimeout(() => {
-                this.audioHelper.stopScrambleAudio();
-              }, 200);
-              this.typewriterTimeouts.push(audioStopTimeout);
-            } else {
-              this.audioHelper.stopScrambleAudio();
+        const animationTimeout = setTimeout(() => {
+          this.animationHelper.scrambleText(
+            element,
+            text,
+            () => {
+              // Si es la última línea (índice 2 = línea 3), esperar 200ms antes de detener el audio
+              if (currentLineIndex === 2) {
+                const audioStopTimeout = setTimeout(() => {
+                  this.audioHelper.stopScrambleAudio();
+                }, 200);
+                this.typewriterTimeouts.push(audioStopTimeout);
+              } else {
+                // Stop audio 100ms after animation completes
+                const audioStopTimeout = setTimeout(() => {
+                  this.audioHelper.stopScrambleAudio();
+                }, 50);
+                this.typewriterTimeouts.push(audioStopTimeout);
+              }
+              currentLineIndex++;
+              // Delay antes de la siguiente línea (más largo antes de la línea 3)
+              const delay =
+                currentLineIndex === 2 ? THIRD_LINE_DELAY : LINE_DELAY;
+              const timeout = setTimeout(() => {
+                animateNextLine();
+              }, delay);
+              this.typewriterTimeouts.push(timeout);
+            },
+            false,
+            {
+              chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
+              intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
             }
-            currentLineIndex++;
-            // Delay antes de la siguiente línea (más largo antes de la línea 3)
-            const delay =
-              currentLineIndex === 2 ? THIRD_LINE_DELAY : LINE_DELAY;
-            const timeout = setTimeout(() => {
-              animateNextLine();
-            }, delay);
-            this.typewriterTimeouts.push(timeout);
-          },
-          false,
-          {
-            chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
-            intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
-          }
-        );
+          );
+        }, 100);
+        this.typewriterTimeouts.push(animationTimeout);
       } else {
         currentLineIndex++;
         animateNextLine();
@@ -157,7 +164,7 @@ export class Slide4 {
     this.audioHelper.playScrambleAudio();
     const audioStopTimeout = setTimeout(() => {
       this.audioHelper.stopScrambleAudio();
-    }, 100);
+    }, 80);
     this.typewriterTimeouts.push(audioStopTimeout);
   }
 
@@ -169,48 +176,61 @@ export class Slide4 {
     if (line1Element) {
       // Delay inicial antes de empezar la animación
       const initialTimeout = setTimeout(() => {
-        // Paso 1: Primera línea con scramble (font grande, más lento)
+        // Start audio 200ms before animation
         this.audioHelper.playScrambleAudio();
 
-        this.animationHelper.scrambleText(
-          line1Element,
-          SLIDE_4_LINES[0],
-          () => {
-            // Scramble completado
-            this.audioHelper.stopScrambleAudio();
-            console.log("✅ Slide 4 first line scramble complete");
+        const animationTimeout = setTimeout(() => {
+          // Paso 1: Primera línea con scramble (font grande, más lento)
+          this.animationHelper.scrambleText(
+            line1Element,
+            SLIDE_4_LINES[0],
+            () => {
+              // Stop audio 100ms after animation completes
+              const audioStopTimeout = setTimeout(() => {
+                this.audioHelper.stopScrambleAudio();
+              }, 65);
+              this.typewriterTimeouts.push(audioStopTimeout);
+              console.log("✅ Slide 4 first line scramble complete");
 
-            // Paso 2: Delay antes de reducir font-size y mostrar imagen
-            const transitionTimeout = setTimeout(() => {
-              line1Element.style.fontSize = NORMAL_FONT_SIZE;
-              setTimeout(() => {
-                this.startImageFade();
-              }, 800);
+              // Paso 2: Delay antes de reducir font-size y mostrar imagen
+              const transitionTimeout = setTimeout(() => {
+                this.audioHelper.playScrambleAudio();
+                const audioStopTimeout = setTimeout(() => {
+                  this.audioHelper.stopScrambleAudio();
+                }, 65);
+                this.typewriterTimeouts.push(audioStopTimeout);
+                line1Element.style.fontSize = NORMAL_FONT_SIZE;
+                setTimeout(() => {
+                  this.startImageFade();
+                }, 800);
 
-              // Mover el contenedor de texto a su posición final
-              const textContainer = document.getElementById("slide-4-text-top");
-              if (textContainer) {
-                textContainer.style.paddingTop = "8px";
-                textContainer.style.width = "45%";
-              }
+                // Mover el contenedor de texto a su posición final
+                const textContainer =
+                  document.getElementById("slide-4-text-top");
+                if (textContainer) {
+                  textContainer.style.paddingTop = "8px";
+                  textContainer.style.width = "45%";
+                }
 
-              // Líneas 2 y 3 con pequeño delay (imagen ya visible)
-              const timeout = setTimeout(() => {
-                this.animateRemainingLines(() => {
-                  console.log("✅ Slide 4 text complete");
-                });
-              }, 2600);
-              this.typewriterTimeouts.push(timeout);
-            }, 700);
-            this.typewriterTimeouts.push(transitionTimeout);
-          },
-          false,
-          {
-            initialDelayMs: 100,
-            chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
-            intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
-          }
-        );
+                // Líneas 2 y 3 con pequeño delay (imagen ya visible)
+                const timeout = setTimeout(() => {
+                  this.animateRemainingLines(() => {
+                    console.log("✅ Slide 4 text complete");
+                  });
+                }, 2600);
+                this.typewriterTimeouts.push(timeout);
+              }, 700);
+              this.typewriterTimeouts.push(transitionTimeout);
+            },
+            false,
+            {
+              initialDelayMs: 100,
+              chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
+              intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
+            }
+          );
+        }, 100);
+        this.typewriterTimeouts.push(animationTimeout);
       }, SLIDE_4_INITIAL_DELAY);
       this.typewriterTimeouts.push(initialTimeout);
     }
