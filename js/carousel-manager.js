@@ -36,7 +36,7 @@ export class CarouselManager {
 
     // Call onEnter for first slide
     setTimeout(() => {
-      const firstSlide = this.slides[0];
+      const firstSlide = this.slides[this.currentIndex];
       if (firstSlide && firstSlide.onEnter) {
         firstSlide.onEnter();
       }
