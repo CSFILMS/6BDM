@@ -145,13 +145,20 @@ export class Slide4 {
   }
 
   /**
-   * Muestra la imagen instantáneamente
+   * Muestra la imagen instantáneamente con un toque de audio
    */
   startImageFade() {
     const image = document.getElementById("slide-4-image");
     if (!image) return;
     image.style.opacity = "1";
     image.style.transition = "opacity 0.3s ease-in-out";
+
+    // Toque breve de audio scramble al aparecer la imagen
+    this.audioHelper.playScrambleAudio();
+    const audioStopTimeout = setTimeout(() => {
+      this.audioHelper.stopScrambleAudio();
+    }, 100);
+    this.typewriterTimeouts.push(audioStopTimeout);
   }
 
   onEnter() {
