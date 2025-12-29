@@ -245,6 +245,31 @@ export class Slide4 {
       image.style.opacity = "0";
     }
 
+    // Clear text elements content and reset styles
+    const line1 = document.getElementById("s4-line-1");
+    const line2 = document.getElementById("s4-line-2");
+    const line3 = document.getElementById("s4-line-3");
+
+    if (line1) {
+      line1.textContent = "";
+      line1.style.fontSize = FIRST_LINE_BIG_FONT_SIZE; // Reset to initial big font
+    }
+    if (line2) {
+      line2.textContent = "";
+      line2.style.opacity = "0"; // Reset to initial hidden state
+    }
+    if (line3) {
+      line3.textContent = "";
+      line3.style.opacity = "0"; // Reset to initial hidden state
+    }
+
+    // Reset text container position
+    const textContainer = document.getElementById("slide-4-text-top");
+    if (textContainer) {
+      textContainer.style.paddingTop = "";
+      textContainer.style.width = "67%";
+    }
+
     // Stop audio and animations
     this.cleanup();
   }

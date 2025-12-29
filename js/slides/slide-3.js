@@ -315,21 +315,6 @@ export class Slide3 {
           this.audioHelper.fadeOutAlienAudio(5000);
         }, 2000);
 
-        if (playButton) {
-          playButton.style.display = "flex";
-          playButton.innerHTML = `
-            <div style="
-              color: rgb(102, 255, 102);
-              font-family: Crisp, 'Courier New', monospace;
-              font-size: 1.05rem;
-              text-align: center;
-              text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
-              filter: saturate(0.95);
-              line-height: 1.4;
-            ">🔊 CLICK ANYWHERE<br>TO HEAR AUDIO</div>
-          `;
-        }
-
         if (this.videoStartTime === null) {
           this.videoStartTime = Date.now();
         }

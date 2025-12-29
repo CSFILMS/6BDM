@@ -181,6 +181,17 @@ export class Slide5 {
       image.style.opacity = "0";
     }
 
+    // Clear text elements content
+    const line1 = document.getElementById("s5-line-1");
+    const line2 = document.getElementById("s5-line-2");
+    const line3 = document.getElementById("s5-line-3");
+    const line4 = document.getElementById("s5-line-4");
+
+    if (line1) line1.textContent = "";
+    if (line2) line2.textContent = "";
+    if (line3) line3.textContent = "";
+    if (line4) line4.textContent = "";
+
     // Stop audio and animations
     this.cleanup();
   }

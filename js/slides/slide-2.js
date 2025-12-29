@@ -72,6 +72,10 @@ export class Slide2 {
   onExit() {
     console.log("🚪 Exiting Slide 2");
 
+    // Clear text content
+    const textElement = document.getElementById("slide-2-text");
+    if (textElement) textElement.textContent = "";
+
     // Stop audio and animations
     this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();

@@ -122,6 +122,15 @@ export class Slide6 {
   onExit() {
     console.log("🚪 Exiting Slide 6");
 
+    // Clear text elements content
+    const line1 = document.getElementById("s6-line-1");
+    const line2 = document.getElementById("s6-line-2");
+    const line3 = document.getElementById("s6-line-3");
+
+    if (line1) line1.textContent = "";
+    if (line2) line2.textContent = "";
+    if (line3) line3.textContent = "";
+
     // Stop audio and animations
     this.cleanup();
   }
