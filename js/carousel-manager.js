@@ -31,7 +31,7 @@ export class CarouselManager {
     this.updateNavigationUI();
 
     // Go to first slide
-    this.currentIndex = 4;
+    this.currentIndex = 0;
     this.updateTransform();
 
     // Call onEnter for first slide
