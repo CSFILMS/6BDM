@@ -190,20 +190,20 @@
   
   /* Mobile video slide UI adjustments */
   #nav {
-    bottom: 12vh; /* Move up slightly on mobile */
+    bottom: max(12vh, calc(12dvh + env(safe-area-inset-bottom, 0px))); /* Move up slightly on mobile + safe area */
     z-index: 2147483648 !important;
     font-size: 0.95rem;
     padding: 0.5rem 1rem;
   }
   
   #slide-counter {
-    bottom: 6vh; /* Move up slightly on mobile */
+    bottom: max(6vh, calc(6dvh + env(safe-area-inset-bottom, 0px))); /* Move up slightly on mobile + safe area */
     z-index: 2147483649 !important;
     font-size: 0.85rem;
   }
   
   #nav-scanlines {
-    bottom: 12vh; /* Match navbar position */
+    bottom: max(12vh, calc(12dvh + env(safe-area-inset-bottom, 0px))); /* Match navbar position */
     z-index: 2147483650 !important;
     width: 25rem; /* Slightly smaller on mobile */
   }
@@ -346,6 +346,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* Fallback to dvh for mobile browsers */
   background:var(--bg); 
   color: rgb(102, 255, 102);
   font-family: 'Crisp', 'Courier New', monospace;
@@ -429,6 +430,7 @@ body.video-slide-active #scanline-overlay {
   #nav {
     font-size: 0.95rem;
     padding: 0.75rem 0;
+    bottom: max(12vh, calc(12dvh + env(safe-area-inset-bottom, 0px)));
   }
   
   #nav span {
@@ -447,7 +449,7 @@ body.video-slide-active #scanline-overlay {
   }
   
   #slide-counter {
-    bottom: 6vh;
+    bottom: max(6vh, calc(6dvh + env(safe-area-inset-bottom, 0px)));
     font-size: 0.95rem;
   }
 }
