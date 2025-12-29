@@ -14,17 +14,17 @@ const SLIDE_5_LINES = [
   "ASSANGE RETURNS HOME A FREE MAN.",
 ];
 
-// Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 10; // ms entre cada caracter
+// Config para animación scramble
 const LINE_DELAY = 1000; // 1 segundo entre líneas
-const INITIAL_DELAY = 1000; // Delay antes de empezar el typing
+const INITIAL_DELAY = 1000; // Delay antes de empezar
+const SCRAMBLE_CHUNK_SIZE = 4; // Más pequeño = más lento
+const SCRAMBLE_INTERVAL = 50; // Más alto = más lento
 
 export class Slide5 {
   constructor(audioHelper, animationHelper) {
     this.audioHelper = audioHelper;
     this.animationHelper = animationHelper;
     this.typewriterTimeouts = [];
-    this.currentCharInterval = null;
     this.imageFadeInterval = null;
   }
 
@@ -77,47 +77,7 @@ export class Slide5 {
   }
 
   /**
-   * Efecto typewriter para una línea
-   */
-  typewriteLine(element, text, onComplete) {
-    let charIndex = 0;
-    const cursor = "█";
-
-    // Start audio for this line
-    this.audioHelper.restartTypingAudio();
-
-    this.currentCharInterval = setInterval(() => {
-      if (charIndex <= text.length) {
-        const displayText = text.substring(0, charIndex);
-        element.innerHTML =
-          this.formatLineWithYear(displayText) +
-          (charIndex < text.length
-            ? `<span class="cursor">${cursor}</span>`
-            : "");
-        charIndex++;
-      } else {
-        clearInterval(this.currentCharInterval);
-        this.currentCharInterval = null;
-        // Stop audio when line is complete
-        this.audioHelper.pauseTypingAudio();
-        element.innerHTML = this.formatLineWithYear(text);
-        if (onComplete) onComplete();
-      }
-    }, TYPEWRITER_CHAR_DELAY);
-  }
-
-  /**
-   * Formatea el año en la línea con un span especial
-   */
-  formatLineWithYear(text) {
-    return text.replace(
-      /^(\d{4}(?:-\d{4})?:)/,
-      '<span class="year-text">$1</span>'
-    );
-  }
-
-  /**
-   * Anima todas las líneas secuencialmente
+   * Anima todas las líneas secuencialmente con scramble
    */
   animateAllLines(onComplete) {
     let currentLineIndex = 0;
@@ -133,13 +93,24 @@ export class Slide5 {
       const text = SLIDE_5_LINES[currentLineIndex];
 
       if (element) {
-        this.typewriteLine(element, text, () => {
-          currentLineIndex++;
-          const timeout = setTimeout(() => {
-            animateNextLine();
-          }, LINE_DELAY);
-          this.typewriterTimeouts.push(timeout);
-        });
+        this.audioHelper.playScrambleAudio();
+        this.animationHelper.scrambleText(
+          element,
+          text,
+          () => {
+            this.audioHelper.stopScrambleAudio();
+            currentLineIndex++;
+            const timeout = setTimeout(() => {
+              animateNextLine();
+            }, LINE_DELAY);
+            this.typewriterTimeouts.push(timeout);
+          },
+          false,
+          {
+            chunkSize: SCRAMBLE_CHUNK_SIZE,
+            intervalMs: SCRAMBLE_INTERVAL,
+          }
+        );
       } else {
         currentLineIndex++;
         animateNextLine();
@@ -183,11 +154,10 @@ export class Slide5 {
       image.style.opacity = "1";
     }
 
-    // Delay antes de empezar el typing
+    // Delay antes de empezar el scramble
     const initialTimeout = setTimeout(() => {
-      // Animar todas las líneas secuencialmente (audio se maneja por línea)
+      // Animar todas las líneas secuencialmente con scramble
       this.animateAllLines(() => {
-        this.audioHelper.stopTypingAudio();
         console.log("✅ Slide 5 text complete");
       });
     }, INITIAL_DELAY);
@@ -212,20 +182,14 @@ export class Slide5 {
     this.typewriterTimeouts.forEach((timeout) => clearTimeout(timeout));
     this.typewriterTimeouts = [];
 
-    // Limpiar interval del typewriter
-    if (this.currentCharInterval) {
-      clearInterval(this.currentCharInterval);
-      this.currentCharInterval = null;
-    }
-
     // Limpiar interval del fade de imagen
     if (this.imageFadeInterval) {
       clearInterval(this.imageFadeInterval);
       this.imageFadeInterval = null;
     }
 
-    // Stop audio
-    this.audioHelper.stopTypingAudio();
+    // Stop audio and animations
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 }

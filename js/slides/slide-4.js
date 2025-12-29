@@ -13,9 +13,7 @@ const SLIDE_4_LINES = [
   "U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE.",
 ];
 
-// Config para animación tipo terminal
-const TYPEWRITER_CHAR_DELAY = 24; // ms entre cada caracter
-const THIRD_LINE_CHAR_DELAY = 35; // ms entre cada caracter para la tercera línea
+// Config para animación
 const LINE_DELAY = 1000; // 1 segundo entre líneas
 const THIRD_LINE_DELAY = 2200; // Delay extra antes de la tercera línea
 const FIRST_LINE_BIG_FONT_SIZE = "27.2px"; // Font size grande para primera línea
@@ -29,7 +27,6 @@ export class Slide4 {
     this.audioHelper = audioHelper;
     this.animationHelper = animationHelper;
     this.typewriterTimeouts = [];
-    this.currentCharInterval = null;
     this.imageFadeInterval = null;
   }
 
@@ -88,53 +85,7 @@ export class Slide4 {
   }
 
   /**
-   * Efecto typewriter para una línea
-   * @param {HTMLElement} element - Elemento donde escribir
-   * @param {string} text - Texto a escribir
-   * @param {function} onComplete - Callback al terminar
-   * @param {number} charDelay - Delay entre caracteres (opcional)
-   */
-  typewriteLine(element, text, onComplete, charDelay = TYPEWRITER_CHAR_DELAY) {
-    let charIndex = 0;
-    const cursor = "█";
-
-    // Start audio for this line
-    this.audioHelper.restartTypingAudio();
-
-    this.currentCharInterval = setInterval(() => {
-      if (charIndex <= text.length) {
-        // Mostrar texto + cursor parpadeante
-        const displayText = text.substring(0, charIndex);
-        element.innerHTML =
-          this.formatLineWithYear(displayText) +
-          (charIndex < text.length
-            ? `<span class="cursor">${cursor}</span>`
-            : "");
-        charIndex++;
-      } else {
-        clearInterval(this.currentCharInterval);
-        this.currentCharInterval = null;
-        // Stop audio when line is complete
-        this.audioHelper.pauseTypingAudio();
-        // Texto final sin cursor
-        element.innerHTML = this.formatLineWithYear(text);
-        if (onComplete) onComplete();
-      }
-    }, charDelay);
-  }
-
-  /**
-   * Formatea el año en la línea con un span especial
-   */
-  formatLineWithYear(text) {
-    return text.replace(
-      /^(\d{4}(?:-\d{4})?:)/,
-      '<span class="year-text">$1</span>'
-    );
-  }
-
-  /**
-   * Anima las líneas 2 y 3 con typewriter (después del scramble de la línea 1)
+   * Anima las líneas 2 y 3 con scramble (después del scramble de la línea 1)
    */
   animateRemainingLines(onComplete) {
     // Índice 1 = línea 2, índice 2 = línea 3
@@ -154,16 +105,13 @@ export class Slide4 {
         // Hacer visible la línea
         element.style.opacity = "1";
 
-        // Usar char delay más lento para la tercera línea (índice 2)
-        const charDelay =
-          currentLineIndex === 2
-            ? THIRD_LINE_CHAR_DELAY
-            : TYPEWRITER_CHAR_DELAY;
-
-        this.typewriteLine(
+        // Usar scramble para todas las líneas
+        this.audioHelper.playScrambleAudio();
+        this.animationHelper.scrambleText(
           element,
           text,
           () => {
+            this.audioHelper.stopScrambleAudio();
             currentLineIndex++;
             // Delay antes de la siguiente línea (más largo antes de la línea 3)
             const delay =
@@ -173,7 +121,11 @@ export class Slide4 {
             }, delay);
             this.typewriterTimeouts.push(timeout);
           },
-          charDelay
+          false,
+          {
+            chunkSize: SLIDE_4_SCRAMBLE_CHUNK_SIZE,
+            intervalMs: SLIDE_4_SCRAMBLE_INTERVAL,
+          }
         );
       } else {
         currentLineIndex++;
@@ -231,7 +183,6 @@ export class Slide4 {
               const timeout = setTimeout(() => {
                 this.startImageFade();
                 this.animateRemainingLines(() => {
-                  this.audioHelper.stopTypingAudio();
                   console.log("✅ Slide 4 text complete");
                 });
               }, 2600);
@@ -269,20 +220,14 @@ export class Slide4 {
     this.typewriterTimeouts.forEach((timeout) => clearTimeout(timeout));
     this.typewriterTimeouts = [];
 
-    // Limpiar interval del typewriter
-    if (this.currentCharInterval) {
-      clearInterval(this.currentCharInterval);
-      this.currentCharInterval = null;
-    }
-
     // Limpiar interval del fade de imagen
     if (this.imageFadeInterval) {
       clearInterval(this.imageFadeInterval);
       this.imageFadeInterval = null;
     }
 
-    // Stop audio
-    this.audioHelper.stopTypingAudio();
+    // Stop audio and animations
+    this.audioHelper.stopScrambleAudio();
     this.animationHelper.clearAnimations();
   }
 }
