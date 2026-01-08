@@ -280,9 +280,9 @@ export class CarouselManager {
       // Slides 0-1: Show PRESS SPACEBAR
       if (navMsg) {
         navMsg.innerHTML = "PRESS SPACEBAR TO CONTINUE";
-        navMsg.style.fontSize = "0.7rem";
+        navMsg.style.fontSize = "0.8rem";
         navMsg.style.visibility = "visible";
-        navMsg.style.width = "66px";
+        navMsg.style.width = "72px";
       }
       if (slideCounter) {
         slideCounter.style.visibility = "hidden";

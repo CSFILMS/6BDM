@@ -638,6 +638,25 @@ body {
 #nav span:hover {
   opacity: 0.7;
 }
+
+/* Navigation arrows - larger size to match text height */
+#nav-prev,
+#nav-next {
+  font-size: 2.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  #nav-prev,
+  #nav-next {
+    font-size: 3rem;
+    padding: 0 0.75rem;
+  }
+}
 #nav-msg { 
   flex-grow: 0; 
   text-align: center; 
