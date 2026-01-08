@@ -6,7 +6,7 @@
 const SLIDE_2_TEXT_1 = `THE SIX BILLION DOLLAR
 MAN`;
 
-const SLIDE_2_TEXT_2 = `JULIAN ASSANGE AND THE PRICE OF TRUTH`;
+const SLIDE_2_TEXT_2 = `JULIAN ASSANGE AND <br>THE PRICE OF TRUTH`;
 // PRESS [F] FOR FULL SCREEN
 
 export class Slide2 {
@@ -41,10 +41,10 @@ export class Slide2 {
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
           filter: saturate(0.95);
-          font-size: 1.05rem;
-          margin-top: 340px;
+          font-size: 1.25rem;
+          margin-top: 160px;
           line-height: 26.4px !important;
-          white-space: pre-wrap;
+          white-space: nowrap;
           text-align: end;
           max-width: 90%;
         "></div>
@@ -70,23 +70,31 @@ export class Slide2 {
             textElement,
             SLIDE_2_TEXT_1,
             () => {
-              // After first text completes, animate second text
-              this.animationHelper.scrambleText(
-                textElement2,
-                SLIDE_2_TEXT_2,
-                () => {
-                  // Stop audio 100ms after animation completes
-                  setTimeout(() => {
-                    this.audioHelper.stopScrambleAudio();
-                  }, 100);
-                  console.log("✅ Slide 2 scramble complete");
-                },
-                false,
-                { initialDelayMs: 100 }
-              );
+              // Stop audio after first animation
+              this.audioHelper.stopScrambleAudio();
+
+              // Wait 1s before animating second text
+              setTimeout(() => {
+                // Resume audio for second animation
+                this.audioHelper.playScrambleAudio();
+
+                this.animationHelper.scrambleText(
+                  textElement2,
+                  SLIDE_2_TEXT_2,
+                  () => {
+                    // Stop audio 300ms after animation completes
+                    setTimeout(() => {
+                      this.audioHelper.stopScrambleAudio();
+                    }, 300);
+                    console.log("✅ Slide 2 scramble complete");
+                  },
+                  false,
+                  { initialDelayMs: 100 }
+                );
+              }, 1000);
             },
             false,
-            { initialDelayMs: 100 }
+            { initialDelayMs: 0 }
           );
         }, 200);
       }, 1000);
