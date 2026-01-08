@@ -16,9 +16,9 @@ export class Slide0 {
       <div class="slide-content" style="
         display: flex;
         justify-content: center;
+        align-items: center;
         height: 100%;
         width: 100%;
-        padding-top: 92px;
       ">
         <div id="slide-0-text" style="
           font-family: Crisp, 'Courier New', monospace;

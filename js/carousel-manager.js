@@ -276,8 +276,19 @@ export class CarouselManager {
     const navMsg = document.getElementById("nav-msg");
     const slideCounter = document.getElementById("slide-counter");
 
-    if (this.currentIndex < 1) {
-      // Slides 0-1: Show PRESS SPACEBAR
+    if (this.currentIndex === 0) {
+      // Slide 0: Hide text but keep space for arrows
+      if (navMsg) {
+        navMsg.innerHTML = "PRESS SPACEBAR TO CONTINUE";
+        navMsg.style.fontSize = "0.8rem";
+        navMsg.style.visibility = "hidden";
+        navMsg.style.width = "72px";
+      }
+      if (slideCounter) {
+        slideCounter.style.visibility = "hidden";
+      }
+    } else if (this.currentIndex === 1) {
+      // Slide 1: Show PRESS SPACEBAR
       if (navMsg) {
         navMsg.innerHTML = "PRESS SPACEBAR TO CONTINUE";
         navMsg.style.fontSize = "0.8rem";
