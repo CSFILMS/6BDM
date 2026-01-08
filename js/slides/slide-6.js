@@ -29,14 +29,34 @@ export class Slide6 {
   render() {
     return `
       <div class="slide-content" style="
+        position: relative;
         height: 100%;
         padding-left: 5%;
         padding-right: 5%;
         padding-top: 20%;
         overflow: hidden;
       ">
-        <!-- Texto (3 líneas, sin imagen) -->
+        <!-- Imagen de fondo (Cannes photographers) -->
+        <div id="slide-6-bg-image" style="
+          position: absolute;
+          bottom: 80px;
+          right: 0;
+          width: ${isMobile() ? "100%" : "70%"};
+          height: ${isMobile() ? "50%" : "65%"};
+          background-image: url('PHOTOS/photo_cannes.png.jpeg');
+          background-size: cover;
+          background-position: ${isMobile() ? "center top" : "left top"};
+          background-repeat: no-repeat;
+          opacity: 1;
+          z-index: 0;
+          pointer-events: none;
+          filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
+        "></div>
+
+        <!-- Texto (3 líneas) -->
         <div id="slide-6-text" style="
+          position: relative;
+          z-index: 1;
           font-family: Crisp, 'Courier New', monospace;
           color: rgb(102, 255, 102);
           text-shadow: rgb(102, 255, 102) 0px 0px 2px, rgb(102, 255, 102) 0px 0px 12px;
