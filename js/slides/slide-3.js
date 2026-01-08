@@ -115,7 +115,7 @@ export class Slide3 {
           "></div>
         </div>
         
-        <!-- Video end subtitle -->
+        <!-- Video end subtitle - COMENTADO TEMPORALMENTE
         <div id="slide-3-end-subtitle" style="
           position: absolute;
           bottom: 18%;
@@ -135,6 +135,7 @@ export class Slide3 {
           line-height: 1.8;
           display: none;
         "></div>
+        -->
       </div>
     `;
   }
@@ -176,11 +177,12 @@ export class Slide3 {
       textOverlay.textContent = ""; // Clear content
     }
 
-    const endSubtitle = document.getElementById("slide-3-end-subtitle");
-    if (endSubtitle) {
-      endSubtitle.style.display = "none";
-      endSubtitle.innerHTML = ""; // Clear content
-    }
+    // COMENTADO TEMPORALMENTE - Segundo texto
+    // const endSubtitle = document.getElementById("slide-3-end-subtitle");
+    // if (endSubtitle) {
+    //   endSubtitle.style.display = "none";
+    //   endSubtitle.innerHTML = ""; // Clear content
+    // }
 
     // Setup play button (hidden initially)
     const playButton = document.getElementById("slide-3-play-button");
@@ -512,10 +514,10 @@ export class Slide3 {
           }, 100);
           console.log("✅ Top text animation complete");
 
-          // Start bottom text animation after a delay
-          setTimeout(() => {
-            this.animateBottomText();
-          }, 1000);
+          // Start bottom text animation after a delay - COMENTADO TEMPORALMENTE
+          // setTimeout(() => {
+          //   this.animateBottomText();
+          // }, 1000);
         },
         false,
         {
@@ -526,40 +528,41 @@ export class Slide3 {
     }, 200);
   }
 
-  animateBottomText() {
-    console.log("✨ Animating bottom text");
+  // COMENTADO TEMPORALMENTE - Segundo texto después del video
+  // animateBottomText() {
+  //   console.log("✨ Animating bottom text");
 
-    const subtitleEl = document.getElementById("slide-3-end-subtitle");
-    if (!subtitleEl) return;
+  //   const subtitleEl = document.getElementById("slide-3-end-subtitle");
+  //   if (!subtitleEl) return;
 
-    subtitleEl.style.display = "block";
-    subtitleEl.innerHTML = "";
+  //   subtitleEl.style.display = "block";
+  //   subtitleEl.innerHTML = "";
 
-    const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
+  //   const message = "6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH";
 
-    // Start audio 200ms before animation
-    this.audioHelper.playScrambleAudio();
+  //   // Start audio 200ms before animation
+  //   this.audioHelper.playScrambleAudio();
 
-    setTimeout(() => {
-      // Use scramble effect (decodification) with slower, smoother animation
-      this.animationHelper.scrambleText(
-        subtitleEl,
-        message,
-        () => {
-          // Stop audio 100ms after animation completes
-          setTimeout(() => {
-            this.audioHelper.stopScrambleAudio();
-          }, 100);
-          console.log("✅ Bottom text animation complete");
-        },
-        false,
-        {
-          chunkSize: 3, // Reveal fewer characters per step (more gradual)
-          intervalMs: 80, // Slightly faster interval for smoothness
-        }
-      );
-    }, 200);
-  }
+  //   setTimeout(() => {
+  //     // Use scramble effect (decodification) with slower, smoother animation
+  //     this.animationHelper.scrambleText(
+  //       subtitleEl,
+  //       message,
+  //       () => {
+  //         // Stop audio 100ms after animation completes
+  //         setTimeout(() => {
+  //           this.audioHelper.stopScrambleAudio();
+  //         }, 100);
+  //         console.log("✅ Bottom text animation complete");
+  //       },
+  //       false,
+  //       {
+  //         chunkSize: 3, // Reveal fewer characters per step (more gradual)
+  //         intervalMs: 80, // Slightly faster interval for smoothness
+  //       }
+  //     );
+  //   }, 200);
+  // }
 
   canNavigateNext() {
     // Block navigation if video hasn't been played or hasn't played for minimum time
@@ -635,11 +638,12 @@ export class Slide3 {
       textOverlay.textContent = "";
     }
 
-    const endSubtitle = document.getElementById("slide-3-end-subtitle");
-    if (endSubtitle) {
-      endSubtitle.style.display = "none";
-      endSubtitle.innerHTML = "";
-    }
+    // COMENTADO TEMPORALMENTE - Segundo texto
+    // const endSubtitle = document.getElementById("slide-3-end-subtitle");
+    // if (endSubtitle) {
+    //   endSubtitle.style.display = "none";
+    //   endSubtitle.innerHTML = "";
+    // }
 
     // Reset flags
     this.needsUnmute = false;

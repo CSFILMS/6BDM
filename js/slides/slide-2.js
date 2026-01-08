@@ -89,12 +89,12 @@ export class Slide2 {
                     console.log("✅ Slide 2 scramble complete");
                   },
                   false,
-                  { initialDelayMs: 100 }
+                  { initialDelayMs: 300, chunkSize: 4, intervalMs: 60 }
                 );
               }, 1000);
             },
             false,
-            { initialDelayMs: 0 }
+            { initialDelayMs: 0, chunkSize: 4, intervalMs: 60 }
           );
         }, 200);
       }, 1000);
