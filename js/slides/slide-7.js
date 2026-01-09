@@ -28,26 +28,28 @@ export class Slide7 {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
+          width: 100vw;
+          height: 100vh;
           display: none;
           align-items: center;
           justify-content: center;
           background: #000;
           overflow: hidden;
-          z-index: 5;
+          z-index: 9999;
         ">
           <video
             id="slide-7-video"
             playsinline
             preload="metadata"
             style="
-              width: 100%;
-              height: 100%;
-              object-fit: contain;
+              width: 100vh;
+              height: 100vw;
+              object-fit: cover;
+              transform: rotate(90deg);
+              transform-origin: center center;
             "
           >
-            <!-- Video source will be added later -->
+            <source src="VIDEOS/251129_6BDM_TRAILER_H264-1080p-15Mbps.mp4" type="video/mp4" />
           </video>
         </div>
         
@@ -125,10 +127,8 @@ export class Slide7 {
     const videoContainer = document.getElementById("slide-7-video-container");
     const video = document.getElementById("slide-7-video");
 
-    // Hide play button
-    if (playContainer) {
-      playContainer.style.display = "none";
-    }
+    // Hide UI elements
+    this.hideUIElements();
 
     // Show and play video
     if (videoContainer) {
@@ -137,6 +137,13 @@ export class Slide7 {
 
     if (video) {
       this.videoElement = video;
+
+      // Add click listener to toggle play/pause
+      video.onclick = (e) => {
+        e.stopPropagation();
+        this.togglePlayPause();
+      };
+
       video.play().catch((err) => {
         console.log("⚠️ Video play failed:", err);
         // Show play button again if play fails
@@ -146,9 +153,77 @@ export class Slide7 {
         if (videoContainer) {
           videoContainer.style.display = "none";
         }
+        // Show UI elements again if play fails
+        this.showUIElements();
       });
       this.isPlaying = true;
     }
+  }
+
+  togglePlayPause() {
+    if (!this.videoElement) return;
+
+    if (this.videoElement.paused) {
+      // Resume playing
+      console.log("▶️ Resuming video");
+      this.videoElement.play();
+      this.isPlaying = true;
+      this.hideUIElements();
+    } else {
+      // Pause video
+      console.log("⏸️ Pausing video");
+      this.videoElement.pause();
+      this.isPlaying = false;
+      this.showUIElements();
+    }
+  }
+
+  hideUIElements() {
+    const playContainer = document.getElementById("slide-7-play-container");
+    const nav = document.getElementById("nav");
+    const navScanlines = document.getElementById("nav-scanlines");
+
+    // Hide play button and reset z-index
+    if (playContainer) {
+      playContainer.style.display = "none";
+      playContainer.style.zIndex = "20";
+    }
+
+    // Hide navigation
+    if (nav) {
+      nav.style.display = "none";
+    }
+
+    if (navScanlines) {
+      navScanlines.style.display = "none";
+    }
+
+    // Hide scanlines
+    document.body.classList.add("video-slide-active");
+  }
+
+  showUIElements() {
+    const playContainer = document.getElementById("slide-7-play-container");
+    const nav = document.getElementById("nav");
+    const navScanlines = document.getElementById("nav-scanlines");
+
+    // Show play button (with high z-index to appear above video)
+    if (playContainer) {
+      playContainer.style.display = "flex";
+      playContainer.style.zIndex = "999999"; // Above video container
+    }
+
+    // Show navigation
+    if (nav) {
+      nav.style.display = "flex";
+    }
+
+    if (navScanlines) {
+      navScanlines.style.display = "block";
+    }
+
+    // Show scanlines
+    document.body.classList.remove("video-slide-active");
   }
 
   onExit() {
@@ -158,8 +233,12 @@ export class Slide7 {
     if (this.videoElement) {
       this.videoElement.pause();
       this.videoElement.currentTime = 0;
+      this.videoElement.onclick = null; // Remove click listener
     }
     this.isPlaying = false;
+
+    // Show all UI elements
+    this.showUIElements();
   }
 
   cleanup() {
