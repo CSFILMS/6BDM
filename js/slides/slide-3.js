@@ -41,13 +41,14 @@ export class Slide3 {
           background: #000;
           overflow: hidden;
         ">
-        <div style="
+        <div id="slide-3-video-filter-wrapper" style="
           width: 100%;
           height: 70%;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3) blur(0.5px);
         ">
           <video
             id="slide-3-video"
@@ -58,7 +59,6 @@ export class Slide3 {
               max-height: 100%;
               object-fit: contain;
               cursor: pointer;
-              filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3) blur(0.5px);
               transform: scale(1);
               transition: transform 25s ease-out;
             "
